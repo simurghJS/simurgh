@@ -299,70 +299,44 @@ class Tools {
     }
 }
 
-/** post data **/
-window.Post = (url = '', data = {}, onLoad_eventHandler = null) => {
-    $('.gcore-loading').show();
-
-    let formData = new FormData();
-    for (const [key, value] of Object.entries(data)) {
-        formData.append(key, value);
+/** class for api call **/
+window.api = class {
+    constructor(url='') {
+        this.api_url=url;
     }
+    call = (data = {}) => {
 
-    let headers = {
-        headers: new Headers({
-            'Authorization': btoa(Math.random(50).toString()),
-        })
-    };
-    let auth = gilace.auth.get_authorization();
-    let req_url = BASEURL + url + (!empty(auth) ? '?token=' + btoa(auth) : '');
+        let url=this.api_url;
 
-    fetch(req_url, {
-        method: 'POST',
-        enctype: "multipart/form-data",
-        mode: 'cors',
-        body: formData
-    }).then((response) => {
-        if (response.status == 200) {
-            return response.json()
-        } else {
-            throw response;
+        /** request args **/
+        let req_args = new Object();
+        req_args.encrypt = "multipart/form-data";
+        req_args.mode = 'cors';
+
+        /** attach data if exists **/
+        if (!empty(data)) {
+            req_args.method = 'POST';
+            let formData = new FormData();
+            for (const [key, value] of Object.entries(data)) {
+                formData.append(key, value);
+            }
+            req_args.body = formData;
         }
-    }).then(responseJson => {
-        if (typeof onLoad_eventHandler == 'function') {
-            onLoad_eventHandler(responseJson);
+        else {
+            req_args.method = 'GET';
         }
-        gilace.helper.alert(responseJson.message);
-    }).catch((error) => {
-        console.log(error);
-        try {
-            error.json().then((obj) => {
-                gilace.helper.alert(obj.error, 'danger');
-            }).catch((e) => {
-                gilace.helper.alert(e.message, 'danger');
+
+        /** others param **/
+        let headers = {
+            headers: new Headers({
+                'Authorization': btoa(Math.random(50).toString()),
             })
-        } catch (e) {
-            gilace.helper.alert(error.message, 'danger');
-        }
+        };
+        let auth = gilace.auth.get_authorization();
+        let req_url = BASEURL + url + (!empty(auth) ? '?token=' + btoa(auth) : '');
 
-    }).then(() => {
-        $('.gcore-loading').hide();
-    });
-}
-window.Get = (url = '', onLoad_eventHandler = null) => {
-    $('.gcore-loading').show();
-
-    let headers = {
-        headers: new Headers({
-            'Authorization': btoa(Math.random(50).toString()),
-        })
-    };
-    let auth = gilace.auth.get_authorization();
-    let req_url = BASEURL + url + (!empty(auth) ? '?token=' + btoa(auth) : '');
-    return fetch(req_url, {
-        method: 'GET',
-        enctype: "multipart/form-data",
-    })
-        .then((response) => {
+        /** make request **/
+        return fetch(req_url, req_args).then((response) => {
             if (response.status == 200) {
                 return response.json()
             } else {
@@ -374,14 +348,17 @@ window.Get = (url = '', onLoad_eventHandler = null) => {
                 error.json().then((obj) => {
                     gilace.helper.alert(obj.error, 'danger');
                 }).catch((e) => {
-                    gilace.helper.alert(error.statusText, 'danger');
+                    gilace.helper.alert(e.message, 'danger');
                 })
             } catch (e) {
-                gilace.helper.alert(error.statusText, 'danger');
+                gilace.helper.alert(error.message, 'danger');
             }
 
         });
+    }
 }
+
+/** true if empty **/
 window.empty = (object) => {
     let result = false;
 
@@ -405,6 +382,8 @@ window.empty = (object) => {
 
     return result;
 }
+
+/** generate random id **/
 window.uuid = () => {
 
     return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
@@ -412,4 +391,5 @@ window.uuid = () => {
     );
 
 }
+
 export default Tools

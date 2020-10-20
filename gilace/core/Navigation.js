@@ -45,25 +45,22 @@ class Navigation {
         console.log(params);
 
         if (!empty(_route.route_data.middleware)) {
-            console.log('sdgfjsdgsagghsdflkghsdflkjghjo');
             import(APPPATH + 'application/middleware/' + _route.route_data.middleware + '.js')
                 .then(middleware => {
-                    middleware.default.run(_route);
-                    this.do_nav(_route);
+                    middleware.default.run(_route, this.do_nav, this.navigation_params);
                 })
                 .catch(err => {
                     console.log(err.message, 'failed');
                     $('.gcore-loading').hide();
                 })
                 .then(() => {
-                    this.do_nav(_route);
                 });
         } else {
-            this.do_nav(_route);
+            this.do_nav(_route, this.navigation_params);
         }
     }
 
-    do_nav(_route) {
+    do_nav(_route={},data={}) {
         if (_route.id == SYS_CURRENT_STACK_UUID)
             import(_route.get_path())
                 .then(module => {
@@ -80,7 +77,7 @@ class Navigation {
                                 crud.set_model(cntr);
                                 gilace.layoutManager.render_layout(crud).then(() => {
                                     localStorage.setItem('current_stack', _route.json());
-                                    crud.run(this.navigation_params);
+                                    crud.run(data);
                                 });
 
                             })
@@ -88,7 +85,7 @@ class Navigation {
                         default:
                             gilace.layoutManager.render_layout(cntr).then(() => {
                                 localStorage.setItem('current_stack', _route.json());
-                                cntr.run(this.navigation_params);
+                                cntr.run(data);
                             });
                             break;
                     }
