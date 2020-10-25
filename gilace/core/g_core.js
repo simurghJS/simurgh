@@ -15,12 +15,12 @@ const _gilace = {
 }
 
 class loader {
+
     loaded = []
     core_dependencies = []
 
     constructor(deps) {
         this.core_dependencies = deps;
-
     }
 
     init(_resolve) {
@@ -192,9 +192,9 @@ class G_core {
         gilace.modules.form = Form_manager;
         let dep = [
             '../../node_modules/jquery/dist/jquery.min.js',
-            '../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
+            '../../node_modules/bootstrap/dist/js/bootstrap.min.js',
             '../../node_modules/popper.js/dist/popper.min.js',
-            APPPATH+'node_modules/bootstrap/dist/css/bootstrap.min.css',
+            APPPATH+'node_modules/bootstrap/dist/css/bootstrap.css',
             APPPATH+'node_modules/font-awesome/css/font-awesome.min.css',
             APPPATH+'gilace/src/rtl.css'
         ];

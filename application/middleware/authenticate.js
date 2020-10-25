@@ -1,16 +1,24 @@
 import * as G from "/gilace/gilace.js";
+import {Form} from "/gilace/components.js";
 
 class Authenticate {
 
     constructor() {
-
+        /* constructor */
     }
 
-    login(){
-        let LOGIN_APP = new G.BaseController();
+    login() {
 
-        LOGIN_APP.title = 'ورود به سیستم';
-        LOGIN_APP.template = 'login.html'
+        let loginForm=new Form();
+
+
+        let LOGIN_APP = new G.BaseController({
+            title: 'ورود به سیستم',
+            template: 'login.html',
+            toolbar: null,
+            drawer_navigation:null
+        });
+
         LOGIN_APP.start = (navigation_data = {}) => {
             console.log('login start!');
             $('#submit').click((ev) => {
@@ -36,6 +44,7 @@ class Authenticate {
                 }
             });
         }
+
         gilace.layoutManager.render_layout(LOGIN_APP).then(() => {
             LOGIN_APP.run({});
         });

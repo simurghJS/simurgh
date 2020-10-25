@@ -20,14 +20,14 @@ class BaseController {
         <p style="text-align: center;padding-top: 2.5rem">...</p>
     </div>
 </div>`;
-    toolbar = 'default'
-    navigation = 'default'
+    toolbar = new Object();
+    drawer_navigation = 'default'
     main_html=null
 
 
-    constructor() {
-        if (typeof gilace == "object") {
-            gilace && Object.assign(this, gilace);
+    constructor(args={}) {
+        if (typeof args == "object") {
+            args && Object.assign(this, args);
         }
     }
 

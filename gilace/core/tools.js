@@ -187,7 +187,7 @@ class Tools {
         return window.location.protocol + '//' + window.location.hostname + '/assets/' + assets
     }
 
-    static defaultToolbar() {
+  /*  static defaultToolbar() {
         let picture = gilace.helper.assets('img/user1.png');
         return `<div class="card toolbar">
     <div class="card-body d-flex justify-content-between p-0">
@@ -269,7 +269,7 @@ class Tools {
             ${core_wrapper}
         </div>
     </div>`
-    }
+    }*/
 
     static generateRandomString() {
         return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
@@ -301,39 +301,39 @@ class Tools {
 
 /** class for api call **/
 window.api = class {
-    constructor(url='') {
-        this.api_url=url;
+    constructor(url = '') {
+        this.api_url = url;
     }
+
     call = (data = {}) => {
 
-        let url=this.api_url;
+        let url = this.api_url;
 
         /** request args **/
         let req_args = new Object();
-        req_args.encrypt = "multipart/form-data";
         req_args.mode = 'cors';
-
         /** attach data if exists **/
         if (!empty(data)) {
-            req_args.method = 'POST';
+            req_args.method = 'POST'
+            req_args.encrypt = "multipart/form-data";
+
             let formData = new FormData();
             for (const [key, value] of Object.entries(data)) {
                 formData.append(key, value);
             }
             req_args.body = formData;
-        }
-        else {
+        } else {
             req_args.method = 'GET';
         }
 
         /** others param **/
-        let headers = {
-            headers: new Headers({
-                'Authorization': btoa(Math.random(50).toString()),
-            })
-        };
+
         let auth = gilace.auth.get_authorization();
-        let req_url = BASEURL + url + (!empty(auth) ? '?token=' + btoa(auth) : '');
+        let req_url = BASEURL + url;
+
+        req_args.headers = new Headers({
+            'Authorization': (!empty(auth) ? '?token=' + btoa(auth) : '')
+        });
 
         /** make request **/
         return fetch(req_url, req_args).then((response) => {

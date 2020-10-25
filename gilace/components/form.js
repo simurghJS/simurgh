@@ -1,87 +1,140 @@
-class form {
-    name = "";
-    content = ``;
-    url = "";
-    data = {};
+export default class Form {
+    base_url = ''
+    model = {};
+    submitter = ''
+    auto_crud = true
+    open_el = ''
 
-    constructor(obj) {
-        if (typeof obj == "object") {
-            obj && Object.assign(this, obj);
-        } else {
-            this.name = obj.name;
-            this.title = obj.title;
-        }
-    }
-
-    onSubmit(CallBack = () => {
+    constructor(args, on_submit = () => {
     }) {
-        $("#submit_" + this.name + "_form").unbind("click");
-        $("#submit_" + this.name + "_form").click(() => {
-            if (typeof CallBack == "function") {
-                let postData = {};
-                for (let [key, value] of Object.entries(this.data)) {
-                    if ($('#' + this.name + ' #' + key).length == 1) {
-                        let el = $('#' + this.name + ' #' + key);
+        this.name = uuid();
+        if (typeof args == "object") {
+            args && Object.assign(this, args);
+        }
+        //this.init(on_submit);
+    }
 
-                        if (el.attr('type') != 'checkbox') {
-                            postData[key] = $('#' + this.name + ' #' + key).val();
-                        } else {
-                            postData[key] = el.is(':checked');
-                        }
-                    }
-                }
-                console.log(postData);
-                if (this.url.length > 0) {
-                    gilace.server.Post(this.url, postData, (response) => {
-                        CallBack();
-                        gilace.helper.alert(response.message, response.status);
+    init(callback) {
+        if (this.auto_crud) {
+            let form_controls = ``;
+            for (let [key, value] of Object.entries(this.model)) {
+                form_controls += `
+<div class="form-group">
+    <label>${typeof value.title == "string" ? value.title : key}</label>
+    <div>${this.generate_formControl(value, key)}
+    </div>
+</div>`;
+            }
+            form_controls += `
+<div class="form-group">
+<button type="button" id="submitter_${this.name}" class="btn btn-primary">ثبت اطلاعات</button>
+</div>`;
+            import('../components/modal.js').then((module) => {
+
+                let modal = new module.default({name: 'modal_' + this.name}).set_content(form_controls);
+                gilace.LayoutManager.render_component(modal);
+                $(this.open_el).click(() => {
+                    this.clear();
+                    this.post_path = this.base_url + '/store'
+                    modal.openDialog();
+                });
+                $('#submitter_' + this.name).click(() => {
+                    this.register_form(callback);
+                });
+
+                if (!gilace.helper.empty(this.list)) {
+
+                    import('../components/table.js').then((tbl_module) => {
+                        gilace.LayoutManager.render_component(new tbl_module.default({
+                            name: 'crud_tbl_' + this.name,
+                            url: this.base_url + '/lists',
+                            empty_state: this.list.empty_state
+                        }).loopData((social) => {
+                            return this.list.loop(social);
+                        }).then(() => {
+                            this.list.on_rendered(gilace.LayoutManager.get_component('crud_tbl_' + this.name));
+                        }), this.list.wrapper);
                     });
-                } else {
-                    CallBack(postData);
+
                 }
+
+            });
+        } else {
+            for (let [key, value] of Object.entries(this.model)) {
+                this.set_form_data(key, value);
             }
-        });
-        return this;
+            $(this.submitter).click((ev) => {
+                this.register_form(callback);
+            });
+        }
     }
 
-    /** clear form **/
+
     clear() {
-        for (let [key, value] of Object.entries(this.data)) {
-            if ($('#' + this.name + ' #' + key).length == 1) {
-                $('#' + this.name + ' #' + key).val("");
-            }
+        for (let [key, value] of Object.entries(this.model)) {
+            this.set_form_data(key, value);
         }
-        return this;
     }
 
-    /** init form by new data **/
-    init(object = {}, url = this.url) {
-        this.clear();
-        this.data = object;
-        for (let [key, value] of Object.entries(object)) {
-            if ($('#' + this.name + ' #' + key).length == 1) {
-                let el = ('#' + this.name + ' #' + key);
-                if ($(el).attr('type') == 'checkbox') {
-
-                    if (value > 0 || value == 'true' || value == true) {
-                        $(el).attr('checked',true);
-                    }else{
-                        $(el).removeAttr('checked');
-                    }
-
-                } else {
-                    $('#' + this.name + ' #' + key).val(value);
-                }
-            }
+    open_update_form(data) {
+        let mymodal = gilace.LayoutManager.get_component('modal_' + this.name);
+        console.log(data);
+        for (let [key, value] of Object.entries(data)) {
+            this.set_form_data(key, value);
         }
-        this.setUrl(url);
-        return this;
+        this.post_path = this.base_url + '/update/' + data.id;
+        mymodal.setTitle("ویرایش تگ").openDialog();
     }
 
-    generate_formControl(element) {
+    set_form_data(key, value) {
+        if (typeof value == "string") {
+            value = {
+                type: 'text',
+                value: value
+            }
+        }
+        if (!gilace.helper.empty(value.attr)) {
+            for (let [_key, _value] of Object.entries(value.attr)) {
+                $('#' + this.name + '_' + key).attr(_key, _value);
+            }
+        } else if (!gilace.helper.empty(value.data)) {
+            for (let [_key, _value] of Object.entries(value.data)) {
+                $('#' + this.name + '_' + key).data(_key, _value);
+            }
+        } else {
+            $('#' + this.name + '_' + key).val(value.value);
+        }
+
+    }
+
+    retrieve_data() {
+        let data = [];
+        for (let [key, value] of Object.entries(this.model)) {
+            if (typeof value == "string") {
+                data[key] = $('#' + this.name + '_' + key).val();
+            } else {
+                data[key] = $('#' + this.name + '_' + key).val();
+            }
+        }
+        return data;
+    }
+
+    generate_formControl(element, key) {
         let control = ``;
+        if (typeof element == "string") {
+            element = {
+                type: 'text',
+                value: element
+            }
+        }
+        element.key = this.name + '_' + key;
         switch (element.type) {
             case "text":
+                control = `<input id="${element.key}" type="text" placeholder="${element.placeholder}" class="form-control" value="${element.value}" data-key="${element.key}">`;
+                break;
+            case "richText":
+                control = `<textarea id="${element.key}" class="form-control" data-key="${element.key}">${element.value}</textarea>`;
+                break;
             case "icon":
                 control = `<input id="${element.key}" type="text" class="form-control _darr" value="${element.value}" data-key="${element.key}">`;
                 if (element.type == 'icon') {
@@ -102,52 +155,26 @@ class form {
 <input type="hidden" class="form-control _darr" id="${element.key}" value="${element.value}" data-key="${element.key}">
 <div class="poster bg-light" style="padding-top: 100%;background-image: url('/${element.value}');background-position: center;background-size:contain;background-repeat: no-repeat;" data-key="${element.key}"></div>`;
                 break;
-            case "data_array":
-                let rows = ``;
-                let theader = `<tr>`;
-                let index = 0;
-                for (let p of element.value) {
-                    rows += `<tr>`
-                    for (let [key, value] of Object.entries(p)) {
-                        if (index == 0) {
-                            theader += `<th>${key}</th>`;
-                        }
-                        rows += `<td>${value}</td>`
-                    }
-                    if (index == 0) {
-                        theader += `<th>عملیات</th>`
-                    }
-                    rows += `<td><button data-index="${index}" data-key="${element.key}" type="button" class="btn btn-link text-danger remove_data_array"><i class="fa fa-trash"></i></button></td>`;
-                    rows += `</tr>`;
-                    index++;
-                }
-                theader += `</tr>`;
-                control = `       <div>
-        <table class="table table-striped table-hover table-baseline" style="width:100%">
- <thead>${theader}</thead>
- <tbody>${rows}</tbody>
-</table>
-                <button type="button" class="btn btn-link save_component_data_array" data-key="${element.key}">
-                <i class="fa fa-plus"></i>
-                افزودن مقدار جدید
-</button>
-</div>`
-                break;
             default:
                 break;
         }
         return control;
     }
 
+    register_form(callback) {
+        gilace.server.Post(this.post_path, this.retrieve_data(), (response) => {
+            gilace.helper.alert(response.message, response.status);
+            gilace.LayoutManager.get_component('crud_tbl_' + this.name).reload();
+            gilace.LayoutManager.get_component('modal_' + this.name).closeDialog();
+            callback();
+        });
+    }
+
     init_crud(data_model = [], callback = () => {
     }) {
         let form_controls = ``;
         data_model.forEach((element) => {
-            form_controls += `<div class="form-group">
-<label>${element.title}</label>
-<div>${this.generate_formControl(element)}
-</div>
-</div>`;
+
         });
 
         $('#' + this.name + '_body').html(form_controls);
@@ -155,32 +182,4 @@ class form {
         callback();
         return this;
     }
-
-
-    /** set form url **/
-    setUrl(url) {
-        this.url = url;
-        return this;
-    }
-
-    /** render component as html **/
-    render() {
-        let html = `<div class="card" id="${this.name}">
-    <div class="card-body">
-        <div class="col-sm-12">
-        <div class="form-group" id="${this.name}_body">
-        ${this.content}  
-</div>    
-            <div class="form-group">
-                <button type="button" class="btn btn-primary" id="submit_${this.name}_form">
-                    ذخیره<span class="fa fa-check" aria-hidden="true"></span>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>`;
-        return html;
-    }
 }
-
-export default form;
