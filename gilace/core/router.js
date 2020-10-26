@@ -60,6 +60,29 @@ export default class Router {
 
         return route_item;
     }
+    crud_routes(name = '', crudResource = '') {
+        /** list route **/
+        this.add(new routeItem({
+            id: uuid(),
+            url: name+'/list',
+            command: crudResource+'/list.js',
+            ...this._route_args
+        }));
+        /** create route **/
+        this.add(new routeItem({
+            id: uuid(),
+            url: name+'/create',
+            command: crudResource+'/create.js',
+            ...this._route_args
+        }));
+        /** update route **/
+        this.add(new routeItem({
+            id: uuid(),
+            url: name+'/update',
+            command: crudResource+'/update.js',
+            ...this._route_args
+        }));
+    }
 
     add(route = {}) {
         if (!empty(SYS_ROUTES) && !Array.isArray(SYS_ROUTES)) {
