@@ -16,5 +16,5 @@ let navigation_option = {toolbar: null}
 router.route_group({namespace: 'docs', navigation_option: navigation_option}, () => {
 
     router.route('/', 'index').name('home');
-
+    router.route('helpers','helpers')
 });

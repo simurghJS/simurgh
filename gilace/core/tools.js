@@ -106,49 +106,6 @@ class Tools {
             }
     }
 
-    static empty(object) {
-        let result = false;
-        if (object == undefined || object == null) {
-            return true;
-        }
-        if (Array.isArray(object) && object.length == 0) {
-            return true;
-        }
-        if (typeof object == "string") {
-            if (object.length <= 0) {
-                return true;
-            }
-        }
-        if (typeof object == "object") {
-            let arr = Object.entries(object);
-            if (arr.length <= 0) {
-                return true;
-            }
-        }
-
-        return result;
-    }
-
-    empty2(val, nan = false) {
-        if (val == undefined || val == null || !val || val == '0' || val == '' || val == 'undefined') {
-            return true;
-        }
-        if (nan) {
-            if (!isNaN(val)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    static core_assets(assets) {
-        return window.location.protocol + '//' + window.location.hostname + '/system/core/' + assets
-    }
-
-    static assets(assets) {
-        return window.location.protocol + '//' + window.location.hostname + '/assets/' + assets
-    }
-
     /*  static defaultToolbar() {
           let picture = gilace.helper.assets('img/user1.png');
           return `<div class="card toolbar">
@@ -233,10 +190,6 @@ class Tools {
       </div>`
       }*/
 
-    static generateRandomString() {
-        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-    }
-
     static createBlankAppLayout(_toolbar = ``) {
         return `<div class="container-fluid">
     <div class="row">
@@ -261,7 +214,6 @@ class Tools {
     }
 }
 
-/** class for api call **/
 window.request = class {
     constructor(url = '') {
         this.api_url = url;
@@ -345,7 +297,7 @@ window.request = class {
                 error.json().then((obj) => {
                     alert(obj.error, 'danger');
                 }).catch((e) => {
-                   alert(e.message, 'danger');
+                    alert(e.message, 'danger');
                 })
             } catch (e) {
                 alert(error.message, 'danger');
@@ -355,7 +307,6 @@ window.request = class {
     }
 }
 
-/** true if empty **/
 window.empty = (object) => {
     let result = false;
 
@@ -380,7 +331,6 @@ window.empty = (object) => {
     return result;
 }
 
-/** generate random id **/
 window.uuid = () => {
 
     return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
@@ -427,5 +377,16 @@ window.alert = (text = '', status = 'success', args, callback = null) => {
     return this;
 }
 
+window.assets = (assets) => {
+    return window.location.protocol + '//' + window.location.hostname + '/assets/' + assets
+}
+
+window.core_assets = (assets) => {
+    return window.location.protocol + '//' + window.location.hostname + '/system/core/' + assets
+}
+
+window.generateRandomString = () => {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+}
 
 export default Tools

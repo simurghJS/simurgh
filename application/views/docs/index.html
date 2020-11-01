@@ -20,48 +20,58 @@
         </div>
         <div class="mb-5">
             <h3>شروع سریع</h3>
-            <div class="p-3">
+            <div class="p-3 container-fluid">
                 <p>فایل app.js نقطه شروع کار می باشد. در این فایل شما میبایست مشخصات اپلیکیشن خود را تعریف نمایید. فایل
                     کنونی حاوی کد های نمونه مربوط به این آموزش است. پس از بررسی مختصر این فایل گام بعدی برای ایجاد یک
                     صفحه جدید تعریف یک route جدید است.route ها در مسیر config/routes.js قرار دارند. کد زیر را در انتهای
                     این فایل کپی کنید</p>
-                <div class="card bg-light mb-3" style="max-width: 50%;">
-                    <div class="card-header">ایجاد route جدید</div>
-                    <div class="card-body" style="direction: ltr;text-align: left">
-                        <p class="card-text">router.route('testURL', 'index').name('testNav');</p>
+
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <div class="card bg-light mb-3">
+                            <div class="card-header">ایجاد route جدید</div>
+                            <div class="card-body" style="direction: ltr;text-align: left">
+                                <p class="card-text">router.route('testURL', 'index').name('testNav');</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <p>
                     اکنون شما یک route جدید ساخته اید که اگر کاربر آدرس testURL را در اپلیکیشن شما اجرا نماید, سیستم
                     فایل index.js موجود در مسیر application/controllers را اجرا میکند. برای نهایی سازی این فایل را ایجاد نمایید و کد زیر را در آن کپی نمایید تا نتیجه را مشاهده کنید.
                 </p>
-                <div class="card bg-light mb-3" style="max-width: 50%;">
-                    <div class="card-header">کد صفحه نمونه</div>
-                    <div class="card-body" style="direction: ltr;text-align: left">
-                        <p class="card-text">
-                            import {BaseController} from '/gilace/gilace.js'
-                        </p>
-                        <p class="card-text">
-                            class Index extends BaseController{
-                        </p>
-                        <p class="card-text">
-                            start(navigation_data = {}) {
-                        </p>
-                        <p class="card-text">
-                            return 'hello world!';
-                        </p>
-                        <p class="card-text">
-                            }
-                        </p>
-                        <p class="card-text">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <div class="card bg-light mb-3">
+                            <div class="card-header">کد صفحه نمونه</div>
+                            <div class="card-body" style="direction: ltr;text-align: left">
+                                <p class="card-text">
+                                    import {BaseController} from '/gilace/gilace.js'
+                                </p>
+                                <p class="card-text">
+                                    class Index extends BaseController{
+                                </p>
+                                <p class="card-text">
+                                    start(navigation_data = {}) {
+                                </p>
+                                <p class="card-text">
+                                    return 'hello world!';
+                                </p>
+                                <p class="card-text">
+                                    }
+                                </p>
+                                <p class="card-text">
 
-                            }
-                        </p>
-                        <p class="card-text">
-                            export default Index;
-                        </p>
+                                    }
+                                </p>
+                                <p class="card-text">
+                                    export default Index;
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
         <div>

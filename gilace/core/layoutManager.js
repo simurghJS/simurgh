@@ -215,13 +215,13 @@ class LayoutManager {
     /** render component data **/
     render_component(component, wrapper = '#gcore_app_wrapper', resolve = null) {
         try {
-            wrapper = gilace.helper.empty(wrapper) ? '#gcore_app_wrapper' : wrapper;
+            wrapper =empty(wrapper) ? '#gcore_app_wrapper' : wrapper;
             let cmp = this.get_component(component);
             if (cmp != null && typeof cmp == "object") {
                 cmp.render(wrapper,resolve);
             }
         } catch (e) {
-            gilace.helper.alert(e.message, 'danger');
+           alert(e.message, 'danger');
         }
     }
 
@@ -230,7 +230,7 @@ class LayoutManager {
         $('[data-navigate]').unbind('click');
         $('[data-navigate]').click((ev) => {
             let navigate_to = $(ev.currentTarget).data('navigate');
-            if (!gilace.helper.empty(navigate_to)) {
+            if (!empty(navigate_to)) {
                 gilace.navigation.navigate(navigate_to);
             }
         });

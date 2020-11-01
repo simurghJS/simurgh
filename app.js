@@ -8,7 +8,16 @@ myApp.registerDependencies(['css/app.css']);
 myApp.registerRoutes('routes.js');
 
 myApp.registerDrawerNavigation({
-    ' خانه': 'home',
+    'شروع به کار':"home",
+    'پیکره بندی':"configuration",
+    'ساختار پوشه ها':"folders",
+    'روتینگ':"",
+    'ایجاد صفحه':'',
+    'سوئیچ بین صفحات':'',
+    'کار با api':'',
+    'توابع کمکی':'helpers',
+    'کامپوننت ها':''
+
 });
 
 export default myApp;

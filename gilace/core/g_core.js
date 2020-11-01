@@ -27,7 +27,7 @@ class loader {
         new Promise((resolve, reject) => {
             if (this.core_dependencies.length > 0) {
                 let dep = this.core_dependencies[0];
-                let exists = !gilace.helper.empty(this.loaded.find((key) => key === dep));
+                let exists = !empty(this.loaded.find((key) => key === dep));
                 if (!exists) {
                     this.loaded.push(dep);
                     switch (dep.substr(dep.lastIndexOf('.') + 1)) {
@@ -198,7 +198,7 @@ class G_core {
             APPPATH + 'gilace/src/rtl.css'
         ];
         for (let dependency of this._env.dependencies) {
-            dep.push(gilace.helper.assets(dependency));
+            dep.push(assets(dependency));
         }
         gilace.Loader.load(dep).then(() => {
             gilace.auth = new auth();
