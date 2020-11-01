@@ -1,43 +1,5 @@
 class Tools {
 
-    static alert(text = '', status = 'success', args, callback = null) {
-        if (typeof callback != 'function') {
-            let html = `<div class="alert alert-${status}">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        <p>${text}</p>
-    </div>`;
-            $(document.body).append(html);
-            let delay = status == 'success' ? 3000 : 5000;
-            $('.alert').delay(delay).slideUp(300);
-        } else {
-            if (typeof swal != 'undefined') {
-                swal({
-                        title: args.title != undefined ? args.title : text,
-                        text: args.text != undefined ? args.text : "",
-                        type: args.type != undefined ? args.type : "",
-                        showCancelButton: args.showCancelButton != undefined ? args.showCancelButton : false,
-                        animation: args.animation != undefined ? args.animation : 'slide-from-top',
-                        cancelButtonText: args.cancelButtonText != undefined ? args.cancelButtonText : "لغو",
-                        confirmButtonColor: args.confirmButtonColor != undefined ? args.confirmButtonColor : "",
-                        confirmButtonText: args.confirmButtonText != undefined ? args.confirmButtonText : "",
-                        closeOnConfirm: args.closeOnConfirm != undefined ? args.closeOnConfirm : true,
-                        showLoaderOnConfirm: args.showLoaderOnConfirm != undefined ? args.showLoaderOnConfirm : true
-                    },
-                    function () {
-                        callback();
-                    });
-            } else {
-                gilace.Loader.load([
-                    APPPATH + 'assets/js/sweetalert.min.js',
-                    APPPATH + 'assets/css/sweetalert.css'
-                ]).then(() => {
-                    this.alert(text, status, args, callback);
-                });
-            }
-        }
-        return this;
-    }
-
     static empty_state(data) {
         if (data === undefined) {
             data = {}
@@ -187,89 +149,89 @@ class Tools {
         return window.location.protocol + '//' + window.location.hostname + '/assets/' + assets
     }
 
-  /*  static defaultToolbar() {
-        let picture = gilace.helper.assets('img/user1.png');
-        return `<div class="card toolbar">
-    <div class="card-body d-flex justify-content-between p-0">
+    /*  static defaultToolbar() {
+          let picture = gilace.helper.assets('img/user1.png');
+          return `<div class="card toolbar">
+      <div class="card-body d-flex justify-content-between p-0">
 
-    </div>
-</div>`
-    }
+      </div>
+  </div>`
+      }
 
-    static get_toolbar(_toolbar = ``) {
-        let toolbar = ``;
-        switch (gilace.helper.empty(_toolbar)) {
-            case true:
-                toolbar = ``;
-                break;
-            default:
-                toolbar = this.defaultToolbar();
-                break;
-        }
-        return toolbar;
-    }
+      static get_toolbar(_toolbar = ``) {
+          let toolbar = ``;
+          switch (gilace.helper.empty(_toolbar)) {
+              case true:
+                  toolbar = ``;
+                  break;
+              default:
+                  toolbar = this.defaultToolbar();
+                  break;
+          }
+          return toolbar;
+      }
 
-    static createAppLayout(_toolbar = ``) {
-        let drw = ``;
-        let core = `<div style="padding:50px 1.5rem 0;">
-                    <div class="row">
+      static createAppLayout(_toolbar = ``) {
+          let drw = ``;
+          let core = `<div style="padding:50px 1.5rem 0;">
+                      <div class="row">
 
-                        <div class="col-sm-12">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
+                          <div class="col-sm-12">
+                              <nav aria-label="breadcrumb">
+                                  <ol class="breadcrumb">
 
-                                    <li class="breadcrumb-item">
-                                    <button type="button" class="btn btn-link btn-sm" data-gcore-action="run:index"><span>داشبورد</span></button>
-                                    </li>
-                                </ol>
-                            </nav>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div id="gcore_app_title_wrapper">
-                                <div class="col-sm-12">
-                                    <div class="d-flex justify-content-between align-content-end pb-5">
-                                        <div style="max-width: 50%;">
-                                            <h3 id="gcore_app_title"></h3>
-                                            <p></p>
-                                        </div>
-                                      
-                                        <div id="gcore_app_actions">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div id="gcore_app_wrapper">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>`;
-        let core_wrapper = `<div class="col-lg-12 col-lg-offset-0 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4"
-                 style="padding: 0;position: absolute;overflow: hidden;z-index: 1;" id="app_wrapper">
-                ${core}
-            </div>`;
-        if (!empty(gilace.drawer_navigation_args)) {
-            drw = `<div class="col-lg-2 col-md-4 col-sm-4 sidebar" id="drawer_navigator"></div>`
-            core_wrapper = `<div class="col-lg-10 col-lg-offset-2 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4"
-                 style="padding: 0;position: absolute;overflow: hidden;z-index: 1;" id="app_wrapper">
-                ${core}
-            </div>`;
-        }
-        return `  <div class="container-fluid">
-        <div class="row">
-            ${this.get_toolbar(_toolbar)}
-            ${drw}
-            ${core_wrapper}
-        </div>
-    </div>`
-    }*/
+                                      <li class="breadcrumb-item">
+                                      <button type="button" class="btn btn-link btn-sm" data-gcore-action="run:index"><span>داشبورد</span></button>
+                                      </li>
+                                  </ol>
+                              </nav>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-sm-12">
+                              <div id="gcore_app_title_wrapper">
+                                  <div class="col-sm-12">
+                                      <div class="d-flex justify-content-between align-content-end pb-5">
+                                          <div style="max-width: 50%;">
+                                              <h3 id="gcore_app_title"></h3>
+                                              <p></p>
+                                          </div>
+
+                                          <div id="gcore_app_actions">
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-sm-12">
+                                  <div class="row">
+                                      <div class="col-sm-12">
+                                          <div id="gcore_app_wrapper">
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>`;
+          let core_wrapper = `<div class="col-lg-12 col-lg-offset-0 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4"
+                   style="padding: 0;position: absolute;overflow: hidden;z-index: 1;" id="app_wrapper">
+                  ${core}
+              </div>`;
+          if (!empty(gilace.drawer_navigation_args)) {
+              drw = `<div class="col-lg-2 col-md-4 col-sm-4 sidebar" id="drawer_navigator"></div>`
+              core_wrapper = `<div class="col-lg-10 col-lg-offset-2 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4"
+                   style="padding: 0;position: absolute;overflow: hidden;z-index: 1;" id="app_wrapper">
+                  ${core}
+              </div>`;
+          }
+          return `  <div class="container-fluid">
+          <div class="row">
+              ${this.get_toolbar(_toolbar)}
+              ${drw}
+              ${core_wrapper}
+          </div>
+      </div>`
+      }*/
 
     static generateRandomString() {
         return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
@@ -300,12 +262,47 @@ class Tools {
 }
 
 /** class for api call **/
-window.api = class {
+window.request = class {
     constructor(url = '') {
         this.api_url = url;
     }
 
-    call = (data = {}) => {
+    get() {
+        return this.call();
+    }
+
+    delete() {
+        return new Promise((resolve, reject) => {
+            this.guard('آیا میخواهید اطلاعات مورد نظر را حذف نمایید؟', () => {
+                this.call({method: 'DELETE'}).then((response) => {
+                    resolve(response);
+                })
+            })
+        });
+    }
+
+    post(data = {}) {
+        return this.call({
+            data: data
+        });
+    }
+
+    guard(title = '', onAccess_handler = () => {
+    }) {
+        alert(title, 'warning', {
+            showCancelButton: true,
+            type: 'warning',
+            confirmButtonClass: "btn-danger",
+            cancelButtonText: 'خیر',
+            confirmButtonText: 'بلی',
+        }, () => {
+            if (typeof onAccess_handler == "function") {
+                onAccess_handler();
+            }
+        });
+    }
+
+    call(args = {}) {
 
         let url = this.api_url;
 
@@ -313,17 +310,17 @@ window.api = class {
         let req_args = new Object();
         req_args.mode = 'cors';
         /** attach data if exists **/
-        if (!empty(data)) {
+        if (!empty(args.data)) {
             req_args.method = 'POST'
             req_args.encrypt = "multipart/form-data";
 
             let formData = new FormData();
-            for (const [key, value] of Object.entries(data)) {
+            for (const [key, value] of Object.entries(args.data)) {
                 formData.append(key, value);
             }
             req_args.body = formData;
         } else {
-            req_args.method = 'GET';
+            req_args.method = !empty(args.method) ? args.method : 'GET';
         }
 
         /** others param **/
@@ -332,7 +329,7 @@ window.api = class {
         let req_url = BASEURL + url;
 
         req_args.headers = new Headers({
-            'Authorization': (!empty(auth) ? '?token=' + btoa(auth) : '')
+            'Authorization': (!empty(auth) ? btoa(auth) : '')
         });
 
         /** make request **/
@@ -346,14 +343,14 @@ window.api = class {
             console.log(error);
             try {
                 error.json().then((obj) => {
-                    gilace.helper.alert(obj.error, 'danger');
+                    alert(obj.error, 'danger');
                 }).catch((e) => {
-                    gilace.helper.alert(e.message, 'danger');
+                   alert(e.message, 'danger');
                 })
             } catch (e) {
-                gilace.helper.alert(error.message, 'danger');
+                alert(error.message, 'danger');
             }
-
+            return Promise.reject();
         });
     }
 }
@@ -391,5 +388,44 @@ window.uuid = () => {
     );
 
 }
+
+window.alert = (text = '', status = 'success', args, callback = null) => {
+    if (typeof callback != 'function') {
+        let html = `<div class="alert alert-${status}">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <p>${text}</p>
+    </div>`;
+        $(document.body).append(html);
+        let delay = status == 'success' ? 3000 : 5000;
+        $('.alert').delay(delay).slideUp(300);
+    } else {
+        if (typeof swal != 'undefined') {
+            swal({
+                    title: args.title != undefined ? args.title : text,
+                    text: args.text != undefined ? args.text : "",
+                    type: args.type != undefined ? args.type : "",
+                    showCancelButton: args.showCancelButton != undefined ? args.showCancelButton : false,
+                    animation: args.animation != undefined ? args.animation : 'slide-from-top',
+                    cancelButtonText: args.cancelButtonText != undefined ? args.cancelButtonText : "لغو",
+                    confirmButtonColor: args.confirmButtonColor != undefined ? args.confirmButtonColor : "",
+                    confirmButtonText: args.confirmButtonText != undefined ? args.confirmButtonText : "",
+                    closeOnConfirm: args.closeOnConfirm != undefined ? args.closeOnConfirm : true,
+                    showLoaderOnConfirm: args.showLoaderOnConfirm != undefined ? args.showLoaderOnConfirm : true
+                },
+                function () {
+                    callback();
+                });
+        } else {
+            gilace.Loader.load([
+                APPPATH + 'assets/js/sweetalert.min.js',
+                APPPATH + 'assets/css/sweetalert.css'
+            ]).then(() => {
+                alert(text, status, args, callback);
+            });
+        }
+    }
+    return this;
+}
+
 
 export default Tools

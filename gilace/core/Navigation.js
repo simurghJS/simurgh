@@ -61,15 +61,18 @@ class Navigation {
     }
 
     do_nav(_route={},data={}) {
+        console.log(_route.get_path());
+
         if (_route.id == SYS_CURRENT_STACK_UUID)
             import(_route.get_path())
-                .then(module => {
+                .then((module) => {
                     let cntr = new module.default();
                     let new_title = cntr.title;
                     history.pushState({
                         id: Math.random(),
                         command: _route.json()
-                    }, new_title, _route.url());
+                    }, new_title, _route.url())
+
                     switch (_route.command) {
                         case 'auto-crud':
                             import('./crud.js').then(crd => {
@@ -83,6 +86,7 @@ class Navigation {
                             })
                             break;
                         default:
+                            console.log(cntr);
                             gilace.layoutManager.render_layout(cntr).then(() => {
                                 localStorage.setItem('current_stack', _route.json());
                                 cntr.run(data);
@@ -94,8 +98,8 @@ class Navigation {
                     console.log(err.message, 'failed');
                     $('.gcore-loading').hide();
                 })
-                .then(() => {
-
+                .finally(() => {
+                    $('.gcore-loading').hide();
                 });
     }
 

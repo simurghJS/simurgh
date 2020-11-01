@@ -49,7 +49,7 @@ export default class Router {
     }
 
     route(url = '', path = '') {
-
+        console.log(this._route_args);
         let route_item = new routeItem({
             id: uuid(),
             url: url,
@@ -64,22 +64,25 @@ export default class Router {
         /** list route **/
         this.add(new routeItem({
             id: uuid(),
+            name:name+'.list',
             url: name+'/list',
-            command: crudResource+'/list.js',
+            command: crudResource+'/list',
             ...this._route_args
         }));
         /** create route **/
         this.add(new routeItem({
             id: uuid(),
+            name:name+'.create',
             url: name+'/create',
-            command: crudResource+'/create.js',
+            command: crudResource+'/create',
             ...this._route_args
         }));
         /** update route **/
         this.add(new routeItem({
             id: uuid(),
+            name:name+'.update',
             url: name+'/update',
-            command: crudResource+'/update.js',
+            command: crudResource+'/update',
             ...this._route_args
         }));
     }
@@ -120,14 +123,16 @@ export default class Router {
 
     route_group(args = {}, callback = () => {
     }) {
-        let current = this._route_args;
-
+        let current = Object.create(this._route_args);
+        console.log(current);
         if(!empty(args.namespace)&&!empty(current.namespace)) {
             args.namespace = current.namespace + '/' + args.namespace;
         }
 
         Object.assign(this._route_args, args);
         callback();
+        console.log(current);
+        console.log(this._route_args);
         this._route_args = current;
     }
 }

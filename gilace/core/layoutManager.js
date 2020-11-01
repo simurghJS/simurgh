@@ -16,18 +16,19 @@ class LayoutManager {
     }
 
     render_layout(app = {}) {
-        this.request=app;
+        this.request = app;
         return new Promise((resolve, reject) => {
+
             console.log('render request=>');
             console.log(this.request);
-            let layout = this.createAppLayout();
+            let tlbr=(empty(app.toolbar))?null:this.get_toolbar();
+            let layout = this.createAppLayout(tlbr);
             $('#gilace_app').html(layout);
 
             document.title = TITLE_PREFIX + app.title;
 
-
             /** navigation **/
-            if (empty(this.request.drawer_navigation)||empty(gilace.drawer_navigation_args)) {
+            if (empty(this.request.drawer_navigation) || empty(gilace.drawer_navigation_args)) {
                 $('#drawer_navigator').hide();
                 $('#drawer_navigator').html(``);
                 $('#app_wrapper').removeClass('col-lg-10').addClass('col-lg-12');
@@ -41,7 +42,8 @@ class LayoutManager {
             }
 
             /** check for page title & breadcrump **/
-            if (!gilace.helper.empty(app.toolbar)) {
+            console.log(!empty(app.toolbar));
+            if (!empty(app.toolbar)) {
                 if ($('.breadcrumb #current_breadcrump').length == 1) {
                     $('.breadcrumb #current_breadcrump').text(app.title);
                 } else {
@@ -53,32 +55,35 @@ class LayoutManager {
                     $('.breadcrumb').append(li);
                 }
                 if (!$('#gcore_app_title').length) {
-                    gilace.LayoutManager.render_html((app.navigation_header, '#gcore_app_title_wrapper'));
+                    gilace.layoutManager.render_html((app.navigation_header, '#gcore_app_title_wrapper'));
                 }
                 $('#gcore_app_title').text(app.title);
                 $('#gcore_app_actions').html(app.actions);
             }
 
-            console.log('1');
-            if (!gilace.helper.empty(app.template)) {
+            /** check if need template **/
+            if (!empty(app.template)) {
 
                 fetch(APPPATH + 'application/views/' + app.template).then(response => response.text()).then((data) => {
                     this.render_html(app.template);
                     this.render_html(data);
-                    console.log('2');
-                    resolve();
                 }).catch((err) => {
+                }).finally(()=>{
+                    console.log('template rendered');
+                    resolve();
                 });
-            } else {
+            }
+            else {
                 resolve();
             }
-            for (let launcher of this.launchers) {
+
+            /*for (let launcher of this.launchers) {
                 $('.editor_controls').append(this.generate_launcher_icon(launcher))
-            }
+            }*/
         });
     }
 
-    createAppLayout() {
+    createAppLayout(toolbar) {
         let drw = ``;
         let core = `<div class="p-2 pt-5">                  
                     <div class="row">
@@ -120,7 +125,7 @@ class LayoutManager {
         }
         return `  <div class="container-fluid">
         <div class="row">
-            ${this.get_toolbar()}
+            ${toolbar}
             ${drw}
             ${core_wrapper}
         </div>
@@ -179,8 +184,6 @@ class LayoutManager {
     }
 
 
-
-
     generate_launcher_icon(launcher = {}) {
         return ` <div class="form-group">
         <button type="button" class="btn btn-light rounded-circle launcher" id="${launcher.app_name}_launcher" data-app="${launcher.app_name}" data-tooltip="${launcher.tip}">
@@ -210,12 +213,12 @@ class LayoutManager {
     }
 
     /** render component data **/
-    render_component(component, wrapper = '#gcore_app_wrapper') {
+    render_component(component, wrapper = '#gcore_app_wrapper', resolve = null) {
         try {
             wrapper = gilace.helper.empty(wrapper) ? '#gcore_app_wrapper' : wrapper;
             let cmp = this.get_component(component);
             if (cmp != null && typeof cmp == "object") {
-                cmp.render(wrapper);
+                cmp.render(wrapper,resolve);
             }
         } catch (e) {
             gilace.helper.alert(e.message, 'danger');

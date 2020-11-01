@@ -1,5 +1,4 @@
 import Tools from "./tools.js";
-import Server from "./server.js";
 import filemanager from "../components/filemanager.js";
 import LayoutManager from "./layoutManager.js";
 import Navigation from "./Navigation.js";
@@ -180,7 +179,7 @@ class G_core {
         window.SYS_ROUTES = new Array();
         window.APPPATH = window.location.protocol + '//' + window.location.hostname + '/';
         window.BASEURL = this._env.api_url;
-        window.ASSETSPATH = new URL(this._env.api_url).protocol + '//' + new URL(this._env.api_url).hostname + '/';
+        window.ASSETSPATH = !empty(BASEURL) ? new URL(BASEURL).protocol + '//' + new URL(BASEURL).hostname + '/' : '';
         window.TITLE_PREFIX = this._env.title_prefix;
         window.APPTITLE = this._env.title;
 
@@ -194,16 +193,15 @@ class G_core {
             '../../node_modules/jquery/dist/jquery.min.js',
             '../../node_modules/bootstrap/dist/js/bootstrap.min.js',
             '../../node_modules/popper.js/dist/popper.min.js',
-            APPPATH+'node_modules/bootstrap/dist/css/bootstrap.css',
-            APPPATH+'node_modules/font-awesome/css/font-awesome.min.css',
-            APPPATH+'gilace/src/rtl.css'
+            APPPATH + 'node_modules/bootstrap/dist/css/bootstrap.css',
+            APPPATH + 'node_modules/font-awesome/css/font-awesome.min.css',
+            APPPATH + 'gilace/src/rtl.css'
         ];
         for (let dependency of this._env.dependencies) {
             dep.push(gilace.helper.assets(dependency));
         }
         gilace.Loader.load(dep).then(() => {
             gilace.auth = new auth();
-            gilace.server = new Server();
             gilace.form = {
                 input: new form_input()
             }

@@ -46,27 +46,31 @@ class table {
             this._setLayout = args._setLayout;
         }
     }
+
     reload() {
         this.load(this.page, this.count_per_page);
     }
-    load(page, count) {
+
+    load(page, count,resolve) {
         let self = this;
         let url = self.url;
+        console.log(url);
 
-        if(!gilace.helper.empty(url)) {
+        if (!empty(url)) {
             url = new URL(BASEURL + self.url);
+            console.log(url);
             let param = new URLSearchParams(url.search);
             param.append('page', page);
             param.append('count', count);
-            let _url = url.pathname.replace('/gcore/', '') + '?' + param.toString();
-            gilace.server.Get(_url, (responseJson) => {
+            let _url = url.pathname + '?' + param.toString();
+            console.log(_url);
+            new request(_url).get().then((responseJson) => {
                 let html = ``;
-                if (responseJson.data.rows != undefined && responseJson.data.rows.length > 0) {
-                    self.data = responseJson.data;
-                    console.log(self.data);
+                if (responseJson.rows != undefined && responseJson.rows.length > 0) {
+                    self.data = responseJson;
                     self.page = page;
                     self.count_per_page = count;
-                    for (let row of responseJson.data.rows) {
+                    for (let row of responseJson.rows) {
                         html += self.onLoadRowData_eventHandler(row);
                     }
                     html = this.setLayout(html);
@@ -77,18 +81,22 @@ class table {
                         text: self.empty_state.text
                     });
                 }
-
-                gilace.LayoutManager.render_html(html, self.wrapper);
-
+                gilace.layoutManager.render_html(html, self.wrapper);
                 $('.' + self.name + ' .gshop_table_rows').css('minHeight', (screen.height * (.5)) + 'px');
-                this.pagination(responseJson.data.pagination, function (page) {
+                this.pagination(responseJson.pagination, function (page) {
                     self.load(page, count);
                 });
-
+            }).catch((err) => {
+                console.log(err.message);
+            }).finally(() => {
                 this.onLoadData_eventHandler();
-            });
+                if(typeof resolve=="function"){
+                    resolve();
+                }
+            })
         }
     }
+
     setLayout(data) {
         let html = data;
         if (this.header == null) {
@@ -116,22 +124,26 @@ class table {
         }
         return html;
     }
+
     loopData(callback) {
         if (typeof callback == "function") {
             this.onLoadRowData_eventHandler = callback;
         }
         return this;
     }
+
     then(callback) {
         if (typeof callback == "function") {
             this.onLoadData_eventHandler = callback;
         }
         return this;
     }
-    render(wrapper) {
+
+    render(wrapper,resolve) {
         this.wrapper = wrapper;
-        this.load(this.page, this.count_per_page);
+        this.load(this.page, this.count_per_page,resolve);
     }
+
     print() {
         let html = '<html><head></head><body>ohai</body></html>';
         let uri = encodeURIComponent(html);
@@ -140,6 +152,7 @@ class table {
         newWindow.close();
         newWindow.document.body.innerHTML = "<div>hello word</div>";
     }
+
     pagination(data, callback) {
         if (data != undefined) {
             let page = data.page;

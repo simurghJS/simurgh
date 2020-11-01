@@ -1,11 +1,20 @@
 import Router from '/gilace/core/router.js';
 
-/** application routes **/
+/*
+|--------------------------------------------------------------------------
+| Routes
+|--------------------------------------------------------------------------
+|  remove default routes( document routes ) & define your application
+|  routes.
+|
+*/
 
 let router = new Router();
 
-router.route_group({middleware: 'authenticate'}, () => {
+/** document routes... **/
+let navigation_option = {toolbar: null}
+router.route_group({namespace: 'docs', navigation_option: navigation_option}, () => {
 
-    router.route('/', 'index');
+    router.route('/', 'index').name('home');
 
 });
