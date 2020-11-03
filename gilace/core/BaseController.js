@@ -20,7 +20,7 @@ class BaseController {
         <p style="text-align: center;padding-top: 2.5rem">...</p>
     </div>
 </div>`;
-    toolbar = new Object();
+    toolbar = 'default';
     drawer_navigation = 'default'
     main_html = null
 

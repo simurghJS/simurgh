@@ -22,7 +22,7 @@ class Authenticate {
         LOGIN_APP.start = (navigation_data = {}) => {
             console.log('login start!');
             $('#submit').click((ev) => {
-                new api('/login').call({
+                new request('/login').post({
                     identity: $('#identity').val(),
                     password: $('#password').val()
                 }).then((responseJson) => {

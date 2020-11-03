@@ -8,15 +8,20 @@ myApp.registerDependencies(['css/app.css']);
 myApp.registerRoutes('routes.js');
 
 myApp.registerDrawerNavigation({
-    'شروع به کار':"home",
-    'پیکره بندی':"configuration",
-    'ساختار پوشه ها':"folders",
-    'روتینگ':"",
-    'ایجاد صفحه':'',
-    'سوئیچ بین صفحات':'',
-    'کار با api':'',
-    'توابع کمکی':'helpers',
-    'کامپوننت ها':''
+    'شروع به کار': "home",
+    'ساختار پوشه ها': "folders",
+    'پیکره بندی': "configuration",
+    'روتینگ': "routing",
+    'ایجاد صفحه': 'new_page',
+    'سوئیچ بین صفحات': 'navigation',
+    'کار با api': 'api',
+    'توابع کمکی': 'helpers',
+    'کامپوننت ها': {
+        'جدول': 'table',
+        'فایل منیجر': 'fileManager',
+        'modal': 'modal',
+        'فرم': 'form'
+    }
 
 });
 

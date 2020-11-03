@@ -21,7 +21,8 @@ class LayoutManager {
 
             console.log('render request=>');
             console.log(this.request);
-            let tlbr=(empty(app.toolbar))?null:this.get_toolbar();
+            let tlbr = empty(app.toolbar) ? null : this.get_toolbar();
+            console.log(this.get_toolbar());
             let layout = this.createAppLayout(tlbr);
             $('#gilace_app').html(layout);
 
@@ -33,8 +34,7 @@ class LayoutManager {
                 $('#drawer_navigator').html(``);
                 $('#app_wrapper').removeClass('col-lg-10').addClass('col-lg-12');
                 $('#app_wrapper').removeClass(' col-lg-offset-2').addClass(' col-lg-offset-0');
-            }
-            else {
+            } else {
                 $('#drawer_navigator').show();
                 $('#drawer_navigator').html(gilace.navigation.createDrawerNavigation(gilace.drawer_navigation_args));
                 $('#app_wrapper').removeClass('col-lg-12').addClass('col-lg-10');
@@ -42,7 +42,6 @@ class LayoutManager {
             }
 
             /** check for page title & breadcrump **/
-            console.log(!empty(app.toolbar));
             if (!empty(app.toolbar)) {
                 if ($('.breadcrumb #current_breadcrump').length == 1) {
                     $('.breadcrumb #current_breadcrump').text(app.title);
@@ -68,12 +67,11 @@ class LayoutManager {
                     this.render_html(app.template);
                     this.render_html(data);
                 }).catch((err) => {
-                }).finally(()=>{
+                }).finally(() => {
                     console.log('template rendered');
                     resolve();
                 });
-            }
-            else {
+            } else {
                 resolve();
             }
 
@@ -112,14 +110,12 @@ class LayoutManager {
                         </div>
                     </div>
                 </div>`;
-        let core_wrapper = `<div class="col-lg-12 col-lg-offset-0 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4"
-                 style="padding: 0;position: absolute;overflow: hidden;z-index: 1;" id="app_wrapper">
+        let core_wrapper = `<div class="col-lg-12 col-lg-offset-0 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4" id="app_wrapper">
                 ${core}
             </div>`;
         if (!empty(gilace.drawer_navigation_args)) {
             drw = `<div class="col-lg-2 col-md-4 col-sm-4 sidebar" id="drawer_navigator"></div>`
-            core_wrapper = `<div class="col-lg-10 col-lg-offset-2 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4"
-                 style="padding: 0;position: absolute;overflow: hidden;z-index: 1;" id="app_wrapper">
+            core_wrapper = `<div class="col-lg-10 col-lg-offset-2 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4" id="app_wrapper">
                 ${core}
             </div>`;
         }
@@ -136,6 +132,7 @@ class LayoutManager {
         let toolbar = ``;
         if (!empty(this.request.toolbar)) {
             // should load custom toolbar
+            toolbar = this.defaultToolbar();
         } else {
             if (this.request.toolbar == null) {
                 toolbar = ``;
@@ -215,13 +212,13 @@ class LayoutManager {
     /** render component data **/
     render_component(component, wrapper = '#gcore_app_wrapper', resolve = null) {
         try {
-            wrapper =empty(wrapper) ? '#gcore_app_wrapper' : wrapper;
+            wrapper = empty(wrapper) ? '#gcore_app_wrapper' : wrapper;
             let cmp = this.get_component(component);
             if (cmp != null && typeof cmp == "object") {
-                cmp.render(wrapper,resolve);
+                cmp.render(wrapper, resolve);
             }
         } catch (e) {
-           alert(e.message, 'danger');
+            alert(e.message, 'danger');
         }
     }
 
