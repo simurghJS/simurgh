@@ -1,38 +1,65 @@
 <div class="card border-0 p-5">
     <div class="card-title">
         <div class="">
-            <h1 class="text-primary">توابع کمکی</h1>
+            <h1 class="text-primary">ساختار پوشه ها</h1>
             <div class="p-3">
-                <p>توابع کمکی شامل برخی از پرکاربرد ترین توابع مورد استفاده میباشد که میتوانند سرعت توسعه را افزایش
-                    دهند.در ادامه لیست توابع در دسترس در اختیارتان قرار خواهد گرفت </p>
+                <p>پیش از شروع آموزش بهتر است با ساختار پوشه های gilacejs آشنا شوید, سعی ما بر اینست تا با توضیحی مختصر
+                    و کوتاه شما را با پوشه ها و کاربردشان آشنا کنیم</p>
             </div>
         </div>
     </div>
     <div class="card-body">
         <div class="mb-5">
-            <h3>empty(object)</h3>
+            <h3>application</h3>
             <div class="p-3">
-                <p>این تابع بررسی میکند شیئ ورودی خالیست یا خیر و true  | false برمیگرداند. </p>
+                <p>کل فایل های اجرایی اپلیکیشن شما در این پوشه قرار می گیرد.این فایل ها عبارتند از</p>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6>controllers</h6>
+                                        <p>فایل های اجرایی js مربوط به ساخت صفحات</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6>middleware</h6>
+                                        <p>فایل های js مربوط به middleware میبایست در این پوشه قرار گیرد</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6>models</h6>
+                                        <p> مدل ها برای ایجاد خودکار controllers های عملیات crud میباشد </p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6>views</h6>
+                                        <p>فایل های html حاوی ui</p>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-5">
+            <h3>assets</h3>
+            <div class="p-3">
+                <p> سایر فایل های مربوط به ui همانند تصاویر , فایل های css و ... در این پوشه قرار می گیرد. شما از طریق
+                    تابع assets میتوانید به این فایل ها دسترسی داشته باشید.</p>
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3">
                             <div class="card bg-light mb-3">
-                                <div class="card-header">نمونه</div>
+                                <div class="card-header">مسیر فایل های ui</div>
                                 <div class="card-body" style="direction: ltr;text-align: left">
-                                    <div class="card-text">
-                                        <p>
-                                            let data = $('#target').data('navigate');
-                                        </p>
-                                        <p>
-                                            if (!empty(data)) {
-                                        </p>
-                                        <p>
-                                            //do stuff
-                                        </p>
-                                        <p>
-                                            }
-                                        </p>
-                                    </div>
+                                    <p class="card-text">let image_src = assets('img/example.png');</p>
                                 </div>
                             </div>
                         </div>
@@ -41,158 +68,15 @@
             </div>
         </div>
         <div class="mb-5">
-            <h3>uuid()</h3>
-            <div class="p-3">
-                <p>این تابع بررسی میکند شیئ ورودی خالیست یا خیر و true  | false برمیگرداند. </p>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6 col-sm-offset-3">
-                            <div class="card bg-light mb-3">
-                                <div class="card-header">نمونه</div>
-                                <div class="card-body" style="direction: ltr;text-align: left">
-                                    <div class="card-text">
-                                        <p>
-                                            let data = $('#target').data('navigate');
-                                        </p>
-                                        <p>
-                                            if (!empty(data)) {
-                                        </p>
-                                        <p>
-                                            //do stuff
-                                        </p>
-                                        <p>
-                                            }
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <h3>config</h3>
+        <div class="p-3">
+            <p>تنظیماتی شامل route ها و ... در این پوشه قرار میگیرد</p>
         </div>
+    </div>
         <div class="mb-5">
-            <h3>alert(text, status, args, callback)</h3>
+            <h3>gilace</h3>
             <div class="p-3">
-                <p>این تابع بررسی میکند شیئ ورودی خالیست یا خیر و true  | false برمیگرداند. </p>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6 col-sm-offset-3">
-                            <div class="card bg-light mb-3">
-                                <div class="card-header">نمونه</div>
-                                <div class="card-body" style="direction: ltr;text-align: left">
-                                    <div class="card-text">
-                                        <p>
-                                            let data = $('#target').data('navigate');
-                                        </p>
-                                        <p>
-                                            if (!empty(data)) {
-                                        </p>
-                                        <p>
-                                            //do stuff
-                                        </p>
-                                        <p>
-                                            }
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="mb-5">
-            <h3>assets(path)</h3>
-            <div class="p-3">
-                <p>این تابع بررسی میکند شیئ ورودی خالیست یا خیر و true  | false برمیگرداند. </p>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6 col-sm-offset-3">
-                            <div class="card bg-light mb-3">
-                                <div class="card-header">نمونه</div>
-                                <div class="card-body" style="direction: ltr;text-align: left">
-                                    <div class="card-text">
-                                        <p>
-                                            let data = $('#target').data('navigate');
-                                        </p>
-                                        <p>
-                                            if (!empty(data)) {
-                                        </p>
-                                        <p>
-                                            //do stuff
-                                        </p>
-                                        <p>
-                                            }
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="mb-5">
-            <h3>core_assets(path)</h3>
-            <div class="p-3">
-                <p>این تابع بررسی میکند شیئ ورودی خالیست یا خیر و true  | false برمیگرداند. </p>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6 col-sm-offset-3">
-                            <div class="card bg-light mb-3">
-                                <div class="card-header">نمونه</div>
-                                <div class="card-body" style="direction: ltr;text-align: left">
-                                    <div class="card-text">
-                                        <p>
-                                            let data = $('#target').data('navigate');
-                                        </p>
-                                        <p>
-                                            if (!empty(data)) {
-                                        </p>
-                                        <p>
-                                            //do stuff
-                                        </p>
-                                        <p>
-                                            }
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="mb-5">
-            <h3>generateRandomString()</h3>
-            <div class="p-3">
-                <p>این تابع بررسی میکند شیئ ورودی خالیست یا خیر و true  | false برمیگرداند. </p>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6 col-sm-offset-3">
-                            <div class="card bg-light mb-3">
-                                <div class="card-header">نمونه</div>
-                                <div class="card-body" style="direction: ltr;text-align: left">
-                                    <div class="card-text">
-                                        <p>
-                                            let data = $('#target').data('navigate');
-                                        </p>
-                                        <p>
-                                            if (!empty(data)) {
-                                        </p>
-                                        <p>
-                                            //do stuff
-                                        </p>
-                                        <p>
-                                            }
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <p>فایل های js مربوط به gilacejs. اعمال تغییرات در این فایل ها میتواند موجب مختل شدن عملکرد اپلیکیشن شما شود, پس مراقب باشید</p>
             </div>
         </div>
     </div>

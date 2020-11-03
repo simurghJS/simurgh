@@ -3,106 +3,53 @@
         <div class="">
             <h1 class="text-primary">پیکره بندی</h1>
             <div class="p-3">
-                <p>gilacejs در زمان شروع به کار, یک نسخه از اپلیکیشن با تنظیماتی که در فایل app.js نوشته اید (شامل نام اپلیکیشن, آدرس api و ...) ایجاد می کند و تا پایان کار به عنوان مرجع از آن استفاده خواهد کرد.در این بخش کار با فایل app.js را یاد میگیرید</p>
+                <p>gilacejs در زمان شروع به کار, یک نسخه از اپلیکیشن با تنظیماتی که در فایل app.js نوشته اید (شامل نام
+                    اپلیکیشن, آدرس api و ...) ایجاد می کند و تا پایان کار به عنوان مرجع از آن استفاده خواهد کرد.در این
+                    بخش کار با فایل app.js را یاد میگیرید</p>
             </div>
         </div>
     </div>
     <div class="card-body">
         <div class="mb-5">
-            <h3>نصب و اجرا</h3>
+            <h3>نحوه عملکرد app.js</h3>
             <div class="p-3">
-                <p>برای نصب ابتدا GilaceJS را از لینک زیر دریافت نمایید.</p>
-                <p><a href="https://gilace.ir/siyamak/gilacejs"
-                      target="_blank">https://gilace.ir/siyamak/gilacejs.git</a></p>
-                <p>.سپس جهت نصب نیازمندی ها، در پوشه پروڑه، دستور npm install را اجرا نمایید. پس از نصب برای اجرا، فایل
-                    index.html را در مرورگر باز نمایید.</p>
+                <p>در این قسمت شما شیئ از کلاس  application موجود در مسیر /gilace/gilace.js میسازید. تمام تنظیمات مربوط
+                    به اپلیکیشن شما از طریق توابع شیئ تعریف شده قابل تغیر است.در عمل به صورت پیش فرض این عملیات نوشته شده است و شما تنها میبایست با توابع آشنا شوید</p>
+            <div class="row">
+                <div class="col-sm-offset-3 col-sm-6">
+                    <img src="assets/docs/img/app.js.png" class="img-fluid">
+                </div>
+            </div>
             </div>
         </div>
         <div class="mb-5">
-            <h3>شروع سریع</h3>
-            <div class="p-3 container-fluid">
-                <p>فایل app.js نقطه شروع کار می باشد. در این فایل شما میبایست مشخصات اپلیکیشن خود را تعریف نمایید. فایل
-                    کنونی حاوی کد های نمونه مربوط به این آموزش است. پس از بررسی مختصر این فایل گام بعدی برای ایجاد یک
-                    صفحه جدید تعریف یک route جدید است.route ها در مسیر config/routes.js قرار دارند. کد زیر را در انتهای
-                    این فایل کپی کنید</p>
-
-                <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3">
-                        <div class="card bg-light mb-3">
-                            <div class="card-header">ایجاد route جدید</div>
-                            <div class="card-body" style="direction: ltr;text-align: left">
-                                <p class="card-text">router.route('testURL', 'index').name('testNav');</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <p>
-                    اکنون شما یک route جدید ساخته اید که اگر کاربر آدرس testURL را در اپلیکیشن شما اجرا نماید, سیستم
-                    فایل index.js موجود در مسیر application/controllers را اجرا میکند. برای نهایی سازی این فایل را ایجاد نمایید و کد زیر را در آن کپی نمایید تا نتیجه را مشاهده کنید.
-                </p>
-                <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3">
-                        <div class="card bg-light mb-3">
-                            <div class="card-header">کد صفحه نمونه</div>
-                            <div class="card-body" style="direction: ltr;text-align: left">
-                                <p class="card-text">
-                                    import {BaseController} from '/gilace/gilace.js'
-                                </p>
-                                <p class="card-text">
-                                    class Index extends BaseController{
-                                </p>
-                                <p class="card-text">
-                                    start(navigation_data = {}) {
-                                </p>
-                                <p class="card-text">
-                                    return 'hello world!';
-                                </p>
-                                <p class="card-text">
-                                    }
-                                </p>
-                                <p class="card-text">
-
-                                    }
-                                </p>
-                                <p class="card-text">
-                                    export default Index;
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            <h3>set_url(url)</h3>
+            <div class="p-3">
+                <p></p>
             </div>
         </div>
-        <div>
-            <h3>درباره GilaceJS بیشتر بدانید ...</h3>
-            <div class="p-3 container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h6>نسخه کنونی</h6>
-                                    <p>1.0.0</p>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h6>توسعه دهنده</h6>
-                                    <p>GilaceDev Team</p>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h6>وبسایت</h6>
-                                    <p>
-                                        <a href="http://gilace.com">gilace.com</a>
-                                    </p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="mb-5">
+            <h3>set_title(title , prefix)</h3>
+            <div class="p-3">
+                <p></p>
+            </div>
+        </div>
+        <div class="mb-5">
+            <h3>registerDependencies(deps_array)</h3>
+            <div class="p-3">
+                <p></p>
+            </div>
+        </div>
+        <div class="mb-5">
+            <h3>registerRoutes(path_to_route)</h3>
+            <div class="p-3">
+                <p></p>
+            </div>
+        </div>
+        <div class="mb-5">
+            <h3>registerDrawerNavigation(navs_object)</h3>
+            <div class="p-3">
+                <p></p>
             </div>
         </div>
     </div>
