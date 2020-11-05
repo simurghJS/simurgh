@@ -18,9 +18,10 @@ class LayoutManager {
     render_layout(app = {}) {
         this.request = app;
         return new Promise((resolve, reject) => {
-            console.log('render request=>');
+            console.log('analysing request=>');
             console.log(this.request);
-            this.createAppLayout(app).then((response)=>{
+            this.createAppLayout(app).then((response) => {
+                console.log('generated response =>');
                 console.log(response);
                 $('#application_wrapper').html(response);
 
@@ -43,7 +44,8 @@ class LayoutManager {
                 if (!empty(app.toolbar)) {
                     if ($('.breadcrumb #current_breadcrump').length == 1) {
                         $('.breadcrumb #current_breadcrump').text(app.title);
-                    } else {
+                    }
+                    else {
                         let li = document.createElement('li');
                         li.classList = 'breadcrumb-item active';
                         li.id = 'current_breadcrump';
@@ -60,16 +62,17 @@ class LayoutManager {
 
                 /** check if need template **/
                 if (!empty(app.template)) {
-
-                    fetch(APPPATH + 'application/views/' + app.template).then(response => response.text()).then((data) => {
+                    new HTMLReader().readFromFile(app.template).then((data) => {
                         this.render_html(app.template);
                         this.render_html(data);
                     }).catch((err) => {
+                        console.log('cannot load template , see logs=>');
+                        console.log(err);
                     }).finally(() => {
-                        console.log('template rendered');
                         resolve();
                     });
-                } else {
+                }
+                else {
                     resolve();
                 }
 
@@ -81,58 +84,45 @@ class LayoutManager {
         });
     }
 
+    /** response **/
     createAppLayout(app) {
-        return new Promise((resolve,reject)=>{
-            let render_response=``;
-            let tlbr = empty(app.toolbar) ? null : this.get_toolbar();
-            let drw = ``;
-            let core =``;
-            if(!empty(app.layout)){
+        return new Promise((resolve, reject) => {
+            console.log('generating response ...')
+            let toolbar = empty(app.toolbar) ? null : this.get_toolbar();
+            if (!empty(app.layout)) {
                 console.log('load layout => ' + app.layout);
-                let url=APPPATH + 'application/views/' + app.layout;
-                fetch(url).then(response => response.text()).then((data) => {
-                    core=data;
-                    let core_wrapper = `<div class="col-lg-12 col-lg-offset-0 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4" id="app_wrapper">
-                ${core}
-            </div>`;
-                    if (!empty(gilace.drawer_navigation_args)) {
-                        drw = `<div class="col-lg-2 col-md-4 col-sm-4 sidebar" id="drawer_navigator"></div>`
-                        core_wrapper = `<div class="col-lg-10 col-lg-offset-2 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4" id="app_wrapper">
-                ${core}
-            </div>`;
-                    }
-                    render_response = `<div class="container-fluid">
-        <div class="row">
-            ${tlbr}
-            ${drw}
-            ${core_wrapper}
-        </div>
-    </div>`;
-                    resolve(render_response);
+                new HTMLReader().readFromFile(app.layout).then((layout) => {
+                    resolve(this.getResponse(layout, toolbar));
                 }).catch((err) => {
+                    console.log('cannot load layout , see logs');
+                    console.log(err.message);
                 });
-            }
-            else {
-                let core_wrapper = `<div class="col-lg-12 col-lg-offset-0 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4" id="app_wrapper">
-                ${core}
-            </div>`;
-                if (!empty(gilace.drawer_navigation_args)) {
-                    drw = `<div class="col-lg-2 col-md-4 col-sm-4 sidebar" id="drawer_navigator"></div>`
-                    core_wrapper = `<div class="col-lg-10 col-lg-offset-2 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4" id="app_wrapper">
-                ${core}
-            </div>`;
-                }
-                render_response = `<div class="container-fluid">
-        <div class="row">
-            ${tlbr}
-            ${drw}
-            ${core_wrapper}
-        </div>
-    </div>`;
-                resolve(render_response);
+            } else {
+                resolve(this.getResponse(null, toolbar));
             }
 
         });
+    }
+
+    /** generating response template **/
+    getResponse(layout = ``, toolbar = ``) {
+        let drawable_navigation = ``;
+        let response_wrapper = `<div class="col-lg-12 col-lg-offset-0 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4" id="app_wrapper">
+                ${layout}
+            </div>`;
+        if (!empty(gilace.drawer_navigation_args)) {
+            drawable_navigation = `<div class="col-lg-2 col-md-4 col-sm-4 sidebar" id="drawer_navigator"></div>`
+            response_wrapper = `<div class="col-lg-10 col-lg-offset-2 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4" id="app_wrapper">
+                                    ${layout}
+                                </div>`;
+        }
+        return `<div class="container-fluid">
+                    <div class="row">
+                        ${toolbar}
+                        ${drawable_navigation}
+                        ${response_wrapper}
+                    </div>
+                </div>`;
     }
 
     get_toolbar() {

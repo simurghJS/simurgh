@@ -389,4 +389,16 @@ window.generateRandomString = () => {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
 }
 
+window.HTMLReader=class  {
+
+    constructor() {
+
+    }
+
+    readFromFile(path=''){
+       return fetch(APPPATH + 'application/views/' + path).then(response => response.text());
+    }
+
+}
+
 export default Tools

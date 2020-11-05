@@ -9,7 +9,6 @@ class routeItem {
     }
 
     url() {
-
         return empty(this.route_data.url) ? '' : '/#!/' + this.route_data.url;
     }
 
