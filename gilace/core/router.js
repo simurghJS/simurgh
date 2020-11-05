@@ -9,11 +9,12 @@ class routeItem {
     }
 
     url() {
-        return '/#!/' + this.route_data.url;
+
+        return empty(this.route_data.url) ? '' : '/#!/' + this.route_data.url;
     }
 
     name(name = '') {
-        let  self=this;
+        let self = this;
         let row = SYS_ROUTES.find(item => item.route_data.id == self.route_data.id);
         row.route_data.name = name;
 
@@ -60,29 +61,30 @@ export default class Router {
 
         return route_item;
     }
+
     crud_routes(name = '', crudResource = '') {
         /** list route **/
         this.add(new routeItem({
             id: uuid(),
-            name:name+'.list',
-            url: name+'/list',
-            command: crudResource+'/list',
+            name: name + '.list',
+            url: name + '/list',
+            command: crudResource + '/list',
             ...this._route_args
         }));
         /** create route **/
         this.add(new routeItem({
             id: uuid(),
-            name:name+'.create',
-            url: name+'/create',
-            command: crudResource+'/create',
+            name: name + '.create',
+            url: name + '/create',
+            command: crudResource + '/create',
             ...this._route_args
         }));
         /** update route **/
         this.add(new routeItem({
             id: uuid(),
-            name:name+'.update',
-            url: name+'/update',
-            command: crudResource+'/update',
+            name: name + '.update',
+            url: name + '/update',
+            command: crudResource + '/update',
             ...this._route_args
         }));
     }
@@ -125,7 +127,7 @@ export default class Router {
     }) {
         let current = Object.create(this._route_args);
         console.log(current);
-        if(!empty(args.namespace)&&!empty(current.namespace)) {
+        if (!empty(args.namespace) && !empty(current.namespace)) {
             args.namespace = current.namespace + '/' + args.namespace;
         }
 

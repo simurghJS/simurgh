@@ -200,7 +200,11 @@ class LayoutManager {
         if (!empty(wrapper)) {
             $(wrapper).html(html);
         } else {
-            $("div[gilace-rel=response]").html(html);
+            if ($("div[gilace-rel=response]").length == 1) {
+                $("div[gilace-rel=response]").html(html);
+            } else {
+                $('body').html(html);
+            }
         }
     }
 
