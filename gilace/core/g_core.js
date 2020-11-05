@@ -33,12 +33,27 @@ class loader {
                     switch (dep.substr(dep.lastIndexOf('.') + 1)) {
                         case 'js':
                             import(dep).then(() => {
+                                console.log('shift => '+dep);
                                 this.core_dependencies.shift();
+                            }).catch(err => {
+                                $.getScript(dep)
+                                    .done((script, textStatus) => {
+                                        console.log('shift => '+dep);
+                                        this.core_dependencies.shift();
+                                        resolve({
+                                            readystate: 'uncompleted'
+                                        });
+                                    }).fail(() => {
+                                    reject(err);
+                                    console.log(err);
+                                });
+                            }).then(()=>{
+
+                            }).finally(() => {
+                                console.log('finally');
                                 resolve({
                                     readystate: 'uncompleted'
                                 });
-                            }).catch(err => {
-                                reject(err);
                             });
                             break;
                         case 'css':

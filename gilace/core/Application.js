@@ -38,7 +38,9 @@ export default class Application {
     registerDependencies(deps = []) {
         this.dependencies = deps;
     }
-
+    set_layout(path=''){
+        this.layout=path;
+    }
     set_url(url = '') {
         this.api_url = url;
     }
