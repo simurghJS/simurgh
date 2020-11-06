@@ -3,7 +3,7 @@ export default class Application {
     title = ''
     title_prefix = ''
     dependencies = []
-    drwnavs = []
+    drawer_navigation = []
     routes = []
 
     constructor() {
@@ -13,7 +13,7 @@ export default class Application {
         Object.entries(navs).map(nav => {
             switch (typeof nav[1]) {
                 case "string":
-                    this.drwnavs.push({
+                    this.drawer_navigation.push({
                         name: nav[0],
                         action: nav[1]
                     });
@@ -26,7 +26,7 @@ export default class Application {
                             action: nv[1]
                         });
                     });
-                    this.drwnavs.push({
+                    this.drawer_navigation.push({
                         name: nav[0],
                         childs: child
                     });

@@ -1,6 +1,6 @@
-import G_core from "./gilace/core/g_core.js";
+import GCore from "./gilace/core/GCore.js";
 
-class Index extends G_core {
+class Index extends GCore {
     constructor() {
         super();
         import('./app.js').then(app => {

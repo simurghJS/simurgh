@@ -1,7 +1,6 @@
 class routeItem {
     constructor(data = {}) {
         this.route_data = data;
-        console.log(data);
     }
 
     data() {
@@ -14,10 +13,8 @@ class routeItem {
 
     name(name = '') {
         let self = this;
-        let row = SYS_ROUTES.find(item => item.route_data.id == self.route_data.id);
+        let row = gApp.routes.find(item => item.route_data.id == self.route_data.id);
         row.route_data.name = name;
-
-        console.log(SYS_ROUTES);
     }
 
     get_path() {
@@ -40,16 +37,14 @@ export default class Router {
     _route_args = {}
 
     constructor() {
-        window.SYS_ROUTES_MIDDLEWARE = '';
-        window.SYS_ROUTES = [];
+
     }
 
     routeMiddleware(name = '') {
-        window.SYS_ROUTES_MIDDLEWARE = name;
+        gApp.routes_middleware = name;
     }
 
     route(url = '', path = '') {
-        console.log(this._route_args);
         let route_item = new routeItem({
             id: uuid(),
             url: url,
@@ -89,17 +84,17 @@ export default class Router {
     }
 
     add(route = {}) {
-        if (!empty(SYS_ROUTES) && !Array.isArray(SYS_ROUTES)) {
-            window.SYS_ROUTES = new Array();
+        if (!empty(gApp.routes) && !Array.isArray(gApp.routes)) {
+            window.gApp.routes = new Array();
         }
-        SYS_ROUTES.push(route);
+        gApp.routes.push(route);
     }
 
     find(url = '') {
         let find = null;
         /** check sys routes **/
-        if (!empty(SYS_ROUTES) && Array.isArray(SYS_ROUTES))
-            find = SYS_ROUTES.find(route_item => (route_item.route_data.name === url || route_item.route_data.url === url));
+        if (!empty(gApp.routes) && Array.isArray(gApp.routes))
+            find = gApp.routes.find(route_item => (route_item.route_data.name === url || route_item.route_data.url === url));
 
         if (empty(find)) {
             switch (url) {
@@ -125,15 +120,12 @@ export default class Router {
     route_group(args = {}, callback = () => {
     }) {
         let current = Object.create(this._route_args);
-        console.log(current);
         if (!empty(args.namespace) && !empty(current.namespace)) {
             args.namespace = current.namespace + '/' + args.namespace;
         }
 
         Object.assign(this._route_args, args);
         callback();
-        console.log(current);
-        console.log(this._route_args);
         this._route_args = current;
     }
 }

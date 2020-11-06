@@ -1,3 +1,5 @@
+import Navigation from "./Navigation.js";
+
 class launcher {
     constructor(app_name, tip, icon) {
         this.app_name = app_name;
@@ -25,39 +27,21 @@ class LayoutManager {
                 console.log(response);
                 $('#application_wrapper').html(response);
 
-                document.title = TITLE_PREFIX + app.title;
+                document.title = global().prefix + global().prefix_separator + app.title;
 
                 /** navigation **/
-                if (empty(this.request.drawer_navigation) || empty(gilace.drawer_navigation_args)) {
-                    $('#drawer_navigator').hide();
-                    $('#drawer_navigator').html(``);
-                    $('#app_wrapper').removeClass('col-lg-10').addClass('col-lg-12');
-                    $('#app_wrapper').removeClass(' col-lg-offset-2').addClass(' col-lg-offset-0');
-                } else {
-                    $('#drawer_navigator').show();
-                    $('#drawer_navigator').html(gilace.navigation.createDrawerNavigation(gilace.drawer_navigation_args));
-                    $('#app_wrapper').removeClass('col-lg-12').addClass('col-lg-10');
-                    $('#app_wrapper').removeClass(' col-lg-offset-0').addClass(' col-lg-offset-2');
-                }
-
-                /** check for page title & breadcrump **/
-                if (!empty(app.toolbar)) {
-                    if ($('.breadcrumb #current_breadcrump').length == 1) {
-                        $('.breadcrumb #current_breadcrump').text(app.title);
+                let drawer_wrapper=$("div[gilace-rel=drawer_navigation]");
+                if(!empty(drawer_wrapper)) {
+                    console.log(drawer_wrapper[0]);
+                    if (empty(gApp.drawer_navigation)) {
+                        drawer_wrapper.hide();
+                        drawer_wrapper.html(``);
+                    } else {
+                        drawer_wrapper.show();
+                        drawer_wrapper.html(new Navigation().createDrawerNavigation());
                     }
-                    else {
-                        let li = document.createElement('li');
-                        li.classList = 'breadcrumb-item active';
-                        li.id = 'current_breadcrump';
-                        $(li).html(`<button class="btn btn-link disabled btn-sm" disabled>${app.title}</button>`)
-
-                        $('.breadcrumb').append(li);
-                    }
-                    if (!$('#gcore_app_title').length) {
-                        gilace.layoutManager.render_html((app.navigation_header, '#gcore_app_title_wrapper'));
-                    }
-                    $('#gcore_app_title').text(app.title);
-                    $('#gcore_app_actions').html(app.actions);
+                }else{
+                    console.log('no drawer...')
                 }
 
                 /** check if need template **/
@@ -71,8 +55,7 @@ class LayoutManager {
                     }).finally(() => {
                         resolve();
                     });
-                }
-                else {
+                } else {
                     resolve();
                 }
 
@@ -89,10 +72,12 @@ class LayoutManager {
         return new Promise((resolve, reject) => {
             console.log('generating response ...')
             let toolbar = empty(app.toolbar) ? null : this.get_toolbar();
-            if (!empty(app.layout)) {
-                console.log('load layout => ' + app.layout);
-                new HTMLReader().readFromFile(app.layout).then((layout) => {
-                    resolve(this.getResponse(layout, toolbar));
+            let layout = (empty(app.layout) ? empty(global().layout) ? '' : global().layout : app.layout);
+
+            if (!empty(layout)) {
+                console.log('load layout => ' + layout);
+                new HTMLReader().readFromFile(layout).then((html) => {
+                    resolve(this.getResponse(html, toolbar));
                 }).catch((err) => {
                     console.log('cannot load layout , see logs');
                     console.log(err.message);
@@ -106,21 +91,10 @@ class LayoutManager {
 
     /** generating response template **/
     getResponse(layout = ``, toolbar = ``) {
-        let drawable_navigation = ``;
-        let response_wrapper = `<div class="col-lg-12 col-lg-offset-0 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4" id="app_wrapper">
-                ${layout}
-            </div>`;
-        if (!empty(gilace.drawer_navigation_args)) {
-            drawable_navigation = `<div class="col-lg-2 col-md-4 col-sm-4 sidebar" id="drawer_navigator"></div>`
-            response_wrapper = `<div class="col-lg-10 col-lg-offset-2 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4" id="app_wrapper">
-                                    ${layout}
-                                </div>`;
-        }
         return `<div class="container-fluid">
                     <div class="row">
-                        ${toolbar}
-                        ${drawable_navigation}
-                        ${response_wrapper}
+                        ${toolbar}                       
+                        ${layout}
                     </div>
                 </div>`;
     }
@@ -228,12 +202,11 @@ class LayoutManager {
     }
 
     init_cli_exec() {
-        console.log('3');
-        $('[data-navigate]').unbind('click');
-        $('[data-navigate]').click((ev) => {
-            let navigate_to = $(ev.currentTarget).data('navigate');
+        $('[gilace-navigate]').unbind('click');
+        $('[gilace-navigate]').click((ev) => {
+            let navigate_to = $(ev.currentTarget).attr('gilace-navigate');
             if (!empty(navigate_to)) {
-                gilace.navigation.navigate(navigate_to);
+                new Navigation().navigate(navigate_to);
             }
         });
     }
