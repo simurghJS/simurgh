@@ -169,6 +169,7 @@ class LayoutManager {
                 $('body').html(html);
             }
         }
+        this.init_cli_exec();
     }
 
     /** add or get components **/
@@ -204,9 +205,7 @@ class LayoutManager {
         $('[gilace-navigate]').unbind('click');
         $('[gilace-navigate]').click((ev) => {
             let navigate_to = $(ev.currentTarget).attr('gilace-navigate');
-            if (!empty(navigate_to)) {
-                new Navigation().navigate(navigate_to);
-            }
+            new Navigation().navigate(navigate_to);
         });
     }
 

@@ -40,11 +40,11 @@ class Navigation {
             new Promise((resolve, reject) => {
 
                 let callback = _route.get_path();
-
+                console.log(callback);
                 switch (typeof callback) {
                     case "string":
                         /** load controller **/
-                        import(_route.get_path()).then((module) => {
+                        import(callback).then((module) => {
                             let controller = new module.default();
                             new LayoutManager().render_layout(controller).then(() => {
                                 new LayoutManager().init_cli_exec();
@@ -119,7 +119,7 @@ class Navigation {
             row.startsWith('GilaceJS')
         );
         let app_data = {};
-        if (!gilace.helper.empty(data_json)) {
+        if (!empty(data_json)) {
             data_json = data_json.split('=')[1];
             app_data = JSON.parse(unescape(data_json));
         }
@@ -148,9 +148,10 @@ class Navigation {
                                     </li>`
                     });
                     navs += `<li class="menu">
-                                <a href="#">
-                                    <iclass="fa fa-angle-left  pull-left"></i><span>${nav.name}</span>
-                                </a>
+                              
+                               <button type="button" class="btn btn-link"> <span>
+                                    <i class="fa fa-angle-left  pull-left"></i><span>${nav.name}</span>                                 
+                                </span></button>
                                 <ul>
                                     ${childs}
                                 </ul>

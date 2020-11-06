@@ -55,6 +55,6 @@ export default class Application {
     }
 
     registerRoutes(file_path = '') {
-        this.routes = 'config/' + file_path;
+        this.routes = 'settings/' + file_path;
     }
 }

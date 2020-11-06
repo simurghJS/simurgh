@@ -143,6 +143,8 @@ class GCore {
         }).then(() => {
                 /** load drawerNavigation & routes & environment shortcuts **/
                 if (!empty(env.routes)) {
+                    console.log(env.routes);
+                    console.log('/' + env.routes);
                     import('/' + env.routes).then(() => {
 
                         this.import_shortcuts();

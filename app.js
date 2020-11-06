@@ -4,15 +4,14 @@ import {Application} from '/gilace/gilace.js';
 |--------------------------------------------------------------------------
 | Application
 |--------------------------------------------------------------------------
-| here you can customize your application settings.
+| describe your build [ title, layouts, routes and ...]
 |
 */
 
 let myApp = new Application();
 
-myApp.registerDependencies(['css/hello_world.css']);
-myApp.set_layout('layout/base.html');
-myApp.registerRoutes('routes.js');
-myApp.set_title('home','gilaceJS');
+/** here you can customize your build **/
+
+//myApp.set_title('hello world','my app');
 
 export default myApp;
