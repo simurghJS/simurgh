@@ -1,3 +1,5 @@
+import LayoutManager from "./layoutManager.js";
+
 class BaseController {
     /** property **/
     title = (!empty(global().title) ? global().title : this.constructor.name);
@@ -28,12 +30,12 @@ class BaseController {
             if (!empty(response)) {
                 switch (typeof response) {
                     case "string":
-                        gilace.layoutManager.render_html(response);
+                        new LayoutManager().render_html(response);
                         resolve();
                         break;
                     case "object":
                         console.log(response);
-                        gilace.layoutManager.render_component(response, '#gcore_app_wrapper', resolve);
+                        new LayoutManager().render_component(response, '#gcore_app_wrapper', resolve);
                         break;
                     default:
                         resolve();

@@ -31,7 +31,7 @@ class LayoutManager {
 
                 /** navigation **/
                 let drawer_wrapper=$("div[gilace-rel=drawer_navigation]");
-                if(!empty(drawer_wrapper)) {
+                if(!empty(drawer_wrapper.toArray())) {
                     console.log(drawer_wrapper[0]);
                     if (empty(gApp.drawer_navigation)) {
                         drawer_wrapper.hide();
