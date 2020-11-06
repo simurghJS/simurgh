@@ -72,7 +72,7 @@ class LayoutManager {
         return new Promise((resolve, reject) => {
             console.log('generating response ...')
             let toolbar = empty(app.toolbar) ? null : this.get_toolbar();
-            let layout = (empty(app.layout) ? empty(global().layout) ? '' : global().layout : app.layout);
+            let layout = (empty(app.layout) ? (empty(global().layout) ? '' : global().layout ): app.layout);
 
             if (!empty(layout)) {
                 console.log('load layout => ' + layout);
