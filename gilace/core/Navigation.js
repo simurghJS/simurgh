@@ -39,17 +39,33 @@ class Navigation {
         if (_route.id == gApp.current_stack_uuid) {
             new Promise((resolve, reject) => {
 
-                /** load controller **/
-                import(_route.get_path()).then((module) => {
-                    let controller = new module.default();
-                    new LayoutManager().render_layout(controller).then(() => {
-                        new LayoutManager().init_cli_exec();
-                        resolve(controller);
-                    }).catch(err => {
-                        reject(err)
-                    });
-                })
+                let callback = _route.get_path();
 
+                switch (typeof callback) {
+                    case "string":
+                        /** load controller **/
+                        import(_route.get_path()).then((module) => {
+                            let controller = new module.default();
+                            new LayoutManager().render_layout(controller).then(() => {
+                                new LayoutManager().init_cli_exec();
+                                resolve(controller);
+                            }).catch(err => {
+                                reject(err)
+                            });
+                        });
+                        break;
+                    case "function":
+                        import('/gilace/core/BaseController.js').then((module) => {
+                            let response = new module.default({});
+                            response.start = (navigation_data = {}) => {
+                                return callback();
+                            }
+                            new LayoutManager().render_layout(response).then(() => {
+                                response.run({});
+                            });
+                        });
+                        break;
+                }
             }).then((controller) => {
 
                 /** run controller and update history **/

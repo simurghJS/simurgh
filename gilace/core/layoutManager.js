@@ -93,7 +93,6 @@ class LayoutManager {
     getResponse(layout = ``, toolbar = ``) {
         return `<div class="container-fluid">
                     <div class="row">
-                        ${toolbar}                       
                         ${layout}
                     </div>
                 </div>`;

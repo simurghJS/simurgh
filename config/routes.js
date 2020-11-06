@@ -10,3 +10,6 @@ import Router from '/gilace/core/router.js';
 */
 
 let router = new Router();
+router.route('test', () => {
+    return 'hello world!';
+});

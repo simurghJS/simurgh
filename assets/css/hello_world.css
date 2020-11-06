@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'IRANSansWeb';
+    src: url('../../assets/fonts/IRANSansWeb_Light.woff2?-wwn5ej') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AlegreyaSans-Regular';
+    src: url("../fonts/alegreya-sans/AlegreyaSans-Regular.otf") format("opentype");
+}
+
+html,body {
+
+    background-color: #f8f9fa !important;
+
+    font-family: 'IRANSansWeb', 'AlegreyaSans-Regular';
+
+    font-size: 12px;
+}

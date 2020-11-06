@@ -18,14 +18,20 @@ class routeItem {
     }
 
     get_path() {
-
-        let path = this.route_data.command == 'auto-crud' ?
-            APPPATH + 'application/models/' + this.data().model_name + '.js' :
-            APPPATH + 'application/controllers/'
-            + (!empty(this.data().namespace) ?
-            this.data().namespace + '/' : '')
-            + this.data().command + '.js';
-        return path;
+        let callback = this.route_data.command;
+        switch (typeof callback) {
+            case "function":
+                return callback;
+                break;
+            case "string":
+                callback = this.route_data.command == 'auto-crud' ?
+                    APPPATH + 'application/models/' + this.data().model_name + '.js' :
+                    APPPATH + 'application/controllers/'
+                    + (!empty(this.data().namespace) ?
+                    this.data().namespace + '/' : '')
+                    + this.data().command + '.js';
+                return callback;
+        }
     }
 
     json() {
@@ -44,11 +50,11 @@ export default class Router {
         gApp.routes_middleware = name;
     }
 
-    route(url = '', path = '') {
+    route(url = '', callback) {
         let route_item = new routeItem({
             id: uuid(),
             url: url,
-            command: path,
+            command: callback,
             ...this._route_args
         });
         this.add(route_item);
@@ -95,7 +101,7 @@ export default class Router {
         /** check sys routes **/
         if (!empty(gApp.routes) && Array.isArray(gApp.routes))
             find = gApp.routes.find(route_item => (route_item.route_data.name === url || route_item.route_data.url === url));
-
+        console.log(gApp.routes);
         if (empty(find)) {
             switch (url) {
                 case "":

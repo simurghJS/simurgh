@@ -10,8 +10,9 @@ import {Application} from '/gilace/gilace.js';
 
 let myApp = new Application();
 
-myApp.registerDependencies(['css/app.css']);
+myApp.registerDependencies(['css/hello_world.css']);
 myApp.set_layout('layout/base.html');
+myApp.registerRoutes('routes.js');
 myApp.set_title('home','gilaceJS');
 
 export default myApp;
