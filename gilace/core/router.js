@@ -90,8 +90,13 @@ export default class Router {
     }
 
     add(route = {}) {
-        if (!empty(gApp.routes) && !Array.isArray(gApp.routes)) {
-            window.gApp.routes = new Array();
+        if (typeof gApp == "undefined") {
+            window.gApp = {
+                routes: new Array()
+            }
+        }
+        if (!Array.isArray(gApp.routes)) {
+            gApp.routes = new Array();
         }
         gApp.routes.push(route);
     }
@@ -101,24 +106,14 @@ export default class Router {
         /** check sys routes **/
         if (!empty(gApp.routes) && Array.isArray(gApp.routes))
             find = gApp.routes.find(route_item => (route_item.route_data.name === url || route_item.route_data.url === url));
-        console.log(gApp.routes);
+
+        console.log(find);
+
         if (empty(find)) {
-            switch (url) {
-                case "":
-                case "/":
-                case "index":
-                    find = new routeItem({
-                        url: '',
-                        command: 'index'
-                    });
-                    break;
-                default:
-                    find = new routeItem({
-                        url: url,
-                        command: url
-                    });
-                    break;
-            }
+            find = new routeItem({
+                url: url,
+                command: url
+            });
         }
         return find;
     }

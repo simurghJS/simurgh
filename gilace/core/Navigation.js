@@ -16,6 +16,9 @@ class Navigation {
 
         this.navigation_params = params;
         let _route = new Router().find(route);
+
+        console.log(_route);
+
         _route['id'] = gApp.current_stack_uuid;
 
         if (!empty(_route.route_data.middleware)) {
@@ -101,12 +104,6 @@ class Navigation {
 
     start() {
         let url = window.location.hash.replace('#!/', '');
-
-        if (empty(url)) {
-            let cashed = localStorage.getItem('current_stack');
-            url = !empty(cashed) ? JSON.parse(cashed).url : this.get_default_route();
-        }
-
         this.navigate(url);
     }
 

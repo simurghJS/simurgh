@@ -10,4 +10,3 @@ import Router from '/gilace/core/router.js';
 */
 
 let router = new Router();
-

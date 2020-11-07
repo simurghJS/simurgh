@@ -103,18 +103,20 @@ class GCore {
 
         /** register global variables **/
         let app_url = !empty(env.api_url) ? new URL(env.api_url) : '';
-        window.gApp = {
-            global: {
-                layout: env.layout,
-                app_title: env.title,
-                title_prefix: env.title_prefix,
-                prefix_separator: ' | '
-            },
-            drawer_navigation:env.drawer_navigation,
-            routes: new Array(),
-            default_route:'',
-            domain: !empty(app_url) ? (app_url.protocol + '//' + app_url.hostname) : ''
+        if (typeof gApp == "undefined") {
+            window.gApp = {}
         }
+        gApp.global = {
+            layout: env.layout,
+            app_title: env.title,
+            title_prefix: env.title_prefix,
+            prefix_separator: ' | '
+        };
+        gApp.drawer_navigation = env.drawer_navigation;
+        //routes: new Array(),
+        gApp.default_route = '';
+        gApp.domain = !empty(app_url) ? (app_url.protocol + '//' + app_url.hostname) : '';
+
         window.APPPATH = window.location.protocol + '//' + window.location.hostname + '/';
         window.BASEURL = env.api_url;
         window.ASSETSPATH = !empty(app_url) ? app_url.protocol + '//' + app_url.hostname + '/' : '';

@@ -3,9 +3,6 @@ import LayoutManager from "./layoutManager.js";
 class BaseController {
     /** property **/
     title = (!empty(global().title) ? global().title : this.constructor.name);
-    actions = ``;
-    toolbar = 'default';
-    drawer_navigation = 'default';
 
     constructor(args = {}) {
         if (typeof args == "object") {

@@ -95,7 +95,7 @@ window.request = class {
 window.empty = (object) => {
     let result = false;
 
-    if (object == undefined || object == null) {
+    if (typeof object == "undefined" || object == null) {
         return !result;
     }
     if (Array.isArray(object) && object.length == 0) {
@@ -226,7 +226,6 @@ window.loader= class {
                             }).then(() => {
 
                             }).finally(() => {
-                                console.log('finally');
                                 resolve({
                                     readystate: 'uncompleted'
                                 });
