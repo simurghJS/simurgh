@@ -17,80 +17,43 @@ class LayoutManager {
     constructor() {
     }
 
-    render_layout(app = {}) {
+    async render_layout(app = {}) {
         this.request = app;
-        return new Promise((resolve, reject) => {
-            console.log('analysing request=>');
-            console.log(this.request);
-            this.createAppLayout(app).then((response) => {
-                console.log('generated response =>');
-                console.log(response);
-                $('#application_wrapper').html(response);
 
-                document.title = global().prefix + global().prefix_separator + app.title;
+        console.log('creating layout for =>');
+        console.log(this.request);
 
-                /** navigation **/
-                let drawer_wrapper=$("div[gilace-rel=drawer_navigation]");
-                if(!empty(drawer_wrapper.toArray())) {
-                    console.log(drawer_wrapper[0]);
-                    if (empty(gApp.drawer_navigation)) {
-                        drawer_wrapper.hide();
-                        drawer_wrapper.html(``);
-                    } else {
-                        drawer_wrapper.show();
-                        drawer_wrapper.html(new Navigation().createDrawerNavigation());
-                    }
-                }else{
-                    console.log('no drawer...')
-                }
+        let html = await this.createAppLayout(app);
 
-                /** check if need template **/
-                if (!empty(app.template)) {
-                    new HTMLReader().readFromFile(app.template).then((data) => {
-                        this.render_html(app.template);
-                        this.render_html(data);
-                    }).catch((err) => {
-                        console.log('cannot load template , see logs=>');
-                        console.log(err);
-                    }).finally(() => {
-                        resolve();
-                    });
-                } else {
-                    resolve();
-                }
+        $('#application_wrapper').html(html);
 
-                /*for (let launcher of this.launchers) {
-                    $('.editor_controls').append(this.generate_launcher_icon(launcher))
-                }*/
+        document.title = app.title;
 
-            });
-        });
+        let drawer_wrapper = $("div[gilace-rel=drawer_navigation]");
+        if (!empty(drawer_wrapper.toArray())) {
+            if (empty(gApp.drawer_navigation)) {
+                drawer_wrapper.hide();
+                drawer_wrapper.html(``);
+            } else {
+                drawer_wrapper.show();
+                drawer_wrapper.html(new Navigation().createDrawerNavigation());
+            }
+        }
     }
 
     /** response **/
-    createAppLayout(app) {
-        return new Promise((resolve, reject) => {
-            console.log('generating response ...')
-            let toolbar = empty(app.toolbar) ? null : this.get_toolbar();
-            let layout = (empty(app.layout) ? (empty(global().layout) ? '' : global().layout ): app.layout);
+    async createAppLayout(app) {
+        let layout = (typeof app.layout == "undefined" ? (empty(global().layout) ? '' : global().layout) : app.layout);
 
-            if (!empty(layout)) {
-                console.log('load layout => ' + layout);
-                new HTMLReader().readFromFile(layout).then((html) => {
-                    resolve(this.getResponse(html, toolbar));
-                }).catch((err) => {
-                    console.log('cannot load layout , see logs');
-                    console.log(err.message);
-                });
-            } else {
-                resolve(this.getResponse(null, toolbar));
-            }
-
-        });
+        if (!empty(layout)) {
+            let html = await loadView(layout);
+            return this.getResponse(html);
+        }
+        return this.getResponse(``);
     }
 
     /** generating response template **/
-    getResponse(layout = ``, toolbar = ``) {
+    getResponse(layout = ``) {
         return `<div class="container-fluid">
                     <div class="row">
                         ${layout}
@@ -166,7 +129,7 @@ class LayoutManager {
             if ($("div[gilace-rel=response]").length == 1) {
                 $("div[gilace-rel=response]").html(html);
             } else {
-                $('body').html(html);
+                $('#application_wrapper').html(html);
             }
         }
         this.init_cli_exec();

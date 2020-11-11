@@ -1,6 +1,8 @@
+import Request from "../../library/request.js";
+
 class table {
     name = '';
-    onLoadRowData_eventHandler = () => {
+    onLoadRowData_eventHandler = async () => {
     };
     onLoadData_eventHandler = () => {
     };
@@ -51,49 +53,41 @@ class table {
         this.load(this.page, this.count_per_page);
     }
 
-    load(page, count,resolve) {
+    async getData() {
+        await self.onLoadRowData_eventHandler(row).then((res) => {
+            return res;
+        });
+    }
+
+    async load(page, count, resolve) {
         let self = this;
         let url = self.url;
         console.log(url);
 
         if (!empty(url)) {
-            url = new URL(BASEURL + self.url);
+            url = new URL(self.url);
             console.log(url);
             let param = new URLSearchParams(url.search);
             param.append('page', page);
             param.append('count', count);
-            let _url = url.pathname + '?' + param.toString();
-            console.log(_url);
-            new request(_url).get().then((responseJson) => {
-                let html = ``;
-                if (responseJson.rows != undefined && responseJson.rows.length > 0) {
-                    self.data = responseJson;
-                    self.page = page;
-                    self.count_per_page = count;
-                    for (let row of responseJson.rows) {
-                        html += self.onLoadRowData_eventHandler(row);
-                    }
-                    html = this.setLayout(html);
-                } else {
-                    html = gilace.helper.empty_state({
-                        image: self.empty_state.image,
-                        title: self.empty_state.title,
-                        text: self.empty_state.text
-                    });
+            let _url = url.origin + '/' + url.pathname + '?' + param.toString();
+            let html = ``;
+            let data = await new Request(_url).get();
+            console.log(data);
+            if (data.rows != undefined && data.rows.length > 0) {
+                self.data = data;
+                self.page = page;
+                self.count_per_page = count;
+                for (let row of data.rows) {
+                    let _h = await self.onLoadRowData_eventHandler(row);
+                    console.log(_h);
+                    html += _h;
                 }
-                gilace.layoutManager.render_html(html, self.wrapper);
-                $('.' + self.name + ' .gshop_table_rows').css('minHeight', (screen.height * (.5)) + 'px');
-                this.pagination(responseJson.pagination, function (page) {
-                    self.load(page, count);
-                });
-            }).catch((err) => {
-                console.log(err.message);
-            }).finally(() => {
-                this.onLoadData_eventHandler();
-                if(typeof resolve=="function"){
-                    resolve();
-                }
-            })
+                html = this.setLayout(html);
+
+            }
+
+            return html;
         }
     }
 
@@ -132,16 +126,10 @@ class table {
         return this;
     }
 
-    then(callback) {
-        if (typeof callback == "function") {
-            this.onLoadData_eventHandler = callback;
-        }
-        return this;
-    }
-
-    render(wrapper,resolve) {
-        this.wrapper = wrapper;
-        this.load(this.page, this.count_per_page,resolve);
+    render(wrapper) {
+        let res=this.load(this.page, this.count_per_page);
+        console.log(res);
+        return res;
     }
 
     print() {

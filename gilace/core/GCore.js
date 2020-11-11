@@ -2,90 +2,6 @@ import Navigation from "./Navigation.js";
 
 import('./Helpers.js');
 
-/** authentication class **/
-class auth {
-    _authorization = null
-    _user = {}
-
-    set_token(token = null) {
-        this._authorization = token
-    }
-
-    get_authorization() {
-        let session_token = localStorage.getItem('authorization');
-        if (!empty(session_token) && this._authorization != null) {
-            this._authorization = session_token
-        }
-        this._authorization = this._authorization == null ?
-            !empty(session_token) ?
-                session_token : this._authorization
-            : this._authorization;
-        return this._authorization
-    }
-
-    set_auth(user = '', token = null) {
-        this._user = user
-        if (token != null) {
-            this.set_token(token);
-            sessionStorage.setItem('authorization', token);
-        }
-    }
-
-    get_auth() {
-        return this._user
-    }
-}
-
-/** models for auto cruds... **/
-export class G_Models {
-
-    string_field(name = '', placeholder = '', value = '') {
-        return {
-            type: 'text',
-            title: name,
-            value: value,
-            placeholder: placeholder
-        }
-    }
-
-    empty_state(title, image, text) {
-        return {
-            image: image,
-            title: title,
-            text: text
-        }
-    }
-
-}
-
-/** form input **/
-class form_input {
-    constructor() {
-    }
-
-    TextInput(value) {
-        return {
-            type: 'text',
-            text: value
-        }
-    }
-
-    LocationSelector(lat, lng) {
-        return {
-            type: 'location-selector',
-            lat: lat,
-            lng: lng
-        }
-    }
-
-    fileSelector(src = {}) {
-        return {
-            type: 'file-selector',
-            ...src
-        }
-    }
-}
-
 class GCore {
 
     constructor() {
@@ -113,7 +29,6 @@ class GCore {
             prefix_separator: ' | '
         };
         gApp.drawer_navigation = env.drawer_navigation;
-        //routes: new Array(),
         gApp.default_route = '';
         gApp.domain = !empty(app_url) ? (app_url.protocol + '//' + app_url.hostname) : '';
 
@@ -133,6 +48,15 @@ class GCore {
         for (let dependency of env.dependencies) {
             dep.push(assets(dependency));
         }
+
+        /** load app constants **/
+
+        gApp.constants = env.constants;
+
+        for (let [key, value] of Object.entries(env.constants)) {
+            window[key] = value;
+        }
+
         new loader().load(dep).then(() => {
 
             //all dependencies loaded
@@ -145,17 +69,26 @@ class GCore {
         }).then(() => {
                 /** load drawerNavigation & routes & environment shortcuts **/
                 if (!empty(env.routes)) {
-                    console.log(env.routes);
-                    console.log('/' + env.routes);
-                    import('/' + env.routes).then(() => {
+                    switch (typeof env.routes) {
+                        case "function":
+                            env.routes();
+                            new Navigation().start();
+                            break;
+                        case "string":
+                            import('/' + env.routes).then(() => {
 
-                        this.import_shortcuts();
+                                this.import_shortcuts();
 
-                    }).catch((err) => {
-                        console.log(err);
-                    }).then(() => {
-                        new Navigation().start();
-                    });
+                            }).catch((err) => {
+                                console.log(err);
+                            }).then(() => {
+                                new Navigation().start();
+                            });
+                            break;
+                        default:
+                            break;
+                    }
+
                 } else {
                     new Navigation().start();
                 }

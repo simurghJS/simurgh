@@ -11,7 +11,7 @@ class BaseController {
     }
 
     /** functions **/
-    start(navigation_data = {}) {
+    render(navigation_data = {}) {
         return null;
     }
 
@@ -20,36 +20,26 @@ class BaseController {
     }
 
     /** sdff **/
-    run(navigation_data) {
-        new Promise((resolve, reject) => {
-            let response = this.start(navigation_data);
-            /** render controller start function return val **/
-            if (!empty(response)) {
-                switch (typeof response) {
-                    case "string":
-                        new LayoutManager().render_html(response);
-                        resolve();
-                        break;
-                    case "object":
-                        console.log(response);
-                        new LayoutManager().render_component(response, '#gcore_app_wrapper', resolve);
-                        break;
-                    default:
-                        resolve();
-                        break;
-                }
-            } else {
-                resolve();
+    async run(navigation_data) {
+
+        let response = await this.render(navigation_data);
+        if (!empty(response)) {
+            switch (typeof response) {
+                case "string":
+                    await new LayoutManager().render_html(response);
+                    break;
+                case "object":
+                    let html = await response.render();
+                    console.log(html);
+                    await new LayoutManager().render_html(html);
+                    break;
+                default:
+                    break;
             }
-        }).then(() => {
-            this.navigation_data = navigation_data;
-            this.on_rendered();
-        }).catch(() => {
-
-        }).finally(() => {
-
-            $('._loader').fadeOut(500);
-        });
+        }
+        this.navigation_data = navigation_data;
+        this.on_rendered();
+        $('._loader').fadeOut(500);
     }
 
     forceUpdate() {

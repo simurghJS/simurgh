@@ -1,5 +1,8 @@
-import * as G from "/gilace/gilace.js";
-import {Form} from "/gilace/components.js";
+import {BaseController, Navigation} from "/gilace/gilace.js";
+import LayoutManager from "/gilace/core/layoutManager.js";
+import Auth from "/library/auth.js";
+import Request from "/library/request.js";
+
 
 class Authenticate {
 
@@ -7,30 +10,26 @@ class Authenticate {
         /* constructor */
     }
 
-    login() {
-
-        let loginForm=new Form();
-
-
-        let LOGIN_APP = new G.BaseController({
+    async login() {
+        let login_page = new BaseController({
             title: 'ورود به سیستم',
-            template: 'login.html',
-            toolbar: null,
-            drawer_navigation:null
+            layout: null
         });
-
-        LOGIN_APP.start = (navigation_data = {}) => {
-            console.log('login start!');
+        login_page.render = () => {
+            return loadView('login.html');
+        }
+        login_page.on_rendered = (navigation_data = {}) => {
             $('#submit').click((ev) => {
-                new request('/login').post({
+                new Request(api_url + '/login').post({
                     identity: $('#identity').val(),
                     password: $('#password').val()
                 }).then((responseJson) => {
                     let user = responseJson.data.user;
+                    console.log(responseJson);
                     if (!empty(user)) {
-                        gilace.auth.set_auth(user, user.api_token);
+                        new Auth().authenticate(user, user.api_token);
                     }
-                    gilace.navigation.navigate('/');
+                    new Navigation().navigate('');
                 });
             });
             $("#password").on('keyup', function (e) {
@@ -43,16 +42,17 @@ class Authenticate {
                     $('#submit').click();
                 }
             });
-        }
-
-        gilace.layoutManager.render_layout(LOGIN_APP).then(() => {
-            LOGIN_APP.run({});
+        };
+        new LayoutManager().render_layout(login_page).then(() => {
+            login_page.run({});
         });
     }
 
-    run(_route = {}, next, data) {
-        if (empty(gilace.auth.get_auth())) {
-            this.login();
+    async run(_route = {}, next, data) {
+        let user = new Auth().user();
+        console.log(user);
+        if (empty(user)) {
+            await this.login();
         } else {
             next(_route, data);
         }

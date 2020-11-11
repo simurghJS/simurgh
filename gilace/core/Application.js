@@ -5,9 +5,15 @@ export default class Application {
     dependencies = []
     drawer_navigation = []
     routes = []
+    constants = []
 
     constructor() {
     }
+
+    define(name = '', value = '') {
+        this.constants[name] = value;
+    }
+
 
     registerDrawerNavigation(navs = []) {
         Object.entries(navs).map(nav => {
@@ -38,9 +44,11 @@ export default class Application {
     registerDependencies(deps = []) {
         this.dependencies = deps;
     }
-    set_layout(path=''){
-        this.layout=path;
+
+    set_layout(path = '') {
+        this.layout = path;
     }
+
     set_url(url = '') {
         this.api_url = url;
     }
@@ -54,7 +62,7 @@ export default class Application {
         return this;
     }
 
-    registerRoutes(file_path = '') {
-        this.routes = 'settings/' + file_path;
+    registerRoutes(callback = '') {
+        this.routes =  callback;
     }
 }
