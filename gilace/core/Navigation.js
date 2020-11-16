@@ -22,7 +22,7 @@ class Navigation {
         _route['id'] = gApp.current_stack_uuid;
 
         if (!empty(_route.route_data.middleware)) {
-            import(APPPATH + 'application/middleware/' + _route.route_data.middleware + '.js')
+            import(APPPATH + gApp.system.paths.middleware+'/'+ _route.route_data.middleware + '.js')
                 .then(middleware => {
                     middleware.default.run(_route, this.do_nav, this.navigation_params);
                 })
@@ -58,8 +58,8 @@ class Navigation {
                         });
                         break;
                     case "function":
-                        import('/gilace/core/BaseController.js').then((module) => {
-                            let response = new module.default({});
+                        import('/gilace/core/Component.js').then((module) => {
+                            let response = new module.Component({});
                             response.start = (navigation_data = {}) => {
                                 return callback();
                             }

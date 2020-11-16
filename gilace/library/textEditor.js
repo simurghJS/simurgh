@@ -33,7 +33,7 @@ class TextEditor {
     constructor(selector) {
         console.log(selector);
         if (typeof BalloonBlockEditor == 'undefined') {
-            new loader().load([APPPATH+'assets/js/ckeditor.js']).then(()=>{
+            new loader().load([APPPATH+'/assets/js/ckeditor.js']).then(()=>{
                 this.load(selector);
             }).catch(err=>{
                throw new Error(err.message);

@@ -1,8 +1,18 @@
+import './Helpers.js'
 import Navigation from "./Navigation.js";
 
-import('./Helpers.js');
+const application_folder = '/application';
 
-class GCore {
+const system = {
+    paths: {
+        controller: application_folder + '/controllers',
+        middleware: application_folder + '/middleware',
+        views: application_folder + '/views'
+    }
+}
+
+
+class Core {
 
     constructor() {
     }
@@ -16,7 +26,6 @@ class GCore {
     }
 
     registerApp(env = {}) {
-
         /** register global variables **/
         let app_url = !empty(env.api_url) ? new URL(env.api_url) : '';
         if (typeof gApp == "undefined") {
@@ -31,20 +40,26 @@ class GCore {
         gApp.drawer_navigation = env.drawer_navigation;
         gApp.default_route = '';
         gApp.domain = !empty(app_url) ? (app_url.protocol + '//' + app_url.hostname) : '';
-
-        window.APPPATH = window.location.protocol + '//' + window.location.hostname + '/';
+        gApp.system = {...system};
+        window.APPPATH = window.location.protocol + '//' + window.location.hostname;
         window.BASEURL = env.api_url;
         window.ASSETSPATH = !empty(app_url) ? app_url.protocol + '//' + app_url.hostname + '/' : '';
 
         /** load dependencies **/
-        let dep = [
-            '../../node_modules/jquery/dist/jquery.min.js',
-            '../../node_modules/bootstrap/dist/js/bootstrap.min.js',
-            '../../node_modules/popper.js/dist/popper.min.js',
-            APPPATH + 'node_modules/bootstrap/dist/css/bootstrap.css',
-            APPPATH + 'node_modules/font-awesome/css/font-awesome.min.css',
-            APPPATH + 'gilace/src/rtl.css'
-        ];
+        let dep = [];
+        if (env.jquery) {
+            dep.push('../../node_modules/jquery/dist/jquery.min.js')
+        }
+        if (env.bootstrap) {
+            dep.push(APPPATH + '/node_modules/bootstrap/dist/css/bootstrap.css');
+            dep.push(APPPATH + '/node_modules/bootstrap/dist/js/bootstrap.min.js');
+            dep.push('../../node_modules/popper.js/dist/popper.min.js');
+            dep.push(APPPATH + '/node_modules/font-awesome/css/font-awesome.min.css');
+        }
+        if (env.rtl) {
+            dep.push(APPPATH + '/gilace/src/rtl.css');
+        }
+
         for (let dependency of env.dependencies) {
             dep.push(assets(dependency));
         }
@@ -67,7 +82,7 @@ class GCore {
             console.log(err);
 
         }).then(() => {
-                /** load drawerNavigation & routes & environment shortcuts **/
+                this.import_shortcuts();
                 if (!empty(env.routes)) {
                     switch (typeof env.routes) {
                         case "function":
@@ -76,9 +91,6 @@ class GCore {
                             break;
                         case "string":
                             import('/' + env.routes).then(() => {
-
-                                this.import_shortcuts();
-
                             }).catch((err) => {
                                 console.log(err);
                             }).then(() => {
@@ -97,4 +109,4 @@ class GCore {
     }
 }
 
-export default GCore
+export default Core

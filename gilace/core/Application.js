@@ -6,6 +6,9 @@ export default class Application {
     drawer_navigation = []
     routes = []
     constants = []
+    jquery = true
+    bootstrap = true
+    rtl=false
 
     constructor() {
     }
@@ -53,6 +56,21 @@ export default class Application {
         this.api_url = url;
     }
 
+    enable_jquery(status = true) {
+        this.jquery = status;
+    }
+
+    enable_bootstrap(status = true) {
+        this.bootstrap = status
+    }
+    forceRTL() {
+        this.rtl = true;
+    }
+
+    set_url(url = '') {
+        this.api_url = url;
+    }
+
     set_title(title = '', prefix = '') {
         this.title = title;
         this.title_prefix = prefix;
@@ -63,6 +81,6 @@ export default class Application {
     }
 
     registerRoutes(callback = '') {
-        this.routes =  callback;
+        this.routes = callback;
     }
 }

@@ -24,12 +24,10 @@ class routeItem {
                 return callback;
                 break;
             case "string":
-                callback = this.route_data.command == 'auto-crud' ?
-                    APPPATH + 'application/models/' + this.data().model_name + '.js' :
-                    APPPATH + 'application/controllers/'
-                    + (!empty(this.data().namespace) ?
-                    this.data().namespace + '/' : '')
-                    + this.data().command + '.js';
+                let controller_path = APPPATH + gApp.system.paths.controller;
+                let namespace = !empty(this.data().namespace) ? this.data().namespace + '/' : '';
+                let file = this.data().command;
+                callback = controller_path + '/' + namespace + (!empty(file) ? file : 'index') + '.js';
                 return callback;
         }
     }

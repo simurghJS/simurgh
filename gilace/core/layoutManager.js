@@ -1,18 +1,7 @@
 import Navigation from "./Navigation.js";
 
-class launcher {
-    constructor(app_name, tip, icon) {
-        this.app_name = app_name;
-        this.tip = tip;
-        this.icon = icon
-    }
-}
-
 class LayoutManager {
     components = []
-    launchers = []
-    launcher = launcher
-    launched_app = []
 
     constructor() {
     }
@@ -59,67 +48,6 @@ class LayoutManager {
                         ${layout}
                     </div>
                 </div>`;
-    }
-
-    get_toolbar() {
-        let toolbar = ``;
-        if (!empty(this.request.toolbar)) {
-            // should load custom toolbar
-            toolbar = this.defaultToolbar();
-        } else {
-            if (this.request.toolbar == null) {
-                toolbar = ``;
-            } else {
-                toolbar = this.defaultToolbar();
-            }
-        }
-        return toolbar;
-    }
-
-    defaultToolbar() {
-        return `<div class="card toolbar">
-    <div class="card-body d-flex justify-content-between align-items-center">
-        <h5 id="gjs-app-title">${this.request.title}</h5>
-    </div>
-</div>`
-    }
-
-
-    launch(launcher, callback) {
-        let row = this.launched_app.filter(row => {
-            return row.app_name == launcher.app_name
-        });
-        console.log(launcher);
-        if (true) {
-            console.log('launched!!!!');
-
-            $('._loader').show();
-            $('._loader p').text(APPPATH + 'modules/' + launcher.app_name + '.js');
-            import(APPPATH + 'modules/' + launcher.app_name + '.js')
-                .then(module => {
-                    module.default.set_launcher(launcher);
-                    module.default.onchange(() => {
-                        callback();
-                    });
-                    this.launched_app.push(launcher);
-                    $('._loader').hide();
-                })
-                .catch(err => {
-                    console.log(err.message, 'failed');
-                    $('._loader').hide();
-                });
-        } else {
-
-        }
-    }
-
-
-    generate_launcher_icon(launcher = {}) {
-        return ` <div class="form-group">
-        <button type="button" class="btn btn-light rounded-circle launcher" id="${launcher.app_name}_launcher" data-app="${launcher.app_name}" data-tooltip="${launcher.tip}">
-            <img style="max-width: 80%" src="${launcher.icon}">
-        </button>
-    </div>`;
     }
 
     render_html(html = ``, wrapper = '') {
@@ -172,14 +100,6 @@ class LayoutManager {
         });
     }
 
-    setAppTitle(title = '') {
-        $('#gjs-app-title').html(title);
-    }
-
-    setAppActions(action = ``) {
-        $('#gcore_app_actions').html(action);
-        this.init_cli_exec();
-    }
 }
 
 export default LayoutManager;

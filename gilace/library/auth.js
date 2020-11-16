@@ -20,9 +20,6 @@ export default class Auth {
     }
 
     authenticate(user = {}, token = null) {
-        console.log('user = >');
-        console.log(user);
-
         sessionStorage.setItem('user', user);
         if (token != null) {
             this.set_token(token);
@@ -31,7 +28,6 @@ export default class Auth {
     }
 
     user() {
-        console.log(sessionStorage.getItem('user'))
         return sessionStorage.getItem('user');
     }
 }

@@ -1,7 +1,7 @@
-import {BaseController} from '/gilace/gilace.js'
+import {Component} from '/gilace.js'
 
-class Index extends BaseController {
-    start(navigation_data = {}) {
+class Index extends Component {
+    render(navigation_data = {}) {
         return 'hello world!';
     }
 }

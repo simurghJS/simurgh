@@ -1,4 +1,4 @@
-import {Application, Router} from '/gilace/gilace.js';
+import {Application} from '/gilace.js';
 
 /*
 |--------------------------------------------------------------------------
@@ -12,11 +12,4 @@ let myApp = new Application();
 
 /** here you can customize your build **/
 
-let router = new Router();
-router.route('',()=>{
-   return 'hello world 1';
-});
-router.route('test','index');
-//myApp.registerRoutes('routes.js');
-//myApp.set_title('hello world','my app');
 export default myApp;

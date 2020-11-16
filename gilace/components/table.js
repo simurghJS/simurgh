@@ -1,6 +1,7 @@
-import Request from "../../library/request.js";
+import Request from "../library/request.js";
+import Component from "../core/Component.js";
 
-class table {
+class table extends Component {
     name = '';
     onLoadRowData_eventHandler = async () => {
     };
@@ -14,39 +15,16 @@ class table {
                             </div>`;
         return html;
     }
-    url = '';
-    empty_state = {};
-    page = 1;
-    count_per_page = 5;
-    header = null;
-    data = [];
 
 
-    constructor(args) {
-        if (args.name != undefined) {
-            this.name = args.name;
-        }
-        if (args.count_per_page != undefined) {
-            this.count_per_page = args.count_per_page;
-        }
-        if (args.loop != undefined && typeof args.loop == 'function') {
-            this.loop_items = args.loop;
-        }
-        if (args.after_load != undefined && typeof args.on_load == 'function') {
-            this.after_load = args.on_load;
-        }
-        if (args.empty_state != undefined && typeof args.empty_state == "object") {
-            this.empty_state = args.empty_state;
-        }
-        if (args.url != undefined) {
-            this.url = args.url;
-        }
-        if (args.header != undefined) {
-            this.header = args.header;
-        }
-        if (args._setLayout != undefined) {
-            this._setLayout = args._setLayout;
-        }
+    constructor(args = {}) {
+        super(args);
+        this.url = empty(args.load) ? '' : args.load;
+        this.empty_state = empty(args.empty_state) ? {} : args.empty_state;
+        this.page = empty(args.page) ? 1 : args.page;
+        this.count_per_page = empty(args.count_per_page) ? 5 : args.count_per_page;
+        this.header = empty(args.header) ? null : args.header;
+        this.data = empty(args.data) ? [] : args.data;
     }
 
     reload() {
@@ -59,7 +37,7 @@ class table {
         });
     }
 
-    async load(page, count, resolve) {
+    async load_data(page, count, resolve) {
         let self = this;
         let url = self.url;
         console.log(url);
@@ -127,7 +105,7 @@ class table {
     }
 
     render(wrapper) {
-        let res=this.load(this.page, this.count_per_page);
+        let res = this.load_data(this.page, this.count_per_page);
         console.log(res);
         return res;
     }

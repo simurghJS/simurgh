@@ -1,6 +1,6 @@
 import LayoutManager from "./layoutManager.js";
 
-class BaseController {
+class Component {
     /** property **/
     title = (!empty(global().title) ? global().title : this.constructor.name);
 
@@ -14,11 +14,12 @@ class BaseController {
     render(navigation_data = {}) {
         return null;
     }
-
     on_rendered() {
 
     }
+    async component_ready() {
 
+    }
     /** sdff **/
     async run(navigation_data) {
 
@@ -47,4 +48,4 @@ class BaseController {
     }
 }
 
-export default BaseController;
+export default Component;

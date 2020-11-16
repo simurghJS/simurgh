@@ -52,7 +52,10 @@ window.env = (name) => {
     console.log(gApp.constants);
 
     let found = Object.entries(gApp.constants).find(row => row[0] == name);
-    return found[1];
+    if (!empty(found)) {
+        return found[1];
+    }
+    return null;
 
 }
 
@@ -157,33 +160,32 @@ window.HTMLReader = class {
     }
 
     readFromFile(path = '') {
-        return fetch(APPPATH + 'application/views/' + path).then(response => response.text());
+        return fetch(APPPATH + gApp.system.paths.views + '/' + path).then(response => response.text());
     }
 
 }
 
 window.HTMLDataBinder = class {
-    exec_regex = /{{.*}}/g
-    function_regex = /.*\(.*\)/g
+    exec_regex = /{{.[^}]+}}/g
+    function_regex = /.*\(.*\)/
 
     constructor(source = '') {
         this.source = source;
     }
 
     bind(data = {}) {
-
         let exec = this.source.match(this.exec_regex);
         if (!empty(exec)) {
             for (let exec_item of exec) {
                 let extracted = this.extract_exec(exec_item);
                 let e = this.get_exec_type(extracted);
-
                 switch (e) {
                     case 'function':
-                        this.source = this.source.replace(exec_item, this.run_function(extracted));
+                        let res = this.run_function(extracted);
+                        this.source = this.source.replace(exec_item, res);
                         break;
                     default:
-                        if(!empty(data)) {
+                        if (!empty(data)) {
                             let found = Object.entries(data).find(row => row[0] == extracted.trim());
                             if (!empty(found)) {
                                 this.source = this.source.replace(exec_item, found[1]);
@@ -198,13 +200,8 @@ window.HTMLDataBinder = class {
     }
 
     run_function(e) {
-        console.log(e.indexOf(')'));
         let name = e.substr(0, e.indexOf('('));
         let argument = e.substring(e.indexOf('(') + 2, e.indexOf(')') - 1);
-
-        console.log(name);
-        console.log(argument);
-
         return window[name](argument);
     }
 
@@ -212,8 +209,6 @@ window.HTMLDataBinder = class {
         if (!empty(e)) {
             if (this.function_regex.test(e)) {
                 return "function";
-            } else {
-
             }
         }
         return null;

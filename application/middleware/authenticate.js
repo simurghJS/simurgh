@@ -1,7 +1,7 @@
-import {BaseController, Navigation} from "/gilace/gilace.js";
+import {Component, Navigation} from "/gilace.js";
 import LayoutManager from "/gilace/core/layoutManager.js";
-import Auth from "/library/auth.js";
-import Request from "/library/request.js";
+import Auth from "/gilace/library/auth.js";
+import Request from "/gilace/library/request.js";
 
 
 class Authenticate {
@@ -11,7 +11,7 @@ class Authenticate {
     }
 
     async login() {
-        let login_page = new BaseController({
+        let login_page = new Component({
             title: 'ورود به سیستم',
             layout: null
         });
@@ -50,7 +50,7 @@ class Authenticate {
 
     async run(_route = {}, next, data) {
         let user = new Auth().user();
-        console.log(user);
+        console.log('asd');
         if (empty(user)) {
             await this.login();
         } else {
