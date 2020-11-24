@@ -1,5 +1,3 @@
-import Auth from "./auth.js";
-
 export default class Request {
     constructor(url = '') {
         this.api_url = url;
@@ -14,7 +12,7 @@ export default class Request {
     }
 
     async put(data = {}) {
-        data._method='PUT';
+        data._method = 'PUT';
         return await this.send({
             data: data,
             method: 'POST'
@@ -78,14 +76,14 @@ export default class Request {
                 break;
         }
 
-        req_args.mode = 'cors';
+        // req_args.mode = 'cors';
 
-        let auth = new Auth().get_authorization();
+        // let auth = new Auth().get_authorization();
         let req_url = url;
 
-        req_args.headers = new Headers({
-            'Authorization': (!empty(auth) ? btoa(auth) : '')
-        });
+        /*  req_args.headers = new Headers({
+              'Authorization': (!empty(auth) ? btoa(auth) : '')
+          });*/
 
         console.log(req_args);
 

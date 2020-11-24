@@ -1,5 +1,5 @@
-import Request from "../library/request.js";
-import Component from "../core/Component.js";
+import Request from "../core/request.js";
+import Component from "../Component.js";
 
 class table extends Component {
     name = '';

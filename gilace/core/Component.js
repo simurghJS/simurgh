@@ -1,45 +1,56 @@
-import LayoutManager from "./layoutManager.js";
+import Response from "./Response.js";
 
-class Component {
+class Component extends Response {
     /** property **/
     title = (!empty(global().title) ? global().title : this.constructor.name);
 
     constructor(args = {}) {
+        super();
         if (typeof args == "object") {
             args && Object.assign(this, args);
         }
+        if (!empty(args.route_data) && !empty(args.route_data.layout)) {
+            this.layout = args.route_data.layout;
+        }
     }
 
-    /** functions **/
-    render(navigation_data = {}) {
-        return null;
-    }
-    on_rendered() {
 
-    }
     async component_ready() {
-
+        await this.on_rendered();
+        $('[gilace-navigate]').unbind('click');
+        $('[gilace-navigate]').click((ev) => {
+            let navigate_to = $(ev.currentTarget).attr('gilace-navigate');
+            new Router().navigate(navigate_to);
+        });
     }
+
+
     /** sdff **/
     async run(navigation_data) {
-
-        let response = await this.render(navigation_data);
-        if (!empty(response)) {
-            switch (typeof response) {
+        if (!empty(this.route_data.dependencies) && Array.isArray(this.route_data.dependencies)) {
+            await new loader().load(this.route_data.dependencies);
+        }
+        let result = await this.render(navigation_data);
+        if (!empty(result)) {
+            switch (typeof result) {
                 case "string":
-                    await new LayoutManager().render_html(response);
+                    await new Response().write(result);
                     break;
                 case "object":
-                    let html = await response.render();
+
+                    let html = await result.render();
+
                     console.log(html);
-                    await new LayoutManager().render_html(html);
+
+                    await new Response().write(html);
+
                     break;
                 default:
                     break;
             }
         }
         this.navigation_data = navigation_data;
-        this.on_rendered();
+        this.component_ready();
         $('._loader').fadeOut(500);
     }
 
@@ -48,4 +59,5 @@ class Component {
     }
 }
 
+window.Component = Component;
 export default Component;

@@ -1,8 +1,8 @@
-import {Component} from '/gilace.js'
+import HtmlView from "/gilace/components/htmlView.js";
 
 class Index extends Component {
     render(navigation_data = {}) {
-        return 'hello world!';
+        return new HtmlView('hello_world.html');
     }
 }
 
