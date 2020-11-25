@@ -1,5 +1,4 @@
 import GilaceJS from "/gilace/core/Gilace.js";
-
 /*
 |--------------------------------------------------------------------------
 | Builder
@@ -11,10 +10,20 @@ let myApp = new GilaceJS();
 
 /** initialize your instance **/
 
+myApp.registerRoutes(() => {
+
+    new Router().add('', () => {
+        return loadView('hello_world.html');
+    });
+
+});
+
+//load bootstrap rtl settings for persian layouts
 myApp.forceRTL();
 
-//myApp.enable_jquery(false); //<--- remove jquery from auto loading
-//myApp.enable_bootstrap(false); //<--- remove bootstrap from auto loading
+// comment/uncomment codes if need to remove/add libraries from/to auto loading
+//myApp.enable_jquery(false);
+//myApp.enable_bootstrap(false);
 
 /** build your application **/
 myApp.build();

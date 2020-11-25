@@ -1,4 +1,4 @@
-import '../library/Helpers.js'
+import './Dom.js'
 import Router from "./Router.js";
 import Component from "./Component.js";
 

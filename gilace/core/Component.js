@@ -27,31 +27,33 @@ class Component extends Response {
 
     /** sdff **/
     async run(navigation_data) {
-        if (!empty(this.route_data.dependencies) && Array.isArray(this.route_data.dependencies)) {
+        if (
+            !empty(this.route_data) &&
+            !empty(this.route_data.dependencies) &&
+            Array.isArray(this.route_data.dependencies)
+        ) {
             await new loader().load(this.route_data.dependencies);
         }
+
         let result = await this.render(navigation_data);
+
         if (!empty(result)) {
+            let html = ``;
             switch (typeof result) {
                 case "string":
-                    await new Response().write(result);
+                    html = result;
                     break;
                 case "object":
-
-                    let html = await result.render();
-
-                    console.log(html);
-
-                    await new Response().write(html);
-
+                    html = await result.render();
                     break;
                 default:
                     break;
             }
+            await new Response().write(html);
         }
+
         this.navigation_data = navigation_data;
         this.component_ready();
-        $('._loader').fadeOut(500);
     }
 
     forceUpdate() {

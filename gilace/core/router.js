@@ -140,14 +140,12 @@ export default class Router {
                         });
                         break;
                     case "function":
-                        import('/gilace/core/Component.js').then((module) => {
-                            let response = new module.Component({});
-                            response.start = (navigation_data = {}) => {
-                                return callback();
-                            }
-                            new Response().render_layout(response).then(() => {
-                                response.run({});
-                            });
+                        let response = new Component({});
+                        response.render = (navigation_data = {}) => {
+                            return callback();
+                        }
+                        new Response().render_layout(response).then(() => {
+                            response.run({});
                         });
                         break;
                 }

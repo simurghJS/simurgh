@@ -79,8 +79,8 @@ window.alert = (text = '', status = 'success', args, callback = null) => {
     return this;
 }
 
-window.assets = (assets) => {
-    return window.location.protocol + '//' + window.location.hostname + '/assets/' + assets
+window.resources = (path = '') => {
+    return window.location.protocol + '//' + window.location.hostname + '/resources/' + path
 }
 
 window.core_assets = (assets) => {
@@ -97,7 +97,7 @@ window.global = () => {
 
 window.loadView = (path = '', data = {}) => {
 
-    return new HTMLReader().readFromFile(path).then((html) => {
+    return new HTMLReader().readFromFile('views/' + path).then((html) => {
         return new HTMLDataBinder(html).bind(data);
     })
 
@@ -110,7 +110,7 @@ window.HTMLReader = class {
     }
 
     readFromFile(path = '') {
-        return fetch(APPPATH + gApp.system.paths.views + '/' + path).then(response => response.text());
+        return fetch(resources(path)).then(response => response.text());
     }
 
 }
