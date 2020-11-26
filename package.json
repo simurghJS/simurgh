@@ -1,10 +1,12 @@
 {
-  "name": "GilaceJS",
-  "version": "1.2.1",
+  "name": "gilaceJS",
+  "version": "1.2.2",
   "dependencies": {
     "bootstrap": "^4.5.3",
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.1",
-    "popper.js": "^1.16.1"
-  }
+    "popper.js": "^1.16.1",
+    "rainbow-code": "^2.1.7"
+  },
+  "developer": "siyamak beheshti langroudi"
 }

@@ -24,14 +24,14 @@ class Response {
     }
 
     write(html = ``, wrapper = '') {
-        console.log($("div[gilace-rel=response]").length );
-
         if (!empty(wrapper)) {
             $(wrapper).html(html);
         } else {
             if ($("div[gilace-rel=response]").length == 1) {
-                console.log(html);
                 $("div[gilace-rel=response]").html(html);
+            } else {
+                $(document.body).html(html);
+
             }
         }
     }
