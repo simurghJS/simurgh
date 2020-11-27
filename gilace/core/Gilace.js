@@ -2,13 +2,11 @@ import './Dom.js'
 import Router from "./Router.js";
 import Component from "./Component.js";
 
-const application_folder = '/application';
-
 const system = {
     paths: {
-        controller: application_folder + '/controllers',
-        middleware: application_folder + '/middleware',
-        views: application_folder + '/views'
+        controller: '/app/controllers',
+        middleware: '/app/middleware',
+        views: '/resources/views'
     }
 }
 
@@ -126,7 +124,7 @@ class Gilace {
         }
 
         for (let dependency of this.dependencies) {
-            dep.push(assets(dependency));
+            dep.push(resources(dependency));
         }
 
         /** load app constants **/

@@ -67,7 +67,7 @@ class HtmlView extends Component {
         if (!empty(this.path)) {
             this.source = await this.readFromFile(this.path);
 
-            return this.bind()
+            return this.bind(this.data);
 
         } else {
             return '';

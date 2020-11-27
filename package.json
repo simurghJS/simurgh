@@ -1,12 +1,16 @@
 {
-  "name": "gilaceJS",
+  "name": "arnahit.js",
+  "author": "siyamak beheshti langroudi",
   "version": "1.2.2",
+  "description": "js framework for creating web ui",
   "dependencies": {
     "bootstrap": "^4.5.3",
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.1",
-    "popper.js": "^1.16.1",
-    "rainbow-code": "^2.1.7"
+    "popper.js": "^1.16.1"
   },
-  "developer": "siyamak beheshti langroudi"
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/cli": "^7.12.8"
+  }
 }

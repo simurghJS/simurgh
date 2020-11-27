@@ -67,10 +67,13 @@ export default class Router {
     }
 
     find(url = '') {
+
         let find = null;
+
         /** check sys routes **/
+
         if (!empty(gApp.routes) && Array.isArray(gApp.routes))
-            find = gApp.routes.find(route_item => (route_item.route_data.name === url || route_item.route_data.url === url));
+            find = gApp.routes.find(route_item => (route_item.route_data.name === url || route_item.route_data.url.match(url)));
 
         console.log(find);
 
@@ -80,7 +83,9 @@ export default class Router {
                 command: url
             });
         }
+
         return find;
+
     }
 
     route_group(args = {}, callback = () => {

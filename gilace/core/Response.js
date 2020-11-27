@@ -44,6 +44,16 @@ class Response {
     on_rendered() {
 
     }
+
+    createElement(type, props, ...children) {
+        return {
+            type,
+            props: {
+                ...props,
+                children,
+            },
+        }
+    }
 }
 
 export default Response;
