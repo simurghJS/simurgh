@@ -116,15 +116,14 @@ window.HTMLReader = class {
 }
 
 window.HTMLDataBinder = class {
-    exec_regex = /{{.[^}]+}}/g
-    function_regex = /.*\(.*\)/
+
 
     constructor(source = '') {
         this.source = source;
     }
 
     bind(data = {}) {
-        let exec = this.source.match(this.exec_regex);
+        let exec = this.source.match( /{{.[^}]+}}/g);
         if (!empty(exec)) {
             for (let exec_item of exec) {
                 let extracted = this.extract_exec(exec_item);
@@ -157,7 +156,7 @@ window.HTMLDataBinder = class {
 
     get_exec_type(e) {
         if (!empty(e)) {
-            if (this.function_regex.test(e)) {
+            if (/.*\(.*\)/.test(e)) {
                 return "function";
             }
         }

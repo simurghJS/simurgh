@@ -10,7 +10,7 @@ const system = {
     }
 }
 
-class Gilace {
+class Arnahit {
 
     api_url = ''
     title = ''
@@ -120,7 +120,7 @@ class Gilace {
             dep.push(APPPATH + '/node_modules/font-awesome/css/font-awesome.min.css');
         }
         if (this.rtl) {
-            dep.push(APPPATH + '/gilace/src/rtl.css');
+            dep.push(APPPATH + '/arnahit/src/rtl.css');
         }
 
         for (let dependency of this.dependencies) {
@@ -179,4 +179,4 @@ class Gilace {
 
 }
 
-export default Gilace
+export default Arnahit

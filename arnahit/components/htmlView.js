@@ -2,9 +2,6 @@ import Component from "../core/component.js";
 
 class HtmlView extends Component {
 
-    exec_regex = /{{.[^}]+}}/g
-    function_regex = /.*\(.*\)/
-
     constructor(path = '', data = {}) {
         super();
         this.path = path;
@@ -16,7 +13,7 @@ class HtmlView extends Component {
     }
 
     bind(data = {}) {
-        let exec = this.source.match(this.exec_regex);
+        let exec = this.source.match(/{{.[^}]+}}/g);
         if (!empty(exec)) {
             for (let exec_item of exec) {
                 let extracted = this.extract_exec(exec_item);
@@ -49,7 +46,7 @@ class HtmlView extends Component {
 
     get_exec_type(e) {
         if (!empty(e)) {
-            if (this.function_regex.test(e)) {
+            if (/.*\(.*\)/.test(e)) {
                 return "function";
             }
         }

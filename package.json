@@ -11,6 +11,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@babel/cli": "^7.12.8"
+    "@babel/cli": "^7.12.8",
+    "@babel/plugin-syntax-class-properties": "^7.12.1"
+  },
+  "scripts": {
+    "build": "rm -rf output && mkdir output && npx babel ./*.* --out-dir output --copy-files && npx babel arnahit/ --out-dir output/arnahit --copy-files &&  npx babel resources/ --out-dir output/resources --copy-files && cd output && npm install"
   }
 }

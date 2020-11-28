@@ -2,8 +2,10 @@ import Request from "../core/request.js";
 import Component from "../Component.js";
 
 class table extends Component {
-    name = '';
-    onLoadRowData_eventHandler = async () => {
+
+    name = ''
+
+    onLoadRowData_eventHandler = () => {
     };
     onLoadData_eventHandler = () => {
     };

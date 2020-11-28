@@ -1,4 +1,4 @@
-import GilaceJS from "/gilace/core/Gilace.js";
+import Arnahit from "/arnahit/core/Arnahit.js";
 /*
 |--------------------------------------------------------------------------
 | Builder
@@ -6,7 +6,7 @@ import GilaceJS from "/gilace/core/Gilace.js";
 |  define your application instance of GilaceJS
 |
 */
-let myApp = new GilaceJS();
+let myApp = new Arnahit();
 
 /** initialize your instance **/
 
