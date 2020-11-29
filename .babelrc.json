@@ -1,5 +1,16 @@
 {
   "plugins": [
     "@babel/plugin-syntax-class-properties"
+  ],
+  "presets": [
+    [
+      "@babel/preset-react",
+      {
+        "pragma": "Arnahit.createElement",
+        "pragmaFrag": "DomFrag",
+        "throwIfNamespace": false,
+        "runtime": "classic"
+      }
+    ]
   ]
 }
