@@ -1,7 +1,7 @@
 {
   "name": "arnahit.js",
   "author": "siyamak beheshti langroudi",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "js framework for creating web ui",
   "dependencies": {
     "bootstrap": "^4.5.3",
@@ -12,9 +12,11 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/cli": "^7.12.8",
-    "@babel/plugin-syntax-class-properties": "^7.12.1"
+    "@babel/plugin-syntax-class-properties": "^7.12.1",
+    "@babel/plugin-syntax-jsx": "^7.12.1",
+    "@babel/preset-react": "^7.12.7"
   },
   "scripts": {
-    "build": "rm -rf output && mkdir output && npx babel ./*.* --out-dir output --copy-files && npx babel arnahit/ --out-dir output/arnahit --copy-files &&  npx babel resources/ --out-dir output/resources --copy-files && cd output && npm install"
+    "build": "rm -rf output && mkdir output && npx babel ./*.* --out-dir output --copy-files && npx babel ./app --out-dir output/app --copy-files && npx babel arnahit/ --out-dir output/arnahit --copy-files &&  npx babel resources/ --out-dir output/resources --copy-files && cd output && npm install"
   }
 }

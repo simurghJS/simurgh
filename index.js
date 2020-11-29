@@ -1,4 +1,5 @@
 import Arnahit from "/arnahit/core/Arnahit.js";
+
 /*
 |--------------------------------------------------------------------------
 | Builder
@@ -7,14 +8,12 @@ import Arnahit from "/arnahit/core/Arnahit.js";
 |
 */
 let myApp = new Arnahit();
-
+window.Arnahit = myApp;
 /** initialize your instance **/
 
 myApp.registerRoutes(() => {
 
-    new Router().add('', () => {
-        return loadView('hello_world.html');
-    });
+    new Router().add('', 'index');
 
 });
 

@@ -50,7 +50,17 @@ class Response {
             type,
             props: {
                 ...props,
-                children,
+                children: children.map(child =>
+                    typeof child === "object"
+                        ? child
+                        : {
+                            type: "Text",
+                            props: {
+                                nodeValue: child,
+                                children: [],
+                            },
+                        }
+                ),
             },
         }
     }

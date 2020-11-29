@@ -37,6 +37,10 @@ class Component extends Response {
 
         let result = await this.render(navigation_data);
 
+        console.log('render result =>');
+        console.log(result);
+        console.log(typeof result);
+
         if (!empty(result)) {
             let html = ``;
             switch (typeof result) {
@@ -44,7 +48,19 @@ class Component extends Response {
                     html = result;
                     break;
                 case "object":
-                    html = await result.render();
+                    if (result == Component || result.prototype instanceof Component) {
+                        html = await result.render();
+                    } else {
+                        console.log(result.props);
+                        console.log(result.props);
+                        let obj =new (result.type)();
+                        console.log(obj);
+                        for (let [key, value] of Object.entries(result.props)) {
+                            obj[key] = value;
+                        }
+                        html = await obj.render();
+                        console.log(html);
+                    }
                     break;
                 default:
                     break;

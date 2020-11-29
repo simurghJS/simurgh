@@ -1,7 +1,6 @@
 import Component from "../core/component.js";
 
 class HtmlView extends Component {
-
     constructor(path = '', data = {}) {
         super();
         this.path = path;
@@ -9,27 +8,32 @@ class HtmlView extends Component {
     }
 
     readFromFile(path = '') {
-        return fetch(APPPATH + gApp.system.paths.views + '/' + path).then(response => response.text());
+        return fetch(path).then(response => response.text());
     }
 
     bind(data = {}) {
         let exec = this.source.match(/{{.[^}]+}}/g);
+
         if (!empty(exec)) {
             for (let exec_item of exec) {
                 let extracted = this.extract_exec(exec_item);
                 let e = this.get_exec_type(extracted);
+
                 switch (e) {
                     case 'function':
                         let res = this.run_function(extracted);
                         this.source = this.source.replace(exec_item, res);
                         break;
+
                     default:
                         if (!empty(data)) {
                             let found = Object.entries(data).find(row => row[0] == extracted.trim());
+
                             if (!empty(found)) {
                                 this.source = this.source.replace(exec_item, found[1]);
                             }
                         }
+
                         break;
                 }
             }
@@ -50,6 +54,7 @@ class HtmlView extends Component {
                 return "function";
             }
         }
+
         return null;
     }
 
@@ -57,15 +62,17 @@ class HtmlView extends Component {
         if (!empty(exec)) {
             return exec.substr(2, exec.length - 4);
         }
+
         return null;
     }
 
     async render(navigation_data = {}) {
-        if (!empty(this.path)) {
-            this.source = await this.readFromFile(this.path);
 
+        let _path = APPPATH + gApp.system.paths.views + '/' + (!empty(this.src) ? this.src : this.path);
+
+        if (!empty(_path)) {
+            this.source = await this.readFromFile(_path);
             return this.bind(this.data);
-
         } else {
             return '';
         }
