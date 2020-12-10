@@ -9,7 +9,7 @@ import {Arnahit} from "/core/Arnahit.js";
 */
 let myApp = new Arnahit();
 
-myApp.define('version','0.5.5');
+myApp.define('version','0.6.4');
 
 /** initialize your instance **/
 myApp.registerRoutes(() => {
