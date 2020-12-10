@@ -1,8 +1,11 @@
 {
   "name": "arnahit.js",
-  "author": "siyamak beheshti langroudi",
-  "version": "1.2.3",
-  "description": "js framework for creating web ui",
+  "app-name": "arnahitJS",
+  "project-name": "arnahitJS",
+  "author": "arnahit-co",
+  "version": "0.6.4",
+  "icon": "./assets/icon/icon.png",
+  "description": "ES6 JS Framework For Creating Cross Platform Applications [based on jquery & bootstrap]",
   "dependencies": {
     "bootstrap": "^4.5.3",
     "font-awesome": "^4.7.0",
@@ -10,13 +13,14 @@
     "popper.js": "^1.16.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9",
     "@babel/cli": "^7.12.8",
+    "@babel/core": "^7.12.9",
     "@babel/plugin-syntax-class-properties": "^7.12.1",
     "@babel/plugin-syntax-jsx": "^7.12.1",
     "@babel/preset-react": "^7.12.7"
   },
   "scripts": {
-    "build": "rm -rf output && mkdir output && npx babel ./*.* --out-dir output --copy-files && npx babel ./app --out-dir output/app --copy-files && npx babel arnahit/ --out-dir output/arnahit --copy-files &&  npx babel resources/ --out-dir output/resources --copy-files && cd output && npm install"
+    "build-web": "rm -rf dist && mkdir dist dist/web && npx babel ./*.* --out-dir dist/web --copy-files && npx babel ./app --out-dir dist/web/app --copy-files && npx babel core/ --out-dir dist/web/core --copy-files &&  npx babel resources/ --out-dir dist/web/resources --copy-files && cd dist/web && npm install",
+    "build-android": "echo build web application && npm run build-web && mkdir dist/android && cd dist/web && echo copying files... && cp -r * ../android"
   }
 }

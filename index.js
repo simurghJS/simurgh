@@ -1,4 +1,4 @@
-import Arnahit from "/arnahit/core/Arnahit.js";
+import {Arnahit} from "/core/Arnahit.js";
 
 /*
 |--------------------------------------------------------------------------
@@ -8,14 +8,37 @@ import Arnahit from "/arnahit/core/Arnahit.js";
 |
 */
 let myApp = new Arnahit();
-window.Arnahit = myApp;
+
+myApp.define('version','0.5.5');
+
 /** initialize your instance **/
-
 myApp.registerRoutes(() => {
+    let router = new Router();
+    router.add('', 'index');
+    router.route_group({
+        namespace: 'docs',
+        layout: 'layout/base.html',
+        dependencies: [
+            resources('css/prism.css'),
+            resources('js/prism.js')
+        ]
+    }, () => {
 
-    new Router().add('', 'index');
+        router.add('docs', 'index');
+        router.add('docs/api', 'api');
+        router.add('docs/configuration', 'configuration');
+        router.add('docs/folders', 'folders');
+        router.add('docs/helpers', 'helpers');
+        router.add('docs/navigation', 'navigation');
+        router.add('docs/routing', 'routing');
+        router.add('docs/new_page', 'new_page');
 
+    })
 });
+
+myApp.registerDependencies([
+    'css/app.css'
+]);
 
 //load bootstrap rtl settings for persian layouts
 myApp.forceRTL();
@@ -26,3 +49,4 @@ myApp.forceRTL();
 
 /** build your application **/
 myApp.build();
+

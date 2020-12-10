@@ -1,0 +1,123 @@
+<div class="card border-0 p-5">
+    <div class="card-title">
+        <div class="">
+            <h1 class="text-primary">روتینگ</h1>
+            <div class="p-3">
+                Quick_start.JS
+                به صورت پیش فرض route ها را شناسایی میکند, برای اینکار میبایست url بعد از
+                <span dir="ltr" class="text-left">/#!/</span>
+                به فایلی موجود در پوشه controller اشاره کند, در غیر این صورت باید یک  route تعریف کنید.
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="mb-5">
+            <h3>تعریف route جدید</h3>
+            <div class="p-3">
+                 <p>برای کار با route ها نیاز به کلاس Router دارید. یک route آدرس بعد از
+                <span dir="ltr" class="text-left">/#!/</span>
+                در url سایت را از طریق یک callback نمایش میدهد. این callback یا میتواند یک تابع باشد تا مستقیما پاسخ دهد
+                و یا مسیر یک component در پوشه controllers ها باشد. پس از تعریف route (میتواند در فایل app.js یا فایلی
+                جداگانه باشد) تابع navigate به شما کمک میکند تا بین route ها سوئیچ کنید.
+            </p>
+            </div>
+        </div>
+        <div class="card mb-5">
+            <div class="card-header">تعریف route ها در فایل settings/routes.js</div>
+            <div class="card-body">
+                        <pre style="direction: ltr;text-align: left">
+                            <code class="language-js">
+                                // in app.js
+
+                                //in setting/routes.js
+                                import {Router} from '/quick_start.js';
+
+                                let router = new Router();
+
+                                //render component in [controllers_directory]/path/to/file1.js
+                                //use Navigation as :
+                                // new Navigation().navigate('url1')
+                                // new Navigation().navigate('path/to/file1')
+                                router.add('url1' , 'path/to/file1');
+
+                                //return html for url2
+                                //use Navigation as :
+                                // new Navigation().navigate('url2')
+                                router.add('url2' , ()=>{
+                                    return 'hello world'
+                                });
+
+                                //naming a route for using in navigate
+                                //use Navigation as :
+                                // new Navigation().navigate('route3')
+                                router.add('some/part/of/url3' , 'path/to/file3').name('route3');
+                            </code>
+                        </pre>
+            </div>
+
+        </div>
+        <div class="mb-5">
+            <h3>گروه بندی route ها</h3>
+            <div class="p-3">
+                 <p>
+                برخی از پارامتر های مشترک بین route ها را با استفاده از route_group میتوان مدیریت کرد این پارامتر ها
+                عبارتند از
+            </p>
+                <ul class="list-group list-inline">
+                    <li>
+                        <h5>namespace</h5>
+                        <p>
+                            تمام فایل های موجود در مسیر
+                            <span dir="ltr">
+                                [controllers_directory]/path/to
+                            </span>
+
+                              را به صورت زیر میتوان به route ها اضافه کرد
+                        </p>
+                        <div class="card">
+                            <div class="card-body">
+                                <pre style="direction: ltr;text-align: left">
+                            <code class="language-js">
+                                router.route_group({namespace: '/path/to'}, () => {
+
+                                    router.add('url1', 'file1');
+                                    router.add('url2', 'file2');
+                                    router.add('url3', 'file3');
+                                    router.add('url4', 'file4');
+                                    router.add('url5', 'file5');
+
+
+                                });
+                            </code>
+                        </pre>
+                            </div>
+                        </div>
+
+                    </li>
+
+                    <li>
+                        <h5>middleware</h5>
+                        <p>
+                            middleware
+                            ها قبل از اجرای route اجرا می شوند و میتواند اجرای route را عوض کنند
+                        </p>
+                        <div class="card">
+                            <div class="card-body">
+                                <pre style="direction: ltr;text-align: left">
+                            <code class="language-js">
+                                router.route_group({middleware: 'authenticate'}, () => {
+
+                                    router.add('url', 'path/to/file');
+
+                                });
+                            </code>
+                        </pre>
+                            </div>
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

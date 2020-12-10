@@ -1,0 +1,151 @@
+<div class="card border-0 p-5">
+    <div class="card-title">
+        <div class="">
+            <h1 class="text-primary">پیکره بندی</h1>
+            <div class="p-3">
+                <p>gilacejs
+                    در زمان شروع به کار, یک نسخه از اپلیکیشن با تنظیماتی که در فایل app.js نوشته اید (شامل نام
+                    اپلیکیشن, آدرس api و ...) ایجاد می کند و تا پایان کار به عنوان مرجع از آن استفاده خواهد کرد.در این
+                    بخش کار با فایل app.js را یاد میگیرید</p>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="mb-5">
+            <h3>نحوه عملکرد app.js</h3>
+            <div class="p-3">
+                <p>در این قسمت شما شیئ از کلاس  application موجود در مسیر /gilace/quick_start.js میسازید. تمام تنظیمات مربوط
+                    به اپلیکیشن شما از طریق توابع شیئ تعریف شده قابل تغیر است.در عمل به صورت پیش فرض این عملیات نوشته
+                    شده است و شما تنها میبایست با توابع آشنا شوید</p>
+            </div>
+        </div>
+        <div class="mb-5">
+            <h3>define(name, value)</h3>
+            <div class="p-3">
+                <p>
+                    به کمک تابع define شما میتوانید constant های اپلیکیشن خود را تعریف نمایید (همانند آدرس سرور  api ،
+                    نام اپلیکیشن و ...). تابع env در controller ها یا فایل های html مقادیر ثابت ها را به شما میدهد.
+                </p>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                        <pre style="direction: ltr;text-align: left">
+                            <code class="language-js">
+                                // in app.js
+
+                                let myApp = new Application();
+
+                                myApp.define('api_url','http://example.com');
+                                myApp.define('app_name','example site');
+
+                                // in controllers
+
+                                console.log(api_url+'/user/get');
+                                console.log( env('api_url') + '/user/get' );
+
+                                //in html file
+
+                                <h3>{{env('app_name')}}</h3>
+
+                                //logs
+
+                                //http://example.com/user/get
+                                //http://example.com/user/get
+                                //<h3>example site</h3>
+                            </code>
+                        </pre>
+                </div>
+            </div>
+        </div>
+        <div class="mb-5">
+            <h3>registerLayout(path)</h3>
+            <div class="p-3">
+              <p>درصورتی که میخواهید یه قالب را برای render های خود به صورت global تعریف نمایید، میتوانید از تابع registerLayout استفاده کنید.</p>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                        <pre style="direction: ltr;text-align: left">
+                            <code class="language-js">
+                                // in app.js
+
+                                let myApp = new Application();
+
+                                myApp.registerLayout('path/to/my_layout.html');
+                            </code>
+                        </pre>
+                </div>
+            </div>
+        </div>
+        <div class="mb-5">
+            <h3>registerDependencies(deps_array)</h3>
+            <div class="p-3">
+                <p>پوشه assets محل قرارگیری تمام فایل های css ,عکس ها و ... که در طراحی ui استفاده میکنید میباشد. در
+                    صورتی که می خواهید این فایل ها را به صورت global بارگزاری کنید میبایست از registerDependencies
+                    استفاده کنید.</p>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                        <pre style="direction: ltr;text-align: left">
+                            <code class="language-js">
+                                // in app.js
+
+                                let myApp = new Application();
+
+                                myApp.registerDependencies(['css/app.css']);
+                            </code>
+                        </pre>
+                </div>
+            </div>
+        </div>
+        <div class="mb-5">
+            <h3>registerRoutes(path_to_route)</h3>
+            <div class="p-3">
+                <p>برای تعریف route ها شما یا میتوانید مستقیما در فایل app.js آنها را بنویسید و یا آدرس فایل حاوی route ها را ثبت نمایید</p>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                        <pre style="direction: ltr;text-align: left">
+                            <code class="language-js">
+                                // in app.js
+
+                                let myApp = new Application();
+
+                                myApp.registerRoutes(()=>{
+                                    let router = new Router();
+                                    router.route('', 'index');
+                                });
+
+                                //or register routes as a file
+                                 myApp.registerRoutes('path/to/my_routes_file.js');
+                            </code>
+                        </pre>
+                </div>
+            </div>
+        </div>
+        <div class="mb-5">
+            <h3>registerDrawerNavigation(navs_object)</h3>
+            <div class="p-3">
+                <p>برای ایجاد sidebar با امکانات پایه از registerDrawerNavigation استفاده نمایید.</p>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-body">
+                        <pre style="direction: ltr;text-align: left">
+                            <code class="language-js">
+                                // in app.js
+                                let myApp = new Application();
+
+                                myApp.registerDrawerNavigation({
+                                    'menu 1 title' : 'route_name_1',
+                                    'menu 2 title' : {
+                                        'submenu 1 title' : 'route_name_2'
+                                        'submenu 2 title' : 'route_name_3'
+                                    }
+                                });
+                            </code>
+                        </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
