@@ -1,3 +1,10 @@
+/*
+|--------------------------------------------------------------------------
+| Cards
+|--------------------------------------------------------------------------
+| ...
+|
+*/
 class Card extends Component {
     props = {
         ...parent.props,
@@ -22,6 +29,7 @@ class CardBody extends Component {
         return card_body;
     }
 }
+
 class CardHeader extends Component {
     async render(navigation_data = {}) {
         let card_body = document.createElement(this.tagName);
@@ -30,6 +38,7 @@ class CardHeader extends Component {
         return card_body;
     }
 }
+
 export {
     Card,
     CardBody

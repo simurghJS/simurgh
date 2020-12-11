@@ -1,4 +1,5 @@
 import {Arnahit} from "/core/Arnahit.js";
+import Sidebar from "/app/inc/sidebar.js"
 
 /*
 |--------------------------------------------------------------------------
@@ -9,7 +10,7 @@ import {Arnahit} from "/core/Arnahit.js";
 */
 let myApp = new Arnahit();
 
-myApp.define('version','0.6.4');
+myApp.define('version', '0.6.5');
 
 /** initialize your instance **/
 myApp.registerRoutes(() => {
@@ -23,18 +24,10 @@ myApp.registerRoutes(() => {
             resources('js/prism.js')
         ]
     }, () => {
-
-        router.add('docs', 'index');
-        router.add('docs/api', 'api');
-        router.add('docs/configuration', 'configuration');
-        router.add('docs/folders', 'folders');
-        router.add('docs/helpers', 'helpers');
-        router.add('docs/navigation', 'navigation');
-        router.add('docs/routing', 'routing');
-        router.add('docs/new_page', 'new_page');
-
+        router.add('docs/quick_start', 'quick_start');
     })
 });
+myApp.registerDrawerNavigation(Sidebar);
 
 myApp.registerDependencies([
     'css/app.css'

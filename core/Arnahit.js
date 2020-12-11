@@ -21,7 +21,7 @@ class Arnahit {
     title = '';
     title_prefix = '';
     dependencies = [];
-    drawer_navigation = [];
+    drawer_navigation = Component;
     routes = [];
     constants = [];
     jquery = true;
@@ -35,31 +35,8 @@ class Arnahit {
         this.constants[name] = value;
     }
 
-    registerDrawerNavigation(navs = []) {
-        Object.entries(navs).map(nav => {
-            switch (typeof nav[1]) {
-                case "string":
-                    this.drawer_navigation.push({
-                        name: nav[0],
-                        action: nav[1]
-                    });
-                    break;
-
-                case "object":
-                    let child = [];
-                    Object.entries(nav[1]).map(nv => {
-                        child.push({
-                            name: nv[0],
-                            action: nv[1]
-                        });
-                    });
-                    this.drawer_navigation.push({
-                        name: nav[0],
-                        childs: child
-                    });
-                    break;
-            }
-        });
+    registerDrawerNavigation(navigation = {}) {
+        this.drawer_navigation = navigation;
     }
 
     registerDependencies(deps = []) {
@@ -180,11 +157,12 @@ class Arnahit {
                 this.run();
             }
 
-            window.Arnahit = this;
+
         });
     }
 
     run() {
+        window.Arnahit = this;
         let url = window.location.hash.replace('#!/', '');
         new Router().navigate(url);
     }
@@ -223,6 +201,9 @@ class Arnahit {
         if (!empty(result)) {
             let html = {};
             html = await this.render(result, args);
+
+            console.log(args);
+
             await new Response().write(html);
             if (args.component_ready.length > 0) {
                 args.component_ready.forEach((callback => {
@@ -282,24 +263,40 @@ class Response {
     }
 
     async render_layout(app = {}) {
-        this.request = app;
         let html = '';
         let layout = typeof app.layout == "undefined" ? empty(global().layout) ? '' : global().layout : app.layout;
 
-        if (!empty(layout)) {
-            let HtmlView = (await import('./components/htmlView.js')).default;
-            html = await new HtmlView(layout).render();
-        }
+        console.log(layout);
 
+        if (!empty(layout)) {
+            let html_view = new (await import('./components.js')).HtmlView();
+            html_view.props.src = layout;
+            html = await html_view.render();
+            console.log(html);
+        }else {
+            document.body.innerHTML = "";
+        }
+        let args = {component_ready: []}
         document.title = app.title;
         let drawer_wrapper = $(html).find("div[gilace-rel=drawer_navigation]");
-
-        if (!empty(drawer_wrapper.toArray())) {
-            let DrawerNavigation = (await import("./components/drawerNavigation.js")).default;
-            html = new DrawerNavigation().createDrawerNavigation(html);
+        console.log(!empty(drawer_wrapper.toArray()) && !empty(gApp.drawer_navigation));
+        if (!empty(drawer_wrapper.toArray()) && !empty(gApp.drawer_navigation)) {
+            let temp = $(html);
+            let _drw=new gApp.drawer_navigation();
+            _drw.parse(args);
+            let drw = await new Arnahit().render(await _drw.render(), args);
+            $(temp).find("div[gilace-rel=drawer_navigation]").html(drw);
+            html = temp;
         }
 
+        console.log(html);
+        document.body.innerHTML = "";
         this.write(html);
+        if (args.component_ready.length > 0) {
+            args.component_ready.forEach((callback => {
+                callback();
+            }))
+        }
     }
 
     write(html = ``, wrapper = '') {
@@ -617,7 +614,7 @@ class Router {
                         /** load controller **/
                         import(callback).then(module => {
                             let args = {
-                                route_data: _route,
+                                ..._route,
                                 navigation_data: data,
                             }
                             let controller = new module.default().parse(args);

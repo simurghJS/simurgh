@@ -1,5 +1,4 @@
-import {Cell, View, Button} from "/core/components/grid.js";
-import {Card, CardBody} from "/core/components/card.js";
+import {Card, CardBody, Cell, View, Button} from "/core/components.js";
 
 class Index extends Component {
     render(navigation_data = {}) {
@@ -23,7 +22,7 @@ class Index extends Component {
                                         <h6 style={{color: '#fdbb2d'}}>آشنایی با آرناهیت</h6>
                                         <p>این اپلیکیشن شامل مستندی کوتاه است. برای آشنایی بیشتر کلیک کنید</p>
                                         <Button className={"btn btn-outline-light"} onPress={() => {
-                                            console.log('document button pressed');
+                                            new Router().navigate('docs/quick_start');
                                         }}>
                                             شروع آموزش
                                         </Button>
@@ -36,7 +35,7 @@ class Index extends Component {
                                             {env('version')}
                                             به سر می برد.برای دانلود کلیک نمایید
                                         </p>
-                                        <Button className={"btn btn-outline-light"} onPress={()=>{
+                                        <Button className={"btn btn-outline-light"} onPress={() => {
                                             console.log('download button pressed');
                                         }}>
                                             دانلود نسخه {env('version')}
@@ -50,6 +49,7 @@ class Index extends Component {
             </View>
         )
     }
+
     on_rendered() {
         console.log('component rendered');
     }

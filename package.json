@@ -3,7 +3,7 @@
   "app-name": "arnahitJS",
   "project-name": "arnahitJS",
   "author": "arnahit-co",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "icon": "./assets/icon/icon.png",
   "description": "ES6 JS Framework For Creating Cross Platform Applications [based on jquery & bootstrap]",
   "dependencies": {
@@ -20,7 +20,15 @@
     "@babel/preset-react": "^7.12.7"
   },
   "scripts": {
-    "build-web": "rm -rf dist && mkdir dist dist/web && npx babel ./*.* --out-dir dist/web --copy-files && npx babel ./app --out-dir dist/web/app --copy-files && npx babel core/ --out-dir dist/web/core --copy-files &&  npx babel resources/ --out-dir dist/web/resources --copy-files && cd dist/web && npm install",
-    "build-android": "echo build web application && npm run build-web && mkdir dist/android && cd dist/web && echo copying files... && cp -r * ../android"
+    "build-android": "echo build web application && npm run build-web && mkdir dist/android && cd dist/web && echo copying files... && cp -r * ../android",
+    "build-web": "npm run web-start && npm run web-copy_main && npm run web-build-core  && npx babel ./app --out-dir dist/web/app --copy-files &&  npx babel resources/ --out-dir dist/web/resources --copy-files && cd dist/web && npm install",
+    "web-start": "rm -rf dist && mkdir dist dist/web",
+    "web-build-core": "npm run web-build-core-arnahit && npm run web-build-core-dom && npm run web-build-core-components && npm run web-build-core-libraries && npm run web-build-core-src",
+    "web-build-core-arnahit": "npx babel core/arnahit.js --out-file dist/web/core/arnahit.js",
+    "web-build-core-dom": "npx babel core/dom.js --out-file dist/web/core/dom.js",
+    "web-build-core-components": "npx babel core/components --out-file dist/web/core/components.js",
+    "web-build-core-libraries": "npx babel core/library --out-dir dist/web/core/library  --copy-files",
+    "web-build-core-src": "npx babel core/src --out-dir dist/web/core/src --copy-files",
+    "web-copy_main": "npx babel ./*.* --out-dir dist/web --copy-files"
   }
 }
