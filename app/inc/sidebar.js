@@ -9,19 +9,19 @@ class Sidebar extends Component {
                     <Navigate>خانه</Navigate>
                 </ListItem>
                 <ListItem>
-                    <Navigate route={'docs/quick_start'}>شروع سریع</Navigate>
+                    <Navigate route={'docs'} data={{file: 'quick_start.html'}}>شروع سریع</Navigate>
                 </ListItem>
                 <ListItem>
-                    <Navigate>پیکره بندی</Navigate>
+                    <Navigate route={'docs'} data={{file: 'configuration.html'}}>پیکره بندی</Navigate>
                 </ListItem>
                 <ListItem>
-                    <Navigate>روتینگ</Navigate>
+                    <Navigate route={'docs'}  data={{file: 'routing.html'}}>روتینگ</Navigate>
                 </ListItem>
                 <ListItem>
-                    <Navigate>ایجاد صفحه جدید</Navigate>
+                    <Navigate route={'docs'}  data={{file: 'new_page.html'}}>ایجاد صفحه جدید</Navigate>
                 </ListItem>
                 <ListItem>
-                    <Navigate>سوئیچ بین صفحات</Navigate>
+                    <Navigate route={'docs'}  data={{file: 'navigation.html'}}>سوئیچ بین صفحات</Navigate>
                 </ListItem>
                 <ListItem>
                     <p>
@@ -34,10 +34,10 @@ class Sidebar extends Component {
                     <div className={"collapse"} id="helpers">
                         <ListView listStyle={ListView.style.FLUSH}>
                             <ListItem>
-                                <Navigate>کار با api</Navigate>
+                                <Navigate route={'docs'}  data={{file: 'api.html'}}>کار با api</Navigate>
                             </ListItem>
                             <ListItem>
-                                <Navigate>helpers</Navigate>
+                                <Navigate route={'docs'}  data={{file: 'helpers.html'}}>helpers</Navigate>
                             </ListItem>
                         </ListView>
                     </div>

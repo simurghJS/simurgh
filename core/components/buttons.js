@@ -41,7 +41,8 @@ class Navigate extends Component {
 
     props = {
         ...parent.props,
-        route:''
+        route:'',
+        data:{}
     }
 
     async render(navigation_data = {}) {
@@ -59,7 +60,7 @@ class Navigate extends Component {
     on_rendered() {
         let self = this;
         $("#" + self.name).click(() => {
-            new Router().navigate(self.props.route)
+            new Router().navigate(self.props.route,self.props.data)
         })
     }
 

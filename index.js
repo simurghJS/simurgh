@@ -14,18 +14,19 @@ myApp.define('version', '0.6.5');
 
 /** initialize your instance **/
 myApp.registerRoutes(() => {
+
     let router = new Router();
+
     router.add('', 'index');
-    router.route_group({
-        namespace: 'docs',
+
+    router.add('docs/(?file)', 'docs', {
         layout: 'layout/base.html',
         dependencies: [
             resources('css/prism.css'),
             resources('js/prism.js')
         ]
-    }, () => {
-        router.add('docs/quick_start', 'quick_start');
-    })
+    }).name('docs');
+
 });
 myApp.registerDrawerNavigation(Sidebar);
 

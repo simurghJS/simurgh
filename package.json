@@ -3,7 +3,7 @@
   "app-name": "arnahitJS",
   "project-name": "arnahitJS",
   "author": "arnahit-co",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "icon": "./assets/icon/icon.png",
   "description": "ES6 JS Framework For Creating Cross Platform Applications [based on jquery & bootstrap]",
   "dependencies": {

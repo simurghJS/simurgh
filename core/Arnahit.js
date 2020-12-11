@@ -195,26 +195,18 @@ class Arnahit {
         if (!empty(args.route_data) && !empty(args.route_data.dependencies) && Array.isArray(args.route_data.dependencies)) {
             await new loader().load(args.route_data.dependencies);
         }
-
+        await args.controller.component_did_mount(args);
         let result = await args.controller.render(args);
 
         if (!empty(result)) {
             let html = {};
             html = await this.render(result, args);
-
-            console.log(args);
-
             await new Response().write(html);
             if (args.component_ready.length > 0) {
                 args.component_ready.forEach((callback => {
                     callback();
                 }))
             }
-            $('[gilace-navigate]').unbind('click');
-            $('[gilace-navigate]').click(ev => {
-                let navigate_to = $(ev.currentTarget).attr('gilace-navigate');
-                new Router().navigate(navigate_to);
-            });
             this.navigation_data = args;
         }
     }
@@ -244,6 +236,7 @@ class Arnahit {
                 if (!empty(obj.type.constructor) && !(obj.type.constructor.prototype instanceof Component)) {
                     _obj = new obj.type().parse(args);
                 }
+                await _obj.component_did_mount(args);
                 _obj.props = obj.props;
                 html = await _obj.render(args);
             } else {
@@ -265,31 +258,24 @@ class Response {
     async render_layout(app = {}) {
         let html = '';
         let layout = typeof app.layout == "undefined" ? empty(global().layout) ? '' : global().layout : app.layout;
-
-        console.log(layout);
-
         if (!empty(layout)) {
             let html_view = new (await import('./components.js')).HtmlView();
             html_view.props.src = layout;
             html = await html_view.render();
-            console.log(html);
-        }else {
+        } else {
             document.body.innerHTML = "";
         }
         let args = {component_ready: []}
         document.title = app.title;
         let drawer_wrapper = $(html).find("div[gilace-rel=drawer_navigation]");
-        console.log(!empty(drawer_wrapper.toArray()) && !empty(gApp.drawer_navigation));
         if (!empty(drawer_wrapper.toArray()) && !empty(gApp.drawer_navigation)) {
             let temp = $(html);
-            let _drw=new gApp.drawer_navigation();
+            let _drw = new gApp.drawer_navigation();
             _drw.parse(args);
             let drw = await new Arnahit().render(await _drw.render(), args);
             $(temp).find("div[gilace-rel=drawer_navigation]").html(drw);
             html = temp;
         }
-
-        console.log(html);
         document.body.innerHTML = "";
         this.write(html);
         if (args.component_ready.length > 0) {
@@ -455,8 +441,12 @@ class RouteItem {
         return this.route_data;
     }
 
-    url() {
-        return empty(this.route_data.url) ? '/#!/' : '/#!/' + this.route_data.url;
+    url(data) {
+        let url = empty(this.route_data.url) ? '/#!/' : '/#!/' + this.route_data.url;
+        for (const [key, value] of Object.entries(data.navigation_data)) {
+            url = url.replace('(?' + key.toString() + ')', value.toString());
+        }
+        return url;
     }
 
     name(name = '') {
@@ -620,7 +610,6 @@ class Router {
                             let controller = new module.default().parse(args);
                             args.controller = controller;
                             new Response().render_layout(controller).then(() => {
-
                                 resolve(args);
                             }).catch(err => {
                                 reject(err);
@@ -647,7 +636,7 @@ class Router {
                 history.pushState({
                     id: Math.random(),
                     command: _route.json()
-                }, new_title, _route.url());
+                }, new_title, _route.url(args));
                 localStorage.setItem('current_stack', _route.json());
             }).catch(err => {
                 /** log error **/
@@ -693,8 +682,10 @@ class Component extends Response {
         style: {},
         className: ''
     }
+    state = {}
 
     parse(args = {}) {
+
         if (typeof args == "object") {
             args && Object.assign(this, args);
             if (!empty(args.route_data) && !empty(args.route_data.layout)) {
@@ -715,6 +706,13 @@ class Component extends Response {
 
     }
 
+    async component_did_mount(navigation_data) {
+    }
+
+    setState(data = {}) {
+        this.state = data;
+    }
+
     async render(navigation_data) {
         let element = document.createElement(this.tagName);
         element = this.render_props(element, navigation_data);
@@ -727,6 +725,7 @@ class Component extends Response {
                 case 'children':
                     for (let child of value) {
                         let obj = new child.type().parse(navigation_data);
+                        await obj.component_did_mount(navigation_data);
                         obj.props = child.props;
                         obj.parent = this;
                         element.append(await obj.render(navigation_data));

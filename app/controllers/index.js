@@ -1,4 +1,4 @@
-import {Card, CardBody, Cell, View, Button} from "/core/components.js";
+import {Card, CardBody, Cell, View, Button, Navigate} from "/core/components.js";
 
 class Index extends Component {
     render(navigation_data = {}) {
@@ -21,11 +21,7 @@ class Index extends Component {
                                     <View>
                                         <h6 style={{color: '#fdbb2d'}}>آشنایی با آرناهیت</h6>
                                         <p>این اپلیکیشن شامل مستندی کوتاه است. برای آشنایی بیشتر کلیک کنید</p>
-                                        <Button className={"btn btn-outline-light"} onPress={() => {
-                                            new Router().navigate('docs/quick_start');
-                                        }}>
-                                            شروع آموزش
-                                        </Button>
+                                        <Navigate route={'docs'} data={{file: 'quick_start.html'}}>شروع آموزش</Navigate>
                                     </View>
                                 </Cell>
                                 <Cell size={6}>
