@@ -3,16 +3,19 @@ import Sidebar from "/app/inc/sidebar.js"
 
 /*
 |--------------------------------------------------------------------------
-| Builder
+| Build Your Application
 |--------------------------------------------------------------------------
-|  define your application instance of GilaceJS
+|  define your application instance.
+|  this example contents is for hello world application, replace them with your apps setting.
+|  at the end, you should build your app like example below (myApp.build())
 |
 */
 let myApp = new Arnahit();
 
-myApp.define('version', '0.6.5');
+/** define constants **/
+myApp.define('version', '0.6.8 beta');
 
-/** initialize your instance **/
+/** register routes **/
 myApp.registerRoutes(() => {
 
     let router = new Router();
@@ -28,18 +31,18 @@ myApp.registerRoutes(() => {
     }).name('docs');
 
 });
+
+/** register sidebar **/
 myApp.registerDrawerNavigation(Sidebar);
 
+/** register global dependencies **/
 myApp.registerDependencies([
     'css/app.css'
 ]);
 
-//load bootstrap rtl settings for persian layouts
+/** load rtl settings **/
 myApp.forceRTL();
 
-// comment/uncomment codes if need to remove/add libraries from/to auto loading
-//myApp.enable_jquery(false);
-//myApp.enable_bootstrap(false);
 
 /** build your application **/
 myApp.build();
