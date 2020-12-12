@@ -1,4 +1,4 @@
-import {ListView, ListItem, Navigate} from "/core/components.js";
+import {ListView, ListItem, Navigate, Collapse, CollapseToggle, View} from "/core/components.js";
 
 class Sidebar extends Component {
 
@@ -9,49 +9,45 @@ class Sidebar extends Component {
                     <Navigate>خانه</Navigate>
                 </ListItem>
                 <ListItem>
-                    <Navigate route={'docs'} data={{file: 'quick_start.html'}}>شروع سریع</Navigate>
+                    <Navigate route={'docs'} data={{file: 'quick_start'}}>شروع سریع</Navigate>
                 </ListItem>
                 <ListItem>
-                    <Navigate route={'docs'} data={{file: 'configuration.html'}}>پیکره بندی</Navigate>
+                    <Navigate route={'docs'} data={{file: 'configuration'}}>پیکره بندی</Navigate>
                 </ListItem>
                 <ListItem>
-                    <Navigate route={'docs'}  data={{file: 'routing.html'}}>روتینگ</Navigate>
+                    <Navigate route={'docs'} data={{file: 'routing'}}>روتینگ</Navigate>
                 </ListItem>
                 <ListItem>
-                    <Navigate route={'docs'}  data={{file: 'new_page.html'}}>ایجاد صفحه جدید</Navigate>
+                    <Navigate route={'docs'} data={{file: 'new_page'}}>ایجاد صفحه جدید</Navigate>
                 </ListItem>
                 <ListItem>
-                    <Navigate route={'docs'}  data={{file: 'navigation.html'}}>سوئیچ بین صفحات</Navigate>
+                    <Navigate route={'docs'} data={{file: 'navigation'}}>سوئیچ بین صفحات</Navigate>
                 </ListItem>
                 <ListItem>
-                    <p>
-                        <a className={"btn btn-ListItemnk"} data-toggle={"collapse"} href={"#helpers"}
-                           role={"button"}
-                           aria-expanded={"false"} aria-controls={"helpers"} id="helpers_collapse">
+                    <View>
+                        <CollapseToggle target={'helpers'}>
                             ابزار ها
-                        </a>
-                    </p>
-                    <div className={"collapse"} id="helpers">
+                        </CollapseToggle>
+                    </View>
+                    <Collapse id={'helpers'}>
                         <ListView listStyle={ListView.style.FLUSH}>
                             <ListItem>
-                                <Navigate route={'docs'}  data={{file: 'api.html'}}>کار با api</Navigate>
+                                <Navigate route={'docs'} data={{file: 'api'}}>کار با api</Navigate>
                             </ListItem>
                             <ListItem>
-                                <Navigate route={'docs'}  data={{file: 'helpers.html'}}>helpers</Navigate>
+                                <Navigate route={'docs'} data={{file: 'helpers'}}>helpers</Navigate>
                             </ListItem>
                         </ListView>
-                    </div>
+                    </Collapse>
                 </ListItem>
 
                 <ListItem>
-                    <p>
-                        <a className={"btn btn-ListItemnk"} data-toggle={"collapse"} href={"#collapseExample"}
-                           role={"button"}
-                           aria-expanded={"false"} aria-controls={"collapseExample"} id="collapseExample_collapse">
+                    <View>
+                        <CollapseToggle target={'components'}>
                             کامپوننت ها
-                        </a>
-                    </p>
-                    <div className={"collapse"} id="collapseExample">
+                        </CollapseToggle>
+                    </View>
+                    <Collapse id={'components'}>
                         <ListView listStyle={ListView.style.FLUSH}>
                             <ListItem>
                                 <Navigate>views & grids</Navigate>
@@ -69,17 +65,10 @@ class Sidebar extends Component {
                                 <Navigate>cards</Navigate>
                             </ListItem>
                         </ListView>
-                    </div>
+                    </Collapse>
                 </ListItem>
             </ListView>
         )
-    }
-
-    on_rendered() {
-        let collapseElementList = [].slice.call(document.querySelectorAll('.collapse'))
-        let collapseList = collapseElementList.map(function (collapseEl) {
-            return new bootstrap.Collapse(collapseEl, {toggle: false, parent: '#' + collapseEl.id});
-        })
     }
 
 }

@@ -5,6 +5,7 @@
 |  buttons components ...
 |
 */
+
 class Button extends Component {
 
     props = {
@@ -41,8 +42,8 @@ class Navigate extends Component {
 
     props = {
         ...parent.props,
-        route:'',
-        data:{}
+        route: '',
+        data: {}
     }
 
     async render(navigation_data = {}) {
@@ -60,13 +61,35 @@ class Navigate extends Component {
     on_rendered() {
         let self = this;
         $("#" + self.name).click(() => {
-            new Router().navigate(self.props.route,self.props.data)
+            new Router().navigate(self.props.route, self.props.data)
         })
     }
 
 }
 
+class CollapseToggle extends Component {
+    props = {
+        ...parent.props,
+        target: ""
+    }
+
+    async render(navigation_data = {}) {
+        let button = document.createElement('a');
+        button = await this.render_props(button, navigation_data);
+        ['btn', 'btn-link'].forEach((cls) => {
+            button.classList.add(cls);
+        });
+        button.href = "#" + this.props.target;
+        button.role="button";
+        button.setAttribute('data-toggle','collapse');
+        button.setAttribute('aria-expanded','false');
+        button.setAttribute('aria-controls',this.props.target);
+        return button;
+    }
+}
+
 export {
     Button,
-    Navigate
+    Navigate,
+    CollapseToggle
 }

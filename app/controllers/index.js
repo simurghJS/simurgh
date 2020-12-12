@@ -21,7 +21,7 @@ class Index extends Component {
                                     <View>
                                         <h6 style={{color: '#fdbb2d'}}>آشنایی با آرناهیت</h6>
                                         <p>این اپلیکیشن شامل مستندی کوتاه است. برای آشنایی بیشتر کلیک کنید</p>
-                                        <Navigate route={'docs'} data={{file: 'quick_start.html'}}>شروع آموزش</Navigate>
+                                        <Navigate route={'docs'} data={{file: 'quick_start'}}>شروع آموزش</Navigate>
                                     </View>
                                 </Cell>
                                 <Cell size={6}>

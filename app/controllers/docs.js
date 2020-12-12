@@ -5,7 +5,7 @@ class Docs extends Component {
     async component_did_mount(args) {
 
         this.setState({
-            file: args.navigation_data.file,
+            file: args.navigation_data.file + ".html",
         });
 
     }
