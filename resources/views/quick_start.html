@@ -72,30 +72,18 @@
                     بارگزاری فایل index.html اولین فایل js که اجرا میشود فایل index.js موجود در مسیر root پروژه است. شما
                     در این فایل اپلیکیشن خود را تعریف و آن را build میگیرید.این تعریف , شامل تعریف ثابت ها (constants) ,
                     فایل های ui که به صورت global مورد استفاده قرار میگیرند , روتها (route) و ... میباشد.
-
+                    برای ایجاد اپلیکیشن hello_world کد زیر را در index.js کپی کنید
                 </p>
                 <div class="card mb-3">
                     <div class="card-header">index.js نمونه</div>
                     <div class="card-body">
                         <pre style="direction: ltr;text-align: left">
                             <code class="language-js">
-                                // import Router class
-                                import {Application, Router} from '/gilace/quick_start.js';
+                                import {Arnahit} from "/core/Arnahit.js";
 
-                                let myApp = new Application();
+                                let myApp = new Arnahit();
 
-                                // add this code to app.js
-
-                                myApp.registerRoutes(()=>{
-                                    let router = new Router();
-                                    router.route('',()=>{
-                                        return 'hello world 1';
-                                    });
-                                });
-
-                                //end
-                                ...
-                                export default myApp;
+                                myApp.build();
                             </code>
                         </pre>
                     </div>
