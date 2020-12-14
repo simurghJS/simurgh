@@ -3,7 +3,9 @@
         <div class="">
             <h1 class="text-primary">شروع سریع</h1>
             <div class="p-3">
-                <p>GilaceJS فریم ورکی بر پایه جاوااسکریپت برای توسعه آسان و سریع UI میباشد</p>
+                <p>فریم ورکی بر پایه جاوااسکریپت برای توسعه آسان و سریع UI میباشد
+                    {{env('app_name')}}
+                </p>
             </div>
         </div>
     </div>
@@ -11,15 +13,16 @@
         <div class="mb-5">
             <h3>دانلود و نصب</h3>
             <div class="p-3">
-                <p>برای نصب ابتدا ArnahitJS را از لینک زیر دریافت نمایید, و در پوشه ای با نام پروژه خود, فایل را از حالت
+                <p>برای نصب ابتدا {{env('app_name')}} را از لینک زیر دریافت نمایید, و در پوشه ای با نام پروژه خود, فایل
+                    را از حالت
                     فشرده خارج کنید. سپس جهت نصب سایر نیازمندی ها دستور
                     <span class="badge badge-light" style="font-size:small"> npm install </span>
-                    را اجرا نمایید. فایل نصبی شامل اپلیکیشن hello world است. دستور
-                    <span class="badge badge-light" style="font-size:small"> npm run build </span>
-                    را اجرا کنید. پس از چند لحظه اپلیکیشن شما در پوشه output ایجاد میشود. برای اجرای اپلیکیشن در local
-                    میبایست ابتدا با ابزار هایی همانند MAMP یک هاست کنید(در طول این آموزش ما آدرس example.com را به
-                    عنوان آدرس هاست در نظر میگیریم)و مسیر آن را پوشه output قرار دهید. اکنون میتوانید مرورگر را باز کنید
-                    و نتیجه را در آدرس example.com مشاهده نمایید
+                    را اجرا نمایید. فایل نصبی شامل اپلیکیشن پایه است. دستور
+                    <span class="badge badge-light" style="font-size:small"> npm run build-web </span>
+                    را اجرا کنید. پس از چند لحظه اپلیکیشن شما در پوشه dist/web ایجاد میشود. برای اجرای اپلیکیشن در local
+                    میبایست ابتدا با ابزار هایی همانند MAMP یک هاست ایجاد کنید(در طول این آموزش ما آدرس example.com را
+                    به عنوان آدرس هاست در نظر میگیریم) و مسیر آن را پوشه dist/web قرار دهید. اکنون میتوانید مرورگر را
+                    باز کنید و نتیجه را در آدرس example.com مشاهده نمایید
                 </p>
                 <p>
                     <span>لینک دانلود</span>
@@ -30,75 +33,43 @@
         <div class="mb-5">
             <h3>ساختار پوشه ها</h3>
             <div class="p-3">
-                <p>پیش از شروع بهتر است با ساختار پیش فرض پوشه ها در GilaceJS آشنا شوید.</p>
+                <p>پیش از شروع بهتر است با ساختار پیش فرض پوشه ها در {{env('app_name')}} آشنا شوید.</p>
             </div>
-            <div class="p-3 container-fluid">
-                <div class="mb-5">
-                    <h3>application</h3>
-                    <div class="p-3">
-                        <p>کل فایل های اجرایی اپلیکیشن شما در این پوشه قرار می گیرد.
-                            این ساختار از طریق متغییر system موجود در فایل
-                            <span dir="ltr" class="text-left">/gilace/core/core.js</span>
-                            قابل تغییر است.
-                        </p>
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-sm-6 col-sm-offset-3">
-                                    <ul class=" pt-5 list-group list-group-flush">
-                                        <li class="list-group-item">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <h6>controllers</h6>
-                                                <p class="text-black-50">فایل های اجرایی js مربوط به ساخت صفحات</p>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <h6>middleware</h6>
-                                                <p class="text-black-50">فایل های js مربوط به middleware میبایست در این پوشه
-                                                    قرار گیرد</p>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <h6>models</h6>
-                                                <p class="text-black-50"> مدل ها برای ایجاد خودکار controllers های عملیات crud
-                                                    میباشد </p>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <h6>views</h6>
-                                                <p class="text-black-50">فایل های html حاوی ui</p>
-                                            </div>
-                                        </li>
-
-                                    </ul>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <ul class=" pt-5 list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6>app</h6>
+                                    <p class="text-black-50">فایل های اجرایی js مربوط به صفحات</p>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="mb-5">
-                    <h3>assets</h3>
-                    <div class="p-3">
-                        <p> سایر فایل های مربوط به ui همانند تصاویر , فایل های css و ... در این پوشه قرار می گیرد.</p>
-                    </div>
-                </div>
-                <div class="mb-5">
-                    <h3>gilace</h3>
-                    <div class="p-3">
-                        <p>فایل های js مربوط به gilacejs.
-                            <span class="badge-light badge badge-pill">
-                        اعمال تغییرات در این فایل های این پوشه میتواند موجب مختل شدن عملکرد اپلیکیشن شما
-                    شود, پس مراقب باشید
-                    </span>
-                        </p>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6>resources</h6>
+                                    <p class="text-black-50">کل فایلهای مربوط به ui در این پوشه قرار میگیرد</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6>core</h6>
+                                    <p class="text-black-50">فایل های مربوط به {{env('app_name')}}</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6>dist</h6>
+                                    <p class="text-black-50">فایلهای خروجی</p>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
         <div class="mb-5">
-            <h3>اپلیکیشن hello world</h3>
+            <h3>آشنایی سریع</h3>
             <div class="p-3 container-fluid">
                 <p>
                     فایل app.js نقطه شروع کار میباشد. شما در این فایل تنظیمات اپلیکیشن خود برای اجرا در مرورگر را معرفی
@@ -136,7 +107,8 @@
                 <p>
                     همچنین شما میتوانید یک controller بسازید و به جای پاسخ مستقیم از طریق router ، دستور اجرای
                     controller
-                    را بدهید. برای این کار فایل quick_start.js را در پوشه پروڑه و مسیر application/controllers بسازید و کد زیر
+                    را بدهید. برای این کار فایل quick_start.js را در پوشه پروڑه و مسیر application/controllers بسازید و
+                    کد زیر
                     را در این فایل کپی کنید
                 </p>
 

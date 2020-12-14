@@ -11,7 +11,8 @@ class Index extends Component {
                     <Card className={'border-0'}>
                         <View className={'p-3'}>
                             <h3 className={'card-title'} style={{color: '#fdbb2d'}}>
-                                یک اپلیکیشن دیگر با Arnahit.JS
+                                یک اپلیکیشن دیگر با
+                                {env('app_name')}
                             </h3>
                             <p>فریم ورکی بر پایه javascript برای توسعه سریع ui</p>
                         </View>
@@ -19,7 +20,7 @@ class Index extends Component {
                             <View grid>
                                 <Cell size={6}>
                                     <View>
-                                        <h6 style={{color: '#fdbb2d'}}>آشنایی با آرناهیت</h6>
+                                        <h6 style={{color: '#fdbb2d'}}>آشنایی با {env('app_name')}</h6>
                                         <p>این اپلیکیشن شامل مستندی کوتاه است. برای آشنایی بیشتر کلیک کنید</p>
                                         <Navigate route={'docs'} data={{file: 'quick_start'}}>شروع آموزش</Navigate>
                                     </View>
@@ -27,7 +28,7 @@ class Index extends Component {
                                 <Cell size={6}>
                                     <View>
                                         <h6 style={{color: '#fdbb2d'}}>دانلود و نصب</h6>
-                                        <p>فعلا آنوهیت در نسخه آزمایشی
+                                        <p>فعلا {env('app_name')} در نسخه آزمایشی
                                             {env('version')}
                                             به سر می برد.برای دانلود کلیک نمایید
                                         </p>

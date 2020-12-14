@@ -10,8 +10,8 @@ import './Dom.js';
 
 const system = {
     paths: {
-        controller: '/app/controllers',
-        middleware: '/app/middleware',
+        controller: '/app',
+        middleware: '/middleware',
         views: '/resources/views'
     }
 };

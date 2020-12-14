@@ -14,14 +14,13 @@ let myApp = new Arnahit();
 
 /** define constants **/
 myApp.define('version', '0.6.8 beta');
+myApp.define('app_name', 'arnahitJS');
 
 /** register routes **/
 myApp.registerRoutes(() => {
 
     let router = new Router();
-
     router.add('', 'index');
-
     router.add('docs/(?file)', 'docs', {
         layout: 'layout/base.html',
         dependencies: [
