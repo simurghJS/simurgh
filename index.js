@@ -13,7 +13,7 @@ import Sidebar from "/app/inc/sidebar.js"
 let myApp = new Arnahit();
 
 /** define constants **/
-myApp.define('version', '0.6.8 beta');
+myApp.define('version', '0.6.8-beta.0');
 myApp.define('app_name', 'arnahitJS');
 
 /** register routes **/

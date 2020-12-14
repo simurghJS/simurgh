@@ -1,13 +1,8 @@
 <div class="card border-0 p-5">
     <div class="card-title">
-        <div class="">
-            <h1 class="text-primary">شروع سریع</h1>
-            <div class="p-3">
-                <p>فریم ورکی بر پایه جاوااسکریپت برای توسعه آسان و سریع UI میباشد
-                    {{env('app_name')}}
-                </p>
-            </div>
-        </div>
+
+        <h1 class="text-primary">شروع سریع</h1>
+
     </div>
     <div class="card-body">
         <div class="mb-5">
@@ -72,13 +67,15 @@
             <h3>آشنایی سریع</h3>
             <div class="p-3 container-fluid">
                 <p>
-                    فایل app.js نقطه شروع کار میباشد. شما در این فایل تنظیمات اپلیکیشن خود برای اجرا در مرورگر را معرفی
-                    میکنید. برای شروع سریع شما نیاز دارید تا یک route به سیستم اضافه کنید.route ها نحوه پاسخ اپلیکیشن به
-                    url های درخواستی را مشخص میکنند. تغییرات زیر را در فایل app.js اعمال کنید و نتیجه را در مرورگر
-                    ببینید. برای اینکار آدرس example.com را در مرورگر باز کنید.
+                    به طور خلاصه {{env('app_name')}} فریم ورکی بر پایه جاوااسکریپت برای توسعه آسان و سریع UI میباشد.
+                    طراحی سایت با {{env('app_name')}} در چند بخش خلاصه میشود. مرحله اول تعریف اپلیکیشن است. پس از
+                    بارگزاری فایل index.html اولین فایل js که اجرا میشود فایل index.js موجود در مسیر root پروژه است. شما
+                    در این فایل اپلیکیشن خود را تعریف و آن را build میگیرید.این تعریف , شامل تعریف ثابت ها (constants) ,
+                    فایل های ui که به صورت global مورد استفاده قرار میگیرند , روتها (route) و ... میباشد.
+
                 </p>
                 <div class="card mb-3">
-                    <div class="card-header">ایجاد یک route جدید</div>
+                    <div class="card-header">index.js نمونه</div>
                     <div class="card-body">
                         <pre style="direction: ltr;text-align: left">
                             <code class="language-js">
