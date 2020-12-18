@@ -1,4 +1,4 @@
-import {HtmlView} from "/core/components.js";
+import {HtmlView, View} from "/core/components.js";
 
 class Docs extends Component {
 
@@ -9,7 +9,11 @@ class Docs extends Component {
     }
 
     render(navigation_data = {}) {
-        return <HtmlView src={this.state.file}></HtmlView>
+        return (
+        <View>
+            <HtmlView src={this.state.file}></HtmlView>
+        </View>
+        )
     }
 
     on_rendered() {

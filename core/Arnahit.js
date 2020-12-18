@@ -201,6 +201,7 @@ class Arnahit {
         if (!empty(result)) {
             let html = {};
             html = await this.render(result, args);
+            console.log(html);
             await new Response().write(html);
             if (args.component_ready.length > 0) {
                 args.component_ready.forEach((callback => {
@@ -243,7 +244,6 @@ class Arnahit {
                 return html;
             }
         }
-
         return html;
     }
 }
@@ -255,26 +255,25 @@ class Response {
     constructor() {
     }
 
-    async render_layout(app = {}) {
+    async render_layout(args = {}) {
         let html = '';
-        let layout = typeof app.layout == "undefined" ? empty(global().layout) ? '' : global().layout : app.layout;
+        let layout = typeof args.layout == "undefined" ? empty(global().layout) ? '' : global().layout : args.layout;
+        console.log(layout);
+
         if (!empty(layout)) {
             let html_view = new (await import('./components.js')).HtmlView();
             html_view.props.src = layout;
             html = await html_view.render();
-        } else {
-            document.body.innerHTML = "";
+            console.log(html);
         }
-        let args = {component_ready: []}
-        document.title = app.title;
+        document.title = args.title;
+        args.component_ready=[];
         let drawer_wrapper = $(html).find("div[gilace-rel=drawer_navigation]");
         if (!empty(drawer_wrapper.toArray()) && !empty(gApp.drawer_navigation)) {
-            let temp = $(html);
             let _drw = new gApp.drawer_navigation();
             _drw.parse(args);
-            let drw = await new Arnahit().render(await _drw.render(), args);
-            $(temp).find("div[gilace-rel=drawer_navigation]").html(drw);
-            html = temp;
+            let drw = await new Arnahit().render(await _drw.render(args), args);
+            $(html).find("div[gilace-rel=drawer_navigation]").html(drw);
         }
         document.body.innerHTML = "";
         this.write(html);
@@ -286,19 +285,27 @@ class Response {
     }
 
     write(html = ``, wrapper = '') {
-        if (!empty(wrapper)) {
-            $(wrapper).html(html);
-        } else {
+
+        if (empty(wrapper)) {
             if ($("div[gilace-rel=response]").length == 1) {
-                $("div[gilace-rel=response]").html(html);
+                wrapper = "div[gilace-rel=response]";
             } else {
-                $(document.body).html(html);
+                wrapper = document.body
             }
+        }
+        switch (typeof wrapper) {
+            case "string":
+                $(wrapper).html(html);
+                break;
+            case "object":
+                console.log(html);
+                console.log(wrapper);
+                $(wrapper).append(html);
+                break;
         }
     }
 
     /** functions **/
-
 
     render(navigation_data = {}) {
         return null;
@@ -588,6 +595,7 @@ class Router {
             }).catch(err => {
                 console.log(err.message, 'failed');
             }).then(() => {
+
             });
         } else {
             this.do_nav(_route, this.navigation_params);

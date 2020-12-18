@@ -11,16 +11,19 @@ class Button extends Component {
     props = {
         ...parent.props,
         onPress: () => {
-        }
+        },
+        type:'primary',
+        disabled:false
     }
 
     async render(navigation_data = {}) {
         let button = document.createElement('button');
         button = await this.render_props(button, navigation_data);
-        ['btn', 'btn-primary'].forEach((cls) => {
+        ['btn', 'btn-'+this.props.type].forEach((cls) => {
             button.classList.add(cls);
         });
         button.type = "button";
+        button.disabled=this.props.disabled;
         button.id = generateRandomString();
         this.name = button.id;
         return button;
@@ -43,7 +46,9 @@ class Navigate extends Component {
     props = {
         ...parent.props,
         route: '',
-        data: {}
+        data: {},
+        disabled:false
+
     }
 
     async render(navigation_data = {}) {
@@ -53,6 +58,7 @@ class Navigate extends Component {
             button.classList.add(cls);
         });
         button.type = "button";
+        button.disabled=this.props.disabled;
         button.id = generateRandomString();
         this.name = button.id;
         return button;

@@ -72,7 +72,9 @@ class HtmlView extends Component {
         let _path = APPPATH + gApp.system.paths.views + '/' + (!empty(this.props.src) ? this.props.src : this.path);
         if (!empty(_path)) {
             this.source = await this.readFromFile(_path);
-            return this.bind(this.data);
+            let parsed=new DOMParser().parseFromString(this.bind(this.data),'text/html').body;
+            console.log(parsed);
+            return parsed;
         } else {
             return '';
         }
