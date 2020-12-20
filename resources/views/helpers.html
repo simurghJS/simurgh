@@ -1,14 +1,65 @@
 <div class="card border-0 p-5">
     <div class="card-title">
         <div class="">
-            <h1 class="text-primary">توابع کمکی</h1>
-            <div class="p-3">
-                <p>توابع کمکی شامل برخی از پرکاربرد ترین توابع مورد استفاده میباشد که میتوانند سرعت توسعه را افزایش
-                    دهند.در ادامه لیست توابع در دسترس در اختیارتان قرار خواهد گرفت </p>
-            </div>
+            <h1 class="text-primary">ابزار های کمکی</h1>
         </div>
     </div>
     <div class="card-body">
+        <p class="mb-3">ابزارهای کمکی شامل برخی از پرکاربرد ترین توابع مورد استفاده است, که میتوانند سرعت توسعه را افزایش
+            دهند. همچنین جهت راحتی در فراخوانی توابع api در محیط
+            {{env('app_name')}}
+            ، کلاس request به صورت سراسری(global) در کامپوننت ها در دسترس است.</p>
+
+        <h4>کار با api</h4>
+        <p>ارسال درخواست با متد GET به آدرس example.com/path/to/api</p>
+        <div class="card card-body">
+                        <pre style="direction: ltr;text-align: left">
+                            <code class="language-js">
+                               let response = await new request('path/to/api').get();
+                            </code>
+                        </pre>
+        </div>
+        <p>ارسال اطلاعات با متد POST/PUT/PATCH به آدرس example.com/path/to/api</p>
+        <div class="card card-body">
+                        <pre style="direction: ltr;text-align: left">
+                            <code class="language-js">
+                                let data = {
+                                                name:      'حسن',
+                                                family:    'ترابی',
+                                                age:        27,
+                                                gender:    'male'
+                                            }
+
+                                //let response = await new request("path/to/api").path(data);
+                                //let response = await new request("path/to/api").put(data);
+                                let response = await new request("path/to/api").post(data);
+
+                                if( response.status == 200 ){
+
+                                    alert('success');
+
+                                }
+
+                            </code>
+                        </pre>
+        </div>
+        <p>ارسال درخواست با متد DELETE به آدرس example.com/path/to/api</p>
+        <div class="card card-body">
+                      <pre style="direction: ltr;text-align: left">
+                            <code class="language-js">
+
+                                let response = await new request("path/to/api").delete();
+                                if( response.status == 200 ){
+
+                                    alert('success');
+
+                                }
+
+                            </code>
+                        </pre>
+        </div>
+
+        <h4 >ابزارها</h4>
         <div class="card">
             <div class="card-header" id="headingOne">
                 <h2 class="mb-0" dir="ltr">
@@ -187,6 +238,5 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>

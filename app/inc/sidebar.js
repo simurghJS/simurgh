@@ -4,7 +4,6 @@ class Sidebar extends Component {
 
     async render(navigation_data = {}) {
         let nav = navigation_data.navigation_data.file;
-        console.log(nav);
         return (
             <View>
 
@@ -17,17 +16,15 @@ class Sidebar extends Component {
                 <ListView listStyle={ListView.style.FLUSH}>
 
                     <ListItem><Navigate>شروع سریع</Navigate></ListItem>
+
                     <ListItem><Navigate disabled={nav == "configuration" ? true : false} route={'docs'}
                                         data={{file: 'configuration'}}>پیکره بندی</Navigate></ListItem>
                     <ListItem><Navigate disabled={nav == "routing" ? true : false} route={'docs'}
                                         data={{file: 'routing'}}>روتینگ</Navigate></ListItem>
                     <ListItem><Navigate disabled={nav == "new_page" ? true : false} route={'docs'}
                                         data={{file: 'new_page'}}>ایجاد صفحه جدید</Navigate></ListItem>
-                    <ListItem><Navigate disabled={nav == "api" ? true : false} route={'docs'}
-                                        data={{file: 'api'}}>کار با api</Navigate></ListItem>
                     <ListItem><Navigate disabled={nav == "helpers" ? true : false} route={'docs'}
-                                        data={{file: 'helpers'}}>helpers</Navigate></ListItem>
-
+                                        data={{file: 'helpers'}}>ابزارهای کمکی</Navigate></ListItem>
                     <ListItem>
                         <View>
                             <CollapseToggle target={'components'}>
@@ -46,7 +43,9 @@ class Sidebar extends Component {
                             </ListView>
                         </Collapse>
                     </ListItem>
+
                 </ListView>
+
             </View>
         )
     }

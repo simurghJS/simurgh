@@ -42,15 +42,15 @@
                 <div class="card card-body">
                     <pre style="direction: ltr;text-align: left">
                             <code class="language-js">
-                                myApp.registerRoutes(() => {
+                                myApp.registerRoutes(() =&gt; {
                                     let router = new Router();
 
                                     //render component in app/path/to/file.js
                                     router.add('url1' , 'path/to/file');
 
                                     //inline render for url2
-                                    router.add('url2' , ()=>{
-                                        return <Text>hello world!</Text>
+                                    router.add('url2' , () =&gt; {
+                                        return &gt;Text&lt;hello world!&gt;/Text&lt;
                                     });
                                 });
                             </code>

@@ -10,16 +10,16 @@ class Docs extends Component {
 
     render(navigation_data = {}) {
         return (
-        <View>
-            <HtmlView src={this.state.file}></HtmlView>
-        </View>
+            <View>
+                <HtmlView src={this.state.file}></HtmlView>
+            </View>
         )
     }
 
     on_rendered() {
         console.log('hi there! im rendered');
         $('code').each((i, e) => {
-            let html = Prism.highlight($(e).text(), Prism.languages.javascript, 'javascript');
+            let html = Prism.highlight($(e).html(), Prism.languages.javascript, 'javascript');
             $(e).html(html);
         });
     }

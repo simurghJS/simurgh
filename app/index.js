@@ -22,13 +22,16 @@ class Index extends Component {
                                 <View className={'p-3'}>
                                     <p>
                                         MIT Licensed, v{env('version')},
+
                                         <Button type={'link'} onPress={() => {
                                             new Router().navigate('changelog');
                                         }}>changelog</Button>
+
                                         , developed by <a href={"#"}>siyamak beheshti</a>
                                     </p>
                                 </View>
                                 <View>
+
                                     <Button className={"btn-lg m-3"} type={'outline-light'} onPress={() => {
                                         new Router().navigate('docs', {file: 'configuration'});
                                     }}>
