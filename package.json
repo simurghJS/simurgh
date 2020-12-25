@@ -1,9 +1,9 @@
 {
-  "name": "arnahit.js",
-  "app-name": "arnahitJS",
-  "project-name": "arnahitJS",
-  "author": "arnahit-co",
-  "version": "0.6.13-beta.0",
+  "name": "arnahit",
+  "app-name": "ArnahitJS",
+  "project-name": "ArnahitJS",
+  "author": "SimurghTech",
+  "version": "0.7.14-beta.0",
   "icon": "./assets/icon/icon.png",
   "description": "ES6 JS Framework For Creating Cross Platform Applications based on jquery & bootstrap",
   "dependencies": {
@@ -30,5 +30,7 @@
     "web-build-core-libraries": "npx babel core/library --out-dir dist/web/core/library  --copy-files",
     "web-build-core-src": "npx babel core/src --out-dir dist/web/core/src --copy-files",
     "web-copy_main": "npx babel ./*.* --out-dir dist/web --copy-files"
-  }
+  },
+  "main": "index.js",
+  "license": "MIT"
 }

@@ -1,6 +1,4 @@
 import {Arnahit} from "/core/Arnahit.js";
-import Sidebar from "/app/inc/sidebar.js"
-
 /*
 |--------------------------------------------------------------------------
 | Build Your Application
@@ -12,37 +10,15 @@ import Sidebar from "/app/inc/sidebar.js"
 
 let myApp = new Arnahit();
 
-/** define constants **/
-myApp.define('version', '0.6.12-beta.0');
-myApp.define('app_name', 'arnahitJS');
-
 /** register routes **/
 myApp.registerRoutes(() => {
 
     let router = new Router();
-    router.route_group({
-        dependencies: [
-            resources('css/prism.css'),
-            resources('js/prism.js')
-        ]
-    }, () => {
-        router.add('', 'index');
-        router.add('docs/(?file)', 'docs', {
-            layout: 'layout/base.html',
-        }).name('docs');
+    router.add('', ()=>{
+        return <p>another application with arnahit</p>
     });
+
 });
-
-/** register sidebar **/
-myApp.registerDrawerNavigation(Sidebar);
-
-/** register global dependencies **/
-myApp.registerDependencies([
-    'css/app.css'
-]);
-
-/** load rtl settings **/
-myApp.forceRTL();
 
 /** build your application **/
 myApp.build();
