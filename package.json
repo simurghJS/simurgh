@@ -31,6 +31,6 @@
     "web-build-core-src": "npx babel core/src --out-dir dist/web/core/src --copy-files",
     "web-copy_main": "npx babel ./*.* --out-dir dist/web --copy-files"
   },
-  "main": "index.js",
+  "main": "core/Arnahit.js",
   "license": "MIT"
 }

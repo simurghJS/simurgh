@@ -267,7 +267,7 @@ class Response {
             console.log(html);
         }
         document.title = args.title;
-        args.component_ready=[];
+        args.component_ready = [];
         let drawer_wrapper = $(html).find("div[gilace-rel=drawer_navigation]");
         if (!empty(drawer_wrapper.toArray()) && !empty(gApp.drawer_navigation)) {
             let _drw = new gApp.drawer_navigation();
@@ -633,7 +633,9 @@ class Router {
                         };
 
                         new Response().render_layout(response).then(() => {
-                            response.run({});
+                            resolve({
+                                controller: response
+                            });
                         });
                         break;
                 }
