@@ -1,12 +1,14 @@
 import './Dom.js';
 
 /*******************************
- |--------------------------------------------------------------------------
- |   ArnahitJS Core
- |--------------------------------------------------------------------------
- |
- |  core & dom (global function & class & ...)
- *******************************/
+
+--------------------------------------------------------------------------
+   Simurgh Application
+--------------------------------------------------------------------------
+
+  Application & dom (global function & class & ...)
+
+*******************************/
 
 const system = {
     paths: {
@@ -16,7 +18,7 @@ const system = {
     }
 };
 
-class Arnahit {
+class Application {
     api_url = '';
     title = '';
     title_prefix = '';
@@ -110,7 +112,7 @@ class Arnahit {
         }
 
         if (this.rtl) {
-            dep.push(APPPATH + '/core/src/rtl.css');
+            dep.push(APPPATH + '/Application/src/rtl.css');
         }
 
         for (let dependency of this.dependencies) {
@@ -162,7 +164,7 @@ class Arnahit {
     }
 
     run() {
-        window.Arnahit = this;
+        window.Simurgh = this;
         let url = window.location.hash.replace('#!/', '');
         new Router().navigate(url);
     }
@@ -272,7 +274,7 @@ class Response {
         if (!empty(drawer_wrapper.toArray()) && !empty(gApp.drawer_navigation)) {
             let _drw = new gApp.drawer_navigation();
             _drw.parse(args);
-            let drw = await new Arnahit().render(await _drw.render(args), args);
+            let drw = await new Application().render(await _drw.render(args), args);
             $(html).find("div[gilace-rel=drawer_navigation]").html(drw);
         }
         document.body.innerHTML = "";
@@ -641,7 +643,7 @@ class Router {
                 }
             }).then(args => {
                 /** run controller and update history **/
-                new Arnahit()._run(args);
+                new Application()._run(args);
                 let new_title = args.controller.title;
                 history.pushState({
                     id: Math.random(),
@@ -767,8 +769,7 @@ class Component extends Response {
     }
 }
 
-export {Arnahit, Component, Response, Request, Router};
+export {Application, Component, Response, Request, Router};
 
 window.Component = Component;
 window.Router = Router;
-

@@ -6,7 +6,7 @@
     [
       "@babel/preset-react",
       {
-        "pragma": "Arnahit.createElement",
+        "pragma": "Simurgh.createElement",
         "pragmaFrag": "DomFrag",
         "throwIfNamespace": false,
         "runtime": "classic"
