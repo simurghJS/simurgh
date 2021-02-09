@@ -3,34 +3,28 @@
   "app-name": "simurgh",
   "project-name": "simurgh",
   "author": "SimurghTech",
-  "version": "0.9.21-beta.0",
+  "version": "0.1.2-beta.1",
   "icon": "./assets/icon/icon.png",
-  "description": "JS Framework For Creating web pages based on jquery & bootstrap",
+  "description": "js framework for client side web page rendering",
   "dependencies": {
-    "bootstrap": "^4.5.3",
-    "font-awesome": "^4.7.0",
-    "jquery": "^3.5.1",
-    "popper.js": "^1.16.1",
-    "simurgh": "^0.8.15-beta.0"
+    "extract-zip": "2.0.1",
+    "simurgh-cli": "^1.0.4",
+    "typescript": "4.1.3",
+    "tslint": "6.1.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.8",
     "@babel/core": "^7.12.9",
     "@babel/plugin-syntax-class-properties": "^7.12.1",
     "@babel/plugin-syntax-jsx": "^7.12.1",
-    "@babel/preset-react": "^7.12.7"
+    "@babel/plugin-transform-typescript": "7.12.13",
+    "@babel/preset-react": "^7.12.7",
+    "@babel/preset-typescript": "^7.12.13",
+    "extract-zip": "2.0.1"
   },
   "scripts": {
-    "build-android": "echo build web application && npm run build-web && mkdir dist/android && cd dist/web && echo copying files... && cp -r * ../android",
-    "build-web": "npm run web-start && npm run web-copy_main && npm run web-build-core  && npx babel ./app --out-dir dist/web/app --copy-files &&  npx babel resources/ --out-dir dist/web/resources --copy-files && cd dist/web && npm install",
-    "web-start": "rm -rf dist && mkdir dist dist/web",
-    "web-build-core": "npm run web-build-core-arnahit && npm run web-build-core-dom && npm run web-build-core-components && npm run web-build-core-libraries && npm run web-build-core-src",
-    "web-build-core-arnahit": "npx babel core/simurgh.js --out-file dist/web/core/simurgh.js",
-    "web-build-core-dom": "npx babel core/dom.js --out-file dist/web/core/dom.js",
-    "web-build-core-components": "npx babel core/components --out-file dist/web/core/components.js",
-    "web-build-core-libraries": "npx babel core/library --out-dir dist/web/core/library  --copy-files",
-    "web-build-core-src": "npx babel core/src --out-dir dist/web/core/src --copy-files",
-    "web-copy_main": "npx babel ./*.* --out-dir dist/web --copy-files"
+    "tsc":"tsc",
+    "build": "npx babel *.* --out-dir dist/web --copy-files && npx babel  ./corejs ./dom --extensions '.ts,.js' --out-file dist/web/simurgh.js && npx babel ./src --out-dir dist/web/src --copy-files"
   },
   "bin": "./bin/index.js",
   "main": "Core.js",

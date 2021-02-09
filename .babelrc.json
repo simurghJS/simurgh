@@ -3,6 +3,7 @@
     "@babel/plugin-syntax-class-properties"
   ],
   "presets": [
+    "@babel/preset-typescript",
     [
       "@babel/preset-react",
       {
