@@ -1,13 +1,23 @@
 {
   "plugins": [
-    "@babel/plugin-syntax-class-properties"
+    "@babel/plugin-syntax-class-properties",
+    "@babel/plugin-proposal-class-properties"
   ],
   "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage",
+        "targets": {
+          "node": 4
+        }
+      }
+    ],
     "@babel/preset-typescript",
     [
       "@babel/preset-react",
       {
-        "pragma": "Simurgh.createElement",
+        "pragma": "simurgh.createElement",
         "pragmaFrag": "DomFrag",
         "throwIfNamespace": false,
         "runtime": "classic"
