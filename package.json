@@ -2,12 +2,12 @@
   "name": "simurgh",
   "app-name": "simurgh",
   "project-name": "simurgh",
-  "author": "siyamak beheshti langroudi",
-  "version": "0.5.0-beta.1",
-  "description": "server side page rendering based on nodejs & typescript",
+  "author": "arnahit",
+  "version": "0.5.13-beta.1",
+  "description": "js library for ssr page rendering",
   "dependencies": {
     "jsdom": "^16.4.0",
-    "simurgh-cli": "^1.0.16",
+    "simurgh-cli": "^1.1.0",
     "ts-node": "9.1.1",
     "tslint": "6.1.3",
     "typescript": "4.1.3",
@@ -29,11 +29,21 @@
   },
   "scripts": {
     "tsc": "tsc",
-    "build": "npm run build-root && npm run build-app && npm run build-bootstrap",
+    "build": "npm run build-root && npm run build-app && npm run build-bootstrap && npm run build-bin && npm run build-lib && npm run build-assets",
     "build-root": "npx babel *.* --out-dir dist/web --extensions '.ts,.tsx'  --copy-files",
     "build-app": "npx babel  ./app --extensions '.ts,.js' --out-dir dist/web/app",
-    "build-bootstrap": "npx babel  ./bootstrap --extensions '.ts,.js' --out-dir dist/web/bootstrap"
+    "build-bootstrap": "npx babel  ./bootstrap --extensions '.ts,.js' --out-dir dist/web/bootstrap",
+    "build-bin": "npx babel  ./bin --extensions '.ts' --out-dir dist/web/bin   --copy-files",
+    "build-lib": "npx babel  ./lib --extensions '.ts' --out-dir dist/web/lib   --copy-files",
+    "build-assets": "npx babel  ./assets --extensions '.ts' --out-dir dist/web/assets   --copy-files"
   },
   "license": "MIT",
-  "main": "app/application.js"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simurghJS/simurgh.git"
+  },
+  "main": "app/application.js",
+  "bin": {
+    "simurgh": "./bin/index.js"
+  }
 }

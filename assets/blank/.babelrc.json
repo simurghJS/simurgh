@@ -1,0 +1,25 @@
+{
+  "plugins": [
+    "@babel/plugin-syntax-class-properties"
+  ],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage",
+        "targets": {
+          "node": 4
+        }
+      }
+    ],
+    [
+      "@babel/preset-react",
+      {
+        "pragma": "simurgh.createElement",
+        "pragmaFrag": "DomFrag",
+        "throwIfNamespace": false,
+        "runtime": "classic"
+      }
+    ]
+  ]
+}

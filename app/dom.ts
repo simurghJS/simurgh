@@ -1,3 +1,6 @@
+
+export const generateRandomString = (length = 6) => Math.random().toString(20).substr(2, length)
+
 /**
  * 
  * @param object 
@@ -15,6 +18,7 @@ export function empty(object: any): boolean {
 
     return false;
 }
+
 /**
  * 
  * @param dep resource path
@@ -30,7 +34,7 @@ export function parseError(err: any): string {
         "<p>متن خطا به شکل زیر است</p>" +
         "<br/>" + "<p>" + err.message + "</p>" +
         (!empty(err.stack) ?
-        ("<br/>" + (err.stack as String).split(')').join(')<br/>')) : '') +
+            ("<br/>" + (err.stack as String).split(')').join(')<br/>')) : '') +
         "</body></html>"
 }
 export function show_404(): string {

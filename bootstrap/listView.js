@@ -1,4 +1,6 @@
-import {Component} from "/node_modules/simurgh/Core.js";
+import { JSDOM } from "jsdom"
+const { document, window } = (new JSDOM()).window;
+import Component from "../app/component"
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +14,7 @@ class ListView extends Component {
 
     static style = {FLUSH: "list-group-flush"}
     props = {
-        ...parent.props,
+        
         listStyle: ListView.style.FLUSH
     }
 
@@ -24,10 +26,6 @@ class ListView extends Component {
     }
 }
 class ListItem extends Component {
-
-    props = {
-        ...parent.props
-    }
 
     async render(navigation_data = {}) {
         let cnt = document.createElement('li');

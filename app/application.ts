@@ -108,23 +108,72 @@ export class Application {
         let server = http.createServer(async (req: any, res) => {
             const { url } = req;
             let route = this.navigation.find(url);
-            console.log('request => ' + JSON.stringify(route));
+            console.log('request => ' + url + " : " + JSON.stringify(route));
             if (!empty(route)) {
                 try {
                     req.route = route;
-                    let html=await new Request(req).parse({});
-                    console.log('render finished!');
-                    new Response(res).write(await new Request(req).parse({}));
+                    let html = await new Request(req).parse({});
+                    if (!empty(html)) {
+                        console.log('render finished!');
+                        new Response(res).write(await new Request(req).parse({}));
+                    }
+
                 }
                 catch (err) {
                     res.write(parseError(err));
                     console.log(err);
                 }
+                res.end();
             }
             else {
-                res.write(show_404());
+                console.log('request starting...');
+                var fs = require('fs');
+                var path = require('path');
+                var filePath = req.url;
+                if (filePath == './')
+                    filePath = './index.html';
+
+                var extname = path.extname(filePath);
+                var contentType = 'text/html';
+                switch (extname) {
+                    case '.js':
+                        contentType = 'text/javascript';
+                        break;
+                    case '.css':
+                        contentType = 'text/css';
+                        break;
+                    case '.json':
+                        contentType = 'application/' + extname.replace('.', '');
+                        break;
+                    case '.png':
+                    case '.jpg':
+                        contentType = 'image/' + extname.replace('.', '');
+                        break;
+                    case '.mp4':
+                        contentType = 'video/' + extname.replace('.', '');
+                        break;
+                }
+
+                fs.stat('.' + filePath, function (err, stats) {
+                    if (err) {
+                        res.end(err);
+                    }
+
+
+                    var stream = fs.createReadStream('.' + filePath)
+                        .on("open", function () {
+                            res.writeHead(206, {
+                                "Accept-Ranges": "bytes",
+                                "Content-Range": "bytes 0-" + (parseInt(stats.size) - 1) + "/" + stats.size,
+                                "Content-Length": stats.size,
+                                "Content-Type": contentType
+                            });
+                            stream.pipe(res);
+                        }).on("error", function (err) {
+                            res.end(err);
+                        });
+                });
             }
-            res.end();
         });
 
         server.listen(conf.port, conf.server, () => {

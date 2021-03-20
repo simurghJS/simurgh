@@ -1,4 +1,7 @@
-import {Component} from "/node_modules/simurgh/Core.js";
+import { JSDOM } from "jsdom"
+const { document, window } = (new JSDOM()).window;
+import Component from "../app/component"
+import { generateRandomString } from "../app/dom"
 
 /*
 |--------------------------------------------------------------------------
@@ -10,7 +13,7 @@ import {Component} from "/node_modules/simurgh/Core.js";
 class Collapse extends Component {
 
     props = {
-        ...parent.props,
+        
         id: generateRandomString()
     }
 

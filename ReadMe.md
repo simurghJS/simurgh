@@ -1,9 +1,7 @@
-# Simurgh
+# install
 
-simurgh is a js framework for server side web page rendering based on typescript & nodejs
-
-## Installation
-its recomended to install simurgh globaly
+###### library currently is in BETA version,
+simurgh is a js library for ssr page rendering based on typescript & nodejs.its recomended to install simurgh globaly
 
 ```sh
 npm i -g simurgh

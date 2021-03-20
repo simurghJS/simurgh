@@ -1,4 +1,6 @@
-import {Component} from "/node_modules/simurgh/Core.js";
+import { JSDOM } from "jsdom"
+const { document, window } = (new JSDOM()).window;
+import Component from "../app/component"
 
 /*
 |--------------------------------------------------------------------------

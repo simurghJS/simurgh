@@ -1,4 +1,6 @@
-import {Component} from "/node_modules/simurgh/Core.js";
+import { JSDOM } from "jsdom"
+const { document, window } = (new JSDOM()).window;
+import Component from "../app/component"
 
 /*
 |--------------------------------------------------------------------------
@@ -11,7 +13,6 @@ const ViewGrid = Object.freeze({FALSE: false, TRUE: true})
 
 class View extends Component {
     props = {
-        ...parent.props,
         grid: ViewGrid.FALSE
     }
 
@@ -35,7 +36,6 @@ class View extends Component {
 class Cell extends Component {
 
     props = {
-        ...parent.props,
         size: 12,
         offset: 0
     }

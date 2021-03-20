@@ -44,7 +44,20 @@ class Response {
 
     write(html = ``, wrapper?: any) {
         let res = this.setheader(this.response);
-        html = "<html><head></head><body>" + html + "</body></html>";
+        html = '<!DOCTYPE html>' + '<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">' +
+            '<head><meta charset="utf-8">' +
+            '<meta name="viewport" content="width=device-width, initial-scale=1">' +
+            '<script type="module" src="./index.js"></script>' +
+            '<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>' +
+            '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">' +
+            '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"crossorigin="anonymous"></script>' +
+            '<link href="/resources/css/bootstrap-rtl.css" rel="stylesheet"/>' +
+            '<link href="/resources/css/app.css" rel="stylesheet"/>' +
+            '</head>' +
+            '<body>' +
+            html +
+            '</body>' +
+            '</html>';
         res.write(html);
     }
 
@@ -122,8 +135,7 @@ class Response {
 
     setheader(response) {
         response.statusCode = 200;
-        response.setHeader('charset', 'utf-8');
-        response.setHeader('Content-Type', 'text/html');
+        response.setHeader('Content-Type', 'text/html; charset=utf-8');
         return response;
     }
 
