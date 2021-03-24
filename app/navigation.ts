@@ -1,9 +1,9 @@
 /// <reference path="./application.ts" />
 
-import { simurgh, Application, render } from './application'
-import Component from './component'
-import { empty, resources } from "./dom"
-import { v4 as uuidv4 } from 'uuid';
+import { simurgh, Application } from './application'
+import { render } from './render'
+import { empty } from "./dom"
+import { v4 as uuidv4 } from 'uuid'
 import { Response } from "./response"
 
 export class RouteItem {
@@ -52,7 +52,7 @@ export class RouteItem {
 
 }
 
-export class CreateStackNavigation {
+export class StackNavigation {
     _route_args = {}
     navigation_params = {}
     routes: any
@@ -143,9 +143,9 @@ export class CreateStackNavigation {
                 let callback = _route.get_path();
                 switch (typeof callback) {
                     case "string":
-                        console.log('loading controller => '+'app/http/' + callback);
+                        console.log('loading controller => ' + 'app/http/' + callback);
                         /** load controller **/
-                        
+
                         import(require.resolve('app/http/' + callback)).then(module => {
                             let args = {
                                 ..._route,
@@ -211,4 +211,6 @@ export class CreateStackNavigation {
 
 }
 
-export default CreateStackNavigation;
+export function CreateStackNavigation() {
+    return new StackNavigation();
+}

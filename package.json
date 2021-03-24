@@ -3,7 +3,7 @@
   "app-name": "simurgh",
   "project-name": "simurgh",
   "author": "arnahit",
-  "version": "0.5.13-beta.1",
+  "version": "0.5.19-beta.1",
   "description": "js library for ssr page rendering",
   "dependencies": {
     "jsdom": "^16.4.0",
@@ -42,7 +42,7 @@
     "type": "git",
     "url": "https://github.com/simurghJS/simurgh.git"
   },
-  "main": "app/application.js",
+  "main": "index.js",
   "bin": {
     "simurgh": "./bin/index.js"
   }

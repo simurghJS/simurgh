@@ -1,9 +1,11 @@
 
-import Component from "./component"
+import Component from './component'
+import { JSDOM } from "jsdom"
+const { document, window } = (new JSDOM()).window;
 import { empty } from './dom'
 
 export function createElement(type: any, props, ...children) {
-    return {
+    let el = {
         type: (typeof type == "string") ? (class htmlComponent extends Component {
             constructor() {
                 super();
@@ -13,37 +15,42 @@ export function createElement(type: any, props, ...children) {
         props: {
             ...props,
             children: children.map((child) => {
-
-                return typeof child === "object" ? child : {
-                    type: class htmlComponent extends Component {
-                        tagName: 'span'
-                    },
+                return typeof child == "string" ? {
+                    type: (class htmlComponent extends Component {
+                        constructor() {
+                            super();
+                            this.tagName = 'span';
+                        }
+                    }),
                     props: {
                         nodeValue: child,
                         children: []
                     }
-                }
+                } : child
 
             })
         }
     };
+    return el;
 }
+
 export async function render(obj, args) {
     let _do = true;
     let res = obj;
     do {
         res = await _do_render(res, args);
-        if (typeof res == "string" || res instanceof HTMLElement) {
+        if (typeof res == "string" || res instanceof window.HTMLElement) {
             _do = false;
             break;
         }
     } while (_do == true)
     return res;
 }
+
 export async function _do_render(obj, args) {
     let html = '';
 
-    if (obj instanceof HTMLElement) {
+    if (obj instanceof window.HTMLElement) {
         return obj;
     }
     if (typeof obj == "object") {
@@ -54,7 +61,10 @@ export async function _do_render(obj, args) {
             }
             await _obj.component_did_mount(args);
             _obj.props = obj.props;
-            html = await _obj.render(args);
+            html = ((await _obj.render(args)) as any).outerHTML;
+            let a = document.createElement('a');
+            a.textContent = 'ajshdg';
+
         } else {
             return html;
         }

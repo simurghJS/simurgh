@@ -5,7 +5,7 @@ import { JSDOM } from "jsdom"
 
 const { document } = (new JSDOM()).window;
 
-class Component implements _component {
+export class Component implements _component {
 
     tagName = 'div'
     layout?: string

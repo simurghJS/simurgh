@@ -1,6 +1,5 @@
-import { simurgh, render } from './application'
-import { empty, show_404 } from './dom'
-import { Response } from "./response"
+import { render } from './render'
+import { empty } from './dom'
 
 class Request {
     request: any

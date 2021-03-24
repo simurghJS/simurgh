@@ -1,9 +1,8 @@
+#!/usr/bin/env node
+
 /// <reference path="../global.d.ts" />
 import http from 'http'
-import { empty, resources, parseError, show_404 } from './dom'
-import Component from './component'
-import { JSDOM } from "jsdom"
-const { document, window } = (new JSDOM()).window;
+import { empty, resources, parseError } from './dom'
 import { Request } from './request'
 import { Response } from './response'
 
@@ -41,7 +40,7 @@ export class Application {
         simurgh.config.navigation.routes = value;
     }
 
-    build(): void {
+    async build() {
 
         let dep = [];
 
@@ -72,8 +71,9 @@ export class Application {
         /* if (!empty(args.route_data) && !empty(args.route_data.dependencies) && Array.isArray(args.route_data.dependencies)) {
           await new loader().load(args.route_data.dependencies);
       }*/
+        /** CHECK FOR NAVIGATION (defined routes) */
         if (!empty(this.navigation)) {
-            console.log('navigation registered as :' + (typeof this.navigation));
+            console.log('1')
             switch (typeof this.navigation) {
                 case "object":
                     this.runServer();
@@ -93,9 +93,23 @@ export class Application {
                 default:
                     break;
             }
-        } else {
-            this.runServer();
         }
+        else {
+            console.log('2' + require.resolve('../../../config/routes'));
+            const fs = require('fs');
+            const navPath = require.resolve('../../../config/routes');
+            if (fs.existsSync(navPath)) {
+                console.log('yes');
+                this.navigation = (await import(require.resolve(navPath))).default;
+                console.log('run server');
+                this.runServer();
+
+            } else {
+                console.log('no')
+            }
+
+        }
+
     }
 
     runServer(): void {
@@ -106,11 +120,11 @@ export class Application {
         };
 
         let server = http.createServer(async (req: any, res) => {
-            const { url } = req;
-            let route = this.navigation.find(url);
-            console.log('request => ' + url + " : " + JSON.stringify(route));
-            if (!empty(route)) {
-                try {
+            try {
+                const { url } = req;
+                let route = this.navigation.find(url);
+                console.log('request => ' + url + " : " + JSON.stringify(route));
+                if (!empty(route)) {
                     req.route = route;
                     let html = await new Request(req).parse({});
                     if (!empty(html)) {
@@ -118,61 +132,66 @@ export class Application {
                         new Response(res).write(await new Request(req).parse({}));
                     }
 
+                    res.end();
                 }
-                catch (err) {
-                    res.write(parseError(err));
-                    console.log(err);
-                }
-                res.end();
-            }
-            else {
-                console.log('request starting...');
-                var fs = require('fs');
-                var path = require('path');
-                var filePath = req.url;
-                if (filePath == './')
-                    filePath = './index.html';
+                else {
+                    console.log('request starting...');
+                    var fs = require('fs');
+                    var path = require('path');
+                    var filePath = req.url;
+                    if (filePath == './')
+                        filePath = './index.html';
 
-                var extname = path.extname(filePath);
-                var contentType = 'text/html';
-                switch (extname) {
-                    case '.js':
-                        contentType = 'text/javascript';
-                        break;
-                    case '.css':
-                        contentType = 'text/css';
-                        break;
-                    case '.json':
-                        contentType = 'application/' + extname.replace('.', '');
-                        break;
-                    case '.png':
-                    case '.jpg':
-                        contentType = 'image/' + extname.replace('.', '');
-                        break;
-                    case '.mp4':
-                        contentType = 'video/' + extname.replace('.', '');
-                        break;
-                }
-
-                fs.stat('.' + filePath, function (err, stats) {
-                    if (err) {
-                        res.end(err);
+                    var extname = path.extname(filePath);
+                    var contentType = 'text/html';
+                    switch (extname) {
+                        case '.js':
+                            contentType = 'text/javascript';
+                            break;
+                        case '.css':
+                            contentType = 'text/css';
+                            break;
+                        case '.json':
+                            contentType = 'application/' + extname.replace('.', '');
+                            break;
+                        case '.png':
+                        case '.jpg':
+                            contentType = 'image/' + extname.replace('.', '');
+                            break;
+                        case '.mp4':
+                            contentType = 'video/' + extname.replace('.', '');
+                            break;
                     }
-
-
-                    var stream = fs.createReadStream('.' + filePath)
-                        .on("open", function () {
-                            res.writeHead(206, {
-                                "Accept-Ranges": "bytes",
-                                "Content-Range": "bytes 0-" + (parseInt(stats.size) - 1) + "/" + stats.size,
-                                "Content-Length": stats.size,
-                                "Content-Type": contentType
-                            });
-                            stream.pipe(res);
-                        }).on("error", function (err) {
-                            res.end(err);
-                        });
-                });
+                    fs.stat('.' + filePath, function (err, stats) {
+                        try {
+                            if (err) {
+                                throw err;
+                            }
+                            console.log('kajsgdkajhsdjasd');
+                            var stream = fs.createReadStream('.' + filePath)
+                                .on("open", function () {
+                                    res.writeHead(206, {
+                                        "Accept-Ranges": "bytes",
+                                        "Content-Range": "bytes 0-" + (parseInt(stats.size) - 1) + "/" + stats.size,
+                                        "Content-Length": stats.size,
+                                        "Content-Type": contentType
+                                    });
+                                    stream.pipe(res);
+                                    console.log('piped');
+                                }).on("error", function (err) {
+                                    res.end(err);
+                                });
+                        } catch (err) {
+                            /** should return 404 error */
+                            res.write(parseError(err));
+                            console.log(err);
+                        }
+                    });
+                }
+            }
+            catch (err) {
+                res.write(parseError(err));
+                console.log(err);
             }
         });
 
@@ -232,102 +251,3 @@ export class Application {
     }
 
 }
-
-export function createElement(type: any, props, ...children) {
-    console.log('******************create element');
-    console.log('type');
-
-    console.log(type);
-
-    let el = {
-        type: (typeof type == "string") ? (class htmlComponent extends Component {
-            constructor() {
-                super();
-                this.tagName = type;
-            }
-        }) : type,
-        props: {
-            ...props,
-            children: children.map((child) => {
-                console.log('child=>');
-
-                console.log(child);
-                console.log(JSON.stringify(child));
-                return typeof child == "string" ? {
-                    type: (class htmlComponent extends Component {
-                        constructor() {
-                            super();
-                            this.tagName = 'span';
-                        }
-                    }),
-                    props: {
-                        nodeValue: child,
-                        children: []
-                    }
-                } : child
-
-            })
-        }
-    };
-    console.log('el=>');
-    console.log(el);
-    console.log(JSON.stringify(el));
-    console.log('******************END create element');
-
-    return el;
-}
-
-export async function render(obj, args) {
-    console.log('***render =>***');
-    let _do = true;
-    let res = obj;
-    console.log('obj');
-    console.log(JSON.stringify(obj));
-    console.log('children');
-    console.log(JSON.stringify(obj.props.children));
-
-    do {
-        res = await _do_render(res, args);
-        if (typeof res == "string" || res instanceof window.HTMLElement) {
-            _do = false;
-            break;
-        }
-    } while (_do == true)
-    console.log("res.outerHTML=>");
-    console.log(res);
-    return res;
-}
-
-export async function _do_render(obj, args) {
-    console.log('***do_render***');
-    console.log(obj);
-
-    let html = '';
-
-    if (obj instanceof window.HTMLElement) {
-        return obj;
-    }
-    if (typeof obj == "object") {
-        if (typeof obj.type == "function") {
-            let _obj = obj;
-            if (!empty(obj.type.constructor) && !(obj.type.constructor.prototype instanceof Component)) {
-                _obj = new obj.type().parse(args);
-                console.log(_obj);
-            }
-            await _obj.component_did_mount(args);
-            _obj.props = obj.props;
-            html = ((await _obj.render(args)) as any).outerHTML;
-            console.log('html=>');
-            let a = document.createElement('a');
-            a.textContent = 'ajshdg';
-            console.log(a.outerHTML);
-            console.log((html as any).outerHTML);
-
-        } else {
-            return html;
-        }
-    }
-    return html;
-}
-
-export default Application;
