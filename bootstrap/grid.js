@@ -1,6 +1,6 @@
 import { JSDOM } from "jsdom"
 const { document, window } = (new JSDOM()).window;
-import Component from "../app/component"
+import Component from "../core/component"
 
 /*
 |--------------------------------------------------------------------------

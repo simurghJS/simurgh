@@ -15,9 +15,7 @@ export class Component implements _component {
 
 
     parse(args: any) {
-        console.log('parse component data');
 
-        console.log(JSON.stringify(args));
         if (typeof args == "object") {
             args && Object.assign(this, args);
             if (!empty(args.route_data) && !empty(args.route_data.layout)) {
@@ -46,7 +44,6 @@ export class Component implements _component {
     }
 
     async render(navigation_data) {
-        console.log('render component => ' + JSON.stringify(this));
         let element = document.createElement(this.tagName);
         element = await this.render_props(element, navigation_data);
         return element;
@@ -62,8 +59,6 @@ export class Component implements _component {
                 case 'children':
                     for (let child of value) {
                         if (!empty(child)) {
-                            console.log('render children');
-                            console.log(JSON.stringify(new child.type()))
                             let obj = new child.type().parse(navigation_data);
                             await obj.component_did_mount(navigation_data);
                             obj.props = child.props;
@@ -80,10 +75,8 @@ export class Component implements _component {
                     });
                     break;
                 case 'nodeValue':
-                    console.log(element);
-                    console.log(value.toString());
                     element.textContent = value.toString();
-                    console.log(element);
+                   
                     break;
                 case 'style':
                     for (const [style_key, style_value] of Object.entries(value)) {

@@ -3,7 +3,7 @@
   "app-name": "simurgh",
   "project-name": "simurgh",
   "author": "arnahit",
-  "version": "0.5.19-beta.1",
+  "version": "0.6.3-beta.1",
   "description": "js library for ssr page rendering",
   "dependencies": {
     "jsdom": "^16.4.0",
@@ -31,7 +31,7 @@
     "tsc": "tsc",
     "build": "npm run build-root && npm run build-app && npm run build-bootstrap && npm run build-bin && npm run build-lib && npm run build-assets",
     "build-root": "npx babel *.* --out-dir dist/web --extensions '.ts,.tsx'  --copy-files",
-    "build-app": "npx babel  ./app --extensions '.ts,.js' --out-dir dist/web/app",
+    "build-app": "npx babel  ./core --extensions '.ts,.js' --out-dir dist/web/core",
     "build-bootstrap": "npx babel  ./bootstrap --extensions '.ts,.js' --out-dir dist/web/bootstrap",
     "build-bin": "npx babel  ./bin --extensions '.ts' --out-dir dist/web/bin   --copy-files",
     "build-lib": "npx babel  ./lib --extensions '.ts' --out-dir dist/web/lib   --copy-files",

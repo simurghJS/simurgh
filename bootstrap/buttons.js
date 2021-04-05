@@ -1,7 +1,7 @@
 import { JSDOM } from "jsdom"
 const { document, window } = (new JSDOM()).window;
-import Component from "../app/component"
-import { generateRandomString } from "../app/dom"
+import Component from "../core/component"
+import { generateRandomString } from "../core/dom"
 /*
 |--------------------------------------------------------------------------
 | Buttons

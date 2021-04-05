@@ -42,7 +42,7 @@ class Response {
         }
     }
 
-    write(html = ``, wrapper?: any) {
+    write(html = ``) {
         let res = this.setheader(this.response);
         html = '<!DOCTYPE html>' + '<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">' +
             '<head><meta charset="utf-8">' +
@@ -130,8 +130,7 @@ class Response {
         .finally(() => {
         });*/
     }
-
-
+    
 
     setheader(response) {
         response.statusCode = 200;

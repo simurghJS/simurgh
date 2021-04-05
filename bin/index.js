@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 let arguments = process.argv.splice(2);
-const prj = require('../lib/project.js');
+const prj = require('../lib/cli.js');
 switch (arguments[0]) {
   case "start":
     prj.start();
@@ -33,7 +33,7 @@ switch (arguments[0]) {
         return false;
       } 
       let detail = JSON.parse(content);
-      console.log('cli version => ' + detail.version + ' core version => '+detail.dependencies.simurgh);
+      console.log('SIMURGH v' + detail.version);
     });
 
     break;

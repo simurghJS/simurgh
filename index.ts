@@ -1,11 +1,11 @@
 export function CreateApplicationInstance() {
-    const { Application } = require('./app/application');
+    const { Application } = require('./core/application');
 
     return new Application();
 }
 export function createElement(type: any, props, ...children) {
-    const { createElement } = require('./app/render');
+    const { createElement } = require('./core/render');
     return createElement(type, props, ...children);
 }
 
-export {Component} from './app/component'
+export {Component} from './core/component'

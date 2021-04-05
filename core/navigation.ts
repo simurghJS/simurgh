@@ -1,6 +1,6 @@
 /// <reference path="./application.ts" />
 
-import { simurgh, Application } from './application'
+import { Application } from './application'
 import { render } from './render'
 import { empty } from "./dom"
 import { v4 as uuidv4 } from 'uuid'
@@ -38,7 +38,7 @@ export class RouteItem {
             case "function":
                 return callback;
             case "string":
-                let controller_path = simurgh.system.paths.controller;
+                let controller_path = "";
                 let namespace = !empty(this.data().namespace) ? this.data().namespace + '/' : '';
                 let file = this.data().command;
                 callback = (!empty(controller_path) ? controller_path + '/' : '') + namespace + (!empty(file) ? file : 'index');
@@ -55,18 +55,15 @@ export class RouteItem {
 export class StackNavigation {
     _route_args = {}
     navigation_params = {}
-    routes: any
+    routes = new Array()
     current_stack_uuid: string
-    constructor() {
-    }
 
     routeMiddleware(name = '') {
-        simurgh.routes_middleware = name;
+        // simurgh.routes_middleware = name;
     }
 
     add(url = '', callback, args = {}) {
-        let _args = {};
-        Object.assign(_args, this._route_args);
+        let _args = Object.create(this._route_args);
         Object.assign(_args, args);
         let route_item = new RouteItem({
             id: uuidv4(),
@@ -74,37 +71,23 @@ export class StackNavigation {
             command: callback,
             ..._args
         });
-        this.route(route_item);
+        this.routes.push(route_item);
         return route_item;
-    }
-
-    route(route = {}) {
-
-
-        if (!Array.isArray(this.routes)) {
-            this.routes = new Array();
-        }
-
-        this.routes.push(route);
     }
 
     find(url = ''): RouteItem {
         let find = null;
         /** check sys routes **/
 
-        if (!empty(this.routes) && Array.isArray(this.routes)) find = this.routes.find(route_item => route_item.route_data.name === url || route_item.route_data.url.match(url));
+        if (!empty(this.routes) && Array.isArray(this.routes)){
+         find = this.routes.find(route_item => route_item.route_data.name === url || route_item.route_data.url.match(url));
+        }
 
         return find;
     }
 
-    route_group(args: route_data, callback = () => {
-    }) {
+    group(callback: Function, args: route_data) {
         let current = Object.create(this._route_args);
-
-        if (!empty(args.namespace) && !empty(current.namespace)) {
-            args.namespace = current.namespace + '/' + args.namespace;
-        }
-
         Object.assign(this._route_args, args);
         callback();
         this._route_args = current;
@@ -119,7 +102,7 @@ export class StackNavigation {
         _route.route_data.id = this.current_stack_uuid;
 
         if (!empty((_route.route_data as any).middleware)) {
-            import('/' + simurgh.system.paths.middleware + '/' + (_route.route_data as any).middleware + '.js').then(middleware => {
+            import('/' + 'app/middleware' + '/' + (_route.route_data as any).middleware + '.js').then(middleware => {
                 middleware.default.run(_route, this.do_nav, this.navigation_params);
             }).catch(err => {
                 console.log(err.message, 'failed');
@@ -196,21 +179,8 @@ export class StackNavigation {
 
         return '';
     }
-
-    data() {
-        let data_json = document.cookie.split('; ').find(row => row.startsWith('GilaceJS'));
-        let app_data = {};
-
-        if (!empty(data_json)) {
-            data_json = data_json.split('=')[1];
-            app_data = JSON.parse(unescape(data_json));
-        }
-
-        return app_data;
-    }
-
 }
 
-export function CreateStackNavigation() {
+export function CreateStackNavigation(): StackNavigation {
     return new StackNavigation();
 }
